@@ -7,304 +7,145 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #F9F5EF;
-    --dark: #1C1A17;
-    --brown: #6B4F3A;
-    --terracotta: #C4673A;
-    --sage: #7A9E7E;
-    --tan: #E8DDD0;
-    --light-tan: #F2EDE6;
+    --bg: #1a1917;
+    --bg2: #242220;
+    --bg3: #2e2b28;
+    --cream: #f0ebe0;
+    --muted: rgba(240,235,224,0.4);
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --terra: #c4673a;
+    --terra-light: #e8855a;
+    --sage: #7a9e7e;
+    --gold: #d4a853;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--cream); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
 
-  body {
-    background: var(--cream);
-    color: var(--dark);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-  }
+  header { text-align: center; padding: 3rem 2rem 2rem; border-bottom: 0.5px solid var(--border); position: relative; }
+  header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(196,103,58,0.08) 0%, transparent 70%); pointer-events: none; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: var(--cream); letter-spacing: -0.02em; position: relative; }
+  header p { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; position: relative; }
 
-  /* HEADER */
-  header {
-    background: var(--dark);
-    color: var(--cream);
-    padding: 3rem 2rem 2.5rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
+  .toolbar { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; }
+  .toolbar-inner { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+  .search-row { display: flex; gap: 0.75rem; align-items: center; }
+  .search-wrap { position: relative; flex: 1; }
+  .search-wrap input { width: 100%; background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 0.65rem 1rem 0.65rem 2.4rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--cream); outline: none; transition: border-color 0.2s; }
+  .search-wrap input:focus { border-color: var(--terra); }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+  .fav-toggle { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 0.65rem 1rem; color: var(--muted); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .fav-toggle.active { border-color: var(--gold); color: var(--gold); }
+  .pills { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; }
+  .pills::-webkit-scrollbar { display: none; }
+  .pill { white-space: nowrap; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500; cursor: pointer; border: 0.5px solid var(--border2); color: var(--muted); background: transparent; transition: all 0.18s; }
+  .pill:hover, .pill.active { background: var(--terra); border-color: var(--terra); color: white; }
 
-  header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(196,103,58,0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 50%, rgba(122,158,126,0.1) 0%, transparent 60%);
-  }
+  main { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+  .recipe-count { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 1.75rem; text-transform: uppercase; }
 
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 6vw, 4rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    position: relative;
-  }
+  .category-section { margin-bottom: 2.5rem; }
+  .category-heading { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .category-heading h3 { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); white-space: nowrap; }
+  .category-line { flex: 1; height: 0.5px; background: var(--border2); }
 
-  header p {
-    font-size: 0.95rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(249,245,239,0.5);
-    margin-top: 0.5rem;
-    position: relative;
-  }
+  .recipe-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 14px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
+  .recipe-card:hover { border-color: var(--border2); }
+  .card-summary { display: flex; align-items: center; padding: 1rem 1.25rem; cursor: pointer; gap: 1rem; user-select: none; }
+  .card-summary-text { flex: 1; min-width: 0; }
+  .card-summary h2 { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 700; color: var(--cream); line-height: 1.2; }
+  .card-summary p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; font-style: italic; margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+  .card-tag { background: rgba(196,103,58,0.15); color: var(--terra-light); font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+  .btn-icon { background: transparent; border: none; cursor: pointer; padding: 0.4rem; border-radius: 6px; font-size: 16px; line-height: 1; transition: background 0.15s; color: var(--muted); }
+  .btn-icon:hover { background: var(--bg3); color: var(--cream); }
+  .btn-icon.fav-active { color: var(--gold); }
+  .btn-icon.expand-btn { font-size: 12px; }
 
-  /* SEARCH */
-  .search-wrap {
-    background: var(--tan);
-    padding: 1.5rem 1.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid rgba(107,79,58,0.15);
-  }
+  .card-body { display: none; padding: 1.25rem 1.25rem 1.5rem; border-top: 0.5px solid var(--border); }
+  .card-body.open { display: block; }
 
-  .search-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-  }
+  .scaler { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; background: var(--bg3); border-radius: 8px; padding: 0.6rem 1rem; }
+  .scaler label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  .scaler-controls { display: flex; align-items: center; gap: 0.4rem; }
+  .mult-btn { padding: 0.25rem 0.65rem; border-radius: 6px; border: 0.5px solid var(--border2); background: var(--bg2); color: var(--muted); font-size: 0.8rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
+  .mult-btn:hover { background: var(--bg3); color: var(--cream); }
+  .mult-btn.active { background: var(--terra); border-color: var(--terra); color: white; }
 
-  .search-wrap input {
-    flex: 1;
-    background: white;
-    border: 1.5px solid rgba(107,79,58,0.2);
-    border-radius: 8px;
-    padding: 0.7rem 1rem 0.7rem 2.5rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    color: var(--dark);
-    outline: none;
-    transition: border-color 0.2s;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B4F3A' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: 0.75rem center;
-  }
+  .section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 0.65rem; }
 
-  .search-wrap input:focus { border-color: var(--terracotta); }
-  .search-wrap input::placeholder { color: rgba(107,79,58,0.45); }
-
-  /* NAV PILLS */
-  .nav-pills {
-    display: flex;
-    gap: 0.5rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .nav-pills::-webkit-scrollbar { display: none; }
-
-  .pill {
-    white-space: nowrap;
-    padding: 0.4rem 0.9rem;
-    border-radius: 999px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1.5px solid rgba(107,79,58,0.25);
-    color: var(--brown);
-    background: transparent;
-    transition: all 0.18s;
-    letter-spacing: 0.02em;
-  }
-  .pill:hover, .pill.active {
-    background: var(--terracotta);
-    border-color: var(--terracotta);
-    color: white;
-  }
-
-  /* LAYOUT */
-  main {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 5rem;
-  }
-
-  /* RECIPE CARDS */
-  .recipe-card {
-    background: white;
-    border-radius: 16px;
-    border: 1px solid rgba(107,79,58,0.1);
-    margin-bottom: 2rem;
-    overflow: hidden;
-    transition: box-shadow 0.2s;
-  }
-  .recipe-card:hover { box-shadow: 0 8px 32px rgba(107,79,58,0.12); }
-
-  .card-header {
-    padding: 1.75rem 2rem 1.25rem;
-    border-bottom: 1px solid var(--light-tan);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .card-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.4rem, 3.5vw, 1.8rem);
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--dark);
-  }
-
-  .card-tag {
-    background: var(--light-tan);
-    color: var(--brown);
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 0.3rem 0.75rem;
-    border-radius: 999px;
-    white-space: nowrap;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-
-  .card-desc {
-    padding: 1rem 2rem 0;
-    font-size: 0.92rem;
-    color: rgba(28,26,23,0.6);
-    line-height: 1.6;
-    font-style: italic;
-  }
-
-  .card-body {
-    padding: 1.5rem 2rem 2rem;
-    display: grid;
-    gap: 1.75rem;
-  }
-
-  /* SECTION LABELS */
-  .section-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--terracotta);
-    margin-bottom: 0.75rem;
-  }
-
-  /* INGREDIENT TABLE */
-  .ingredient-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .ingredient-table th {
-    background: var(--light-tan);
-    text-align: left;
-    padding: 0.55rem 0.9rem;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--brown);
-  }
-  .ingredient-table th:first-child { border-radius: 8px 0 0 8px; }
-  .ingredient-table th:last-child { border-radius: 0 8px 8px 0; }
-
-  .ingredient-table td {
-    padding: 0.6rem 0.9rem;
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--light-tan);
-    color: var(--dark);
-  }
+  .ingredient-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; }
+  .ingredient-table th { background: var(--bg3); text-align: left; padding: 0.5rem 0.8rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .ingredient-table th:first-child { border-radius: 6px 0 0 6px; }
+  .ingredient-table th:last-child { border-radius: 0 6px 6px 0; }
+  .ingredient-table td { padding: 0.55rem 0.8rem; font-size: 0.87rem; border-bottom: 0.5px solid var(--border); color: var(--cream); }
   .ingredient-table tr:last-child td { border-bottom: none; }
-  .ingredient-table td:last-child { color: var(--brown); font-weight: 500; }
+  .ingredient-table td:last-child { color: var(--terra-light); font-weight: 500; }
 
-  /* STEPS */
-  .steps ol {
-    list-style: none;
-    counter-reset: steps;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
+  .steps { margin-bottom: 1.25rem; }
+  .steps ol { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 0.75rem; }
+  .steps ol li { counter-increment: steps; display: flex; gap: 0.85rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.65; color: rgba(240,235,224,0.85); }
+  .steps ol li::before { content: counter(steps); background: var(--terra); color: white; font-size: 0.68rem; font-weight: 500; min-width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
 
-  .steps ol li {
-    counter-increment: steps;
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    font-size: 0.92rem;
-    line-height: 1.65;
-  }
+  .notes ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
+  .notes ul li { font-size: 0.84rem; line-height: 1.6; padding-left: 1rem; position: relative; color: var(--muted); }
+  .notes ul li::before { content: '—'; position: absolute; left: 0; color: var(--sage); }
 
-  .steps ol li::before {
-    content: counter(steps);
-    background: var(--dark);
-    color: var(--cream);
-    font-size: 0.72rem;
-    font-weight: 500;
-    min-width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
+  .card-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+  .action-btn { flex: 1; padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; border: 0.5px solid var(--border2); background: transparent; color: var(--muted); transition: all 0.18s; text-align: center; }
+  .action-btn:hover { background: var(--bg3); color: var(--cream); }
+  .action-btn.cook-btn:hover { border-color: var(--sage); color: var(--sage); }
+  .action-btn.print-btn:hover { border-color: var(--terra-light); color: var(--terra-light); }
 
-  /* NOTES */
-  .notes ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  .no-results { text-align: center; padding: 4rem 2rem; color: var(--muted); font-style: italic; display: none; }
+  .favs-empty { display: none; text-align: center; padding: 3rem 2rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
 
-  .notes ul li {
-    font-size: 0.88rem;
-    line-height: 1.6;
-    padding-left: 1.1rem;
-    position: relative;
-    color: rgba(28,26,23,0.75);
-  }
+  .cook-overlay { display: none; position: fixed; inset: 0; background: #111110; z-index: 1000; overflow-y: auto; padding: 2rem 1.5rem 4rem; }
+  .cook-overlay.open { display: block; }
+  .cook-inner { max-width: 680px; margin: 0 auto; }
+  .cook-close { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; cursor: pointer; color: var(--muted); font-size: 0.85rem; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 0; transition: color 0.2s; }
+  .cook-close:hover { color: var(--cream); }
+  .cook-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; color: var(--cream); margin-bottom: 2rem; line-height: 1.15; }
+  .cook-section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 1rem; }
+  .cook-ingredients { margin-bottom: 2.5rem; }
+  .cook-ingredient { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 0.5px solid var(--border); font-size: clamp(1rem, 2.5vw, 1.2rem); gap: 1rem; }
+  .cook-ingredient:last-child { border-bottom: none; }
+  .cook-ing-name { color: var(--cream); }
+  .cook-ing-amt { color: var(--terra-light); font-weight: 500; white-space: nowrap; }
+  .cook-steps { counter-reset: cook-steps; display: flex; flex-direction: column; gap: 1.5rem; }
+  .cook-step { counter-increment: cook-steps; display: flex; gap: 1.25rem; align-items: flex-start; }
+  .cook-step-num { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; color: var(--terra); line-height: 1; min-width: 2.5rem; flex-shrink: 0; }
+  .cook-step-text { font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.7; color: rgba(240,235,224,0.9); padding-top: 0.2rem; }
 
-  .notes ul li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--sage);
-    font-weight: 500;
-  }
-
-  /* NO RESULTS */
-  .no-results {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: rgba(28,26,23,0.4);
-    font-style: italic;
-    display: none;
-  }
-
-  /* COUNT */
-  .recipe-count {
-    font-size: 0.8rem;
-    color: rgba(107,79,58,0.6);
-    letter-spacing: 0.04em;
-    margin-bottom: 1.5rem;
+  @media print {
+    body { background: white !important; color: #1a1917 !important; }
+    .toolbar, .card-footer, .scaler, .cook-overlay, .fav-toggle, .btn-icon, .recipe-count { display: none !important; }
+    header { border-bottom: 1px solid #ddd !important; background: white !important; }
+    header::before { display: none !important; }
+    header h1 { color: #1a1917 !important; }
+    header p { color: #666 !important; }
+    .category-heading h3 { color: #c4673a !important; }
+    .category-line { background: #ddd !important; }
+    .recipe-card { background: white !important; border: 1px solid #ddd !important; border-radius: 0 !important; margin-bottom: 0 !important; break-inside: avoid; }
+    .card-body { display: block !important; border-top: 1px solid #eee !important; background: white !important; }
+    .card-summary { cursor: default !important; background: white !important; }
+    .card-summary h2 { color: #1a1917 !important; }
+    .card-summary p { color: #666 !important; white-space: normal !important; }
+    .card-tag { background: #f0ede8 !important; color: #c4673a !important; }
+    .ingredient-table th { background: #f5f5f5 !important; color: #666 !important; }
+    .ingredient-table td { color: #1a1917 !important; border-bottom: 1px solid #eee !important; }
+    .ingredient-table td:last-child { color: #c4673a !important; }
+    .steps ol li { color: #1a1917 !important; }
+    .steps ol li::before { background: #c4673a !important; }
+    .notes ul li { color: #666 !important; }
+    .section-label { color: #c4673a !important; }
+    .bg3 { background: white !important; }
   }
 
   @media (max-width: 520px) {
-    .card-header { padding: 1.25rem 1.25rem 1rem; flex-direction: column; gap: 0.5rem; }
-    .card-desc { padding: 0.75rem 1.25rem 0; }
-    .card-body { padding: 1.25rem 1.25rem 1.5rem; }
+    .card-summary { padding: 0.85rem 1rem; }
+    .card-body { padding: 1rem; }
   }
 </style>
 </head>
@@ -315,677 +156,394 @@
   <p>A personal collection of tried and true recipes</p>
 </header>
 
-<div class="search-wrap">
-  <div class="search-inner">
-    <input type="text" id="searchInput" placeholder="Search recipes or ingredients…" oninput="filterRecipes()">
-  </div>
-  <div style="max-width:720px;margin:0.75rem auto 0;">
-    <div class="nav-pills" id="tagPills">
-      <button class="pill active" onclick="filterByTag('all', this)">All</button>
-      <button class="pill" onclick="filterByTag('chicken', this)">Chicken</button>
-      <button class="pill" onclick="filterByTag('beef', this)">Beef</button>
-      <button class="pill" onclick="filterByTag('vegetarian', this)">Vegetarian</button>
-      <button class="pill" onclick="filterByTag('soup', this)">Soup</button>
-      <button class="pill" onclick="filterByTag('weeknight', this)">Weeknight</button>
-      <button class="pill" onclick="filterByTag('condiment', this)">Condiment</button>
-      <button class="pill" onclick="filterByTag('side', this)">Side</button>
-      <button class="pill" onclick="filterByTag('sauce', this)">Sauce</button>
-      <button class="pill" onclick="filterByTag('marinade', this)">Marinade</button>
-      <button class="pill" onclick="filterByTag('salad', this)">Salad</button>
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-icon">&#9906;</span>
+        <input type="text" id="searchInput" placeholder="Search recipes or ingredients…" oninput="filterRecipes()">
+      </div>
+      <button class="fav-toggle" id="favToggle" onclick="toggleFavView()">&#9733; Favorites</button>
+    </div>
+    <div class="pills">
+      <button class="pill active" onclick="filterByTag('all',this)">All</button>
+      <button class="pill" onclick="filterByTag('chicken',this)">Chicken</button>
+      <button class="pill" onclick="filterByTag('beef',this)">Beef</button>
+      <button class="pill" onclick="filterByTag('soup',this)">Soup</button>
+      <button class="pill" onclick="filterByTag('sauce',this)">Sauce</button>
+      <button class="pill" onclick="filterByTag('condiment',this)">Condiment</button>
+      <button class="pill" onclick="filterByTag('side',this)">Side</button>
+      <button class="pill" onclick="filterByTag('marinade',this)">Marinade</button>
+      <button class="pill" onclick="filterByTag('salad',this)">Salad</button>
+      <button class="pill" onclick="filterByTag('vegetarian',this)">Vegetarian</button>
     </div>
   </div>
 </div>
 
 <main>
   <div class="recipe-count" id="recipeCount">16 recipes</div>
-
-  <!-- RECIPE 1 -->
-  <div class="recipe-card" data-tags="chicken weeknight" data-search="chicken fajita seasoning chili powder cumin smoked paprika garlic powder onion powder oregano salt pepper cayenne">
-    <div class="card-header">
-      <h2>Chicken Fajita Seasoning</h2>
-      <span class="card-tag">Chicken</span>
-    </div>
-    <p class="card-desc">A bold, smoky blend for fajitas — enough to season about 1.5 lbs of chicken. Scale up and store in an airtight jar for easy weeknight cooking.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount (4 servings)</th></tr></thead>
-          <tbody>
-            <tr><td>Chili powder</td><td>2 tsp</td></tr>
-            <tr><td>Cumin</td><td>1½ tsp</td></tr>
-            <tr><td>Smoked paprika</td><td>1 tsp</td></tr>
-            <tr><td>Garlic powder</td><td>1 tsp</td></tr>
-            <tr><td>Onion powder</td><td>½ tsp</td></tr>
-            <tr><td>Dried oregano</td><td>½ tsp</td></tr>
-            <tr><td>Salt</td><td>1 tsp</td></tr>
-            <tr><td>Black pepper</td><td>½ tsp</td></tr>
-            <tr><td>Cayenne pepper</td><td>¼ tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Instructions</div>
-        <ol>
-          <li>Mix all spices together in a small bowl until evenly blended.</li>
-          <li>Pat chicken dry, then coat all sides generously with the seasoning mix. Let sit for 15–30 minutes before cooking.</li>
-          <li>Cook in a very hot cast iron or skillet with a little oil over high heat, about 5–6 minutes per side, until nicely charred and cooked through. Rest 5 minutes before slicing.</li>
-        </ol>
-      </div>
-      <div class="notes">
-        <div class="section-label">Notes</div>
-        <ul>
-          <li><strong>Heat level:</strong> Adjust cayenne up or down to taste. Double it for a real kick.</li>
-          <li><strong>Big batch:</strong> Scale up and store in an airtight jar — keeps 6 months. Use about 1 tbsp per pound of chicken.</li>
-          <li><strong>Marinade option:</strong> Mix seasoning with 2 tbsp olive oil and juice of 1 lime. Marinate chicken 1–4 hours for deeper flavor.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 2 -->
-  <div class="recipe-card" data-tags="beef weeknight" data-search="egg roll bowl ground beef cabbage green onions garlic ginger red bell pepper gochujang hoisin soy sauce sesame oil rice vinegar">
-    <div class="card-header">
-      <h2>Egg Roll In A Bowl</h2>
-      <span class="card-tag">Beef</span>
-    </div>
-    <p class="card-desc">A hearty, flavor-packed skillet dish with all the taste of egg rolls — no wrapper needed. Great for weeknights.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Lean ground beef</td><td>1.25–2 lbs</td></tr>
-            <tr><td>Fine shredded cabbage</td><td>10 oz bag</td></tr>
-            <tr><td>Red shredded cabbage</td><td>10 oz bag</td></tr>
-            <tr><td>Green onions</td><td>1 bunch</td></tr>
-            <tr><td>Garlic cloves</td><td>4–8 cloves</td></tr>
-            <tr><td>Minced ginger</td><td>2 tbsp</td></tr>
-            <tr><td>Red bell pepper</td><td>1</td></tr>
-            <tr><td>Gochujang</td><td>1 tbsp</td></tr>
-            <tr><td>Hoisin sauce</td><td>3 tbsp</td></tr>
-            <tr><td>Soy sauce</td><td>¼ cup</td></tr>
-            <tr><td>Toasted sesame oil</td><td>2 tsp</td></tr>
-            <tr><td>Rice vinegar</td><td>2 tbsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Brown the ground beef in a large skillet over medium-high heat.</li>
-          <li>While the beef cooks, thinly slice the red bell pepper, chop the green onions, and mince the garlic and ginger.</li>
-          <li>Drain the beef, return it to the pan, and add toasted sesame oil, rice vinegar, hoisin, gochujang, and soy sauce. Cook for 2–3 minutes.</li>
-          <li>Add both cabbages, bell pepper, green onions, garlic, and ginger. Stir to combine and cook until the veggies are tender and reduced, about 15–20 minutes.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 3 -->
-  <div class="recipe-card" data-tags="vegetarian soup" data-search="tomato bisque roma tomatoes cherry tomatoes sweet potato red bell pepper gruyere cheese garlic thyme heavy cream chicken broth">
-    <div class="card-header">
-      <h2>Tomato Bisque</h2>
-      <span class="card-tag">Soup</span>
-    </div>
-    <p class="card-desc">A rich, roasted tomato bisque with sweet potato and Gruyère — deeply flavorful and silky smooth.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Roma tomatoes</td><td>6–8</td></tr>
-            <tr><td>Sugar bomb cherry tomatoes</td><td>1 pint</td></tr>
-            <tr><td>Small sweet potato, peeled & cubed</td><td>1</td></tr>
-            <tr><td>Red bell pepper</td><td>1</td></tr>
-            <tr><td>Gruyère cheese</td><td>to taste</td></tr>
-            <tr><td>Fresh garlic cloves</td><td>6–8 cloves</td></tr>
-            <tr><td>Fresh thyme (or dried)</td><td>3–4 stalks (or 1 tbsp)</td></tr>
-            <tr><td>Heavy cream</td><td>8 oz</td></tr>
-            <tr><td>Chicken broth</td><td>16 oz</td></tr>
-            <tr><td>Olive oil</td><td>for drizzling</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Chop Roma tomatoes and peeled sweet potato into cubes. Chop red bell pepper into chunks. Peel garlic and leave sugar bomb tomatoes whole. Arrange on a sheet pan, drizzle with olive oil, and roast at 425°F for 30–45 minutes.</li>
-          <li>Transfer all roasted veggies and all pan juices to a large pot.</li>
-          <li>Add half the chicken broth and blend with an immersion blender until smooth. Add the remaining broth once it's less chunky. Simmer on low heat for 5–10 minutes.</li>
-          <li>Warm the heavy cream in the microwave so it's not cold, then stir into the pot over low heat. Blend again to incorporate. Add Gruyère and stir until fully melted and combined.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 4 -->
-  <div class="recipe-card" data-tags="beef weeknight" data-search="barbacoa chuck garlic chipotle peppers adobo green chiles beef stock white onion lime bay leaves apple cider vinegar cumin oregano black pepper salt ground cloves crock pot slow cooker tacos burrito bowl">
-    <div class="card-header">
-      <h2>Barbacoa</h2>
-      <span class="card-tag">Beef</span>
-    </div>
-    <p class="card-desc">Smoky, tender slow-cooked chuck with chipotle and warm spices. Serve as tacos, burrito bowls, or with any toppings you like.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Chuck roast</td><td>3 lb</td></tr>
-            <tr><td>Garlic cloves, minced</td><td>4–6 cloves</td></tr>
-            <tr><td>Chipotle peppers in adobo</td><td>2</td></tr>
-            <tr><td>Can of green chiles</td><td>4 oz</td></tr>
-            <tr><td>Beef stock</td><td>½ cup</td></tr>
-            <tr><td>White onion, chopped</td><td>1</td></tr>
-            <tr><td>Juice of limes</td><td>2 limes</td></tr>
-            <tr><td>Bay leaves</td><td>3</td></tr>
-            <tr><td>Apple cider vinegar</td><td>2 tbsp</td></tr>
-            <tr><td>Cumin</td><td>1 tbsp</td></tr>
-            <tr><td>Oregano</td><td>1 tbsp</td></tr>
-            <tr><td>Black pepper</td><td>1 tbsp</td></tr>
-            <tr><td>Salt</td><td>2 tsp</td></tr>
-            <tr><td>Ground cloves</td><td>¼ tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Cut chuck into cubes and sear over high heat until browned on all sides.</li>
-          <li>Add seared meat and all remaining ingredients to a crock pot. Cook on low 6–8 hours or high 3–4 hours, until the meat shreds easily with a fork.</li>
-          <li>Remove bay leaves, shred the meat, and stir to combine with the juices. Serve as tacos, burrito bowls, or with any toppings you like.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 5 -->
-  <div class="recipe-card" data-tags="vegetarian condiment" data-search="avocado mayo mayonnaise eggs lemon juice white wine vinegar salt ground mustard turmeric garlic powder avocado oil immersion blender">
-    <div class="card-header">
-      <h2>Homemade Avocado Mayo</h2>
-      <span class="card-tag">Condiment</span>
-    </div>
-    <p class="card-desc">A clean, creamy mayo made with avocado oil. Ready in under 2 minutes with an immersion blender.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Large eggs</td><td>2</td></tr>
-            <tr><td>Lemon juice</td><td>1 tsp</td></tr>
-            <tr><td>White wine vinegar</td><td>1 tsp</td></tr>
-            <tr><td>Salt</td><td>½ tsp</td></tr>
-            <tr><td>Ground mustard</td><td>½ tsp</td></tr>
-            <tr><td>Turmeric</td><td>¼ tsp</td></tr>
-            <tr><td>Garlic powder</td><td>¼ tsp</td></tr>
-            <tr><td>Avocado oil</td><td>1 cup</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Add all ingredients to a mason jar or tall bowl.</li>
-          <li>Immersion blend until fully combined, about 30 seconds to 1½ minutes.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 6 -->
-  <div class="recipe-card" data-tags="vegetarian weeknight side" data-search="sweet bourbon mushrooms butter balsamic vinegar soy sauce garlic powder sea salt black pepper cast iron skillet caramelized umami steak pork side topping">
-    <div class="card-header">
-      <h2>Sweet Bourbon Mushrooms</h2>
-      <span class="card-tag">Side</span>
-    </div>
-    <p class="card-desc">The ultimate sweet and umami pairing for steak, pork, or just about anything. Caramelized golden brown in under 30 minutes.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Unsalted butter</td><td>1 tbsp (14g)</td></tr>
-            <tr><td>Mushrooms, sliced</td><td>2 cups (192g)</td></tr>
-            <tr><td>Bourbon</td><td>3 tbsp (45ml)</td></tr>
-            <tr><td>Balsamic vinegar</td><td>1 tbsp (15ml)</td></tr>
-            <tr><td>Soy sauce</td><td>2 tsp</td></tr>
-            <tr><td>Garlic powder</td><td>½ tsp</td></tr>
-            <tr><td>Sea salt</td><td>½ tsp</td></tr>
-            <tr><td>Freshly ground black pepper</td><td>½ tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Preheat a cast-iron skillet over medium-high heat (350°F / 180°C). Add the butter 2 minutes before cooking.</li>
-          <li>Add the mushrooms and cook for 5–7 minutes, stirring occasionally, until they release their liquid and it has fully evaporated and the mushrooms are golden brown.</li>
-          <li>Add all remaining ingredients and cook for 3–4 minutes until the liquids have reduced and thickened. Pull the skillet off the heat and serve.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 7: OTFC Sweet BBQ Sauce -->
-  <div class="recipe-card" data-tags="sauce condiment" data-search="bbq sauce sweet barbecue ketchup honey brown sugar stoneground mustard apple cider vinegar worcestershire garlic powder onion powder hot sauce salt pepper">
-    <div class="card-header">
-      <h2>OTFC Sweet BBQ Sauce</h2>
-      <span class="card-tag">Sauce</span>
-    </div>
-    <p class="card-desc">A classic sweet barbecue sauce with brown sugar and honey. Pairs well with chicken, pulled pork, and anything off the grill. Keeps up to 1 week refrigerated.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients — Makes 2 cups</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Ketchup</td><td>1 cup (240g)</td></tr>
-            <tr><td>Honey</td><td>¼ cup (80g)</td></tr>
-            <tr><td>Brown sugar</td><td>2 tbsp (30g)</td></tr>
-            <tr><td>Stoneground mustard</td><td>2 tbsp (30g)</td></tr>
-            <tr><td>Apple cider vinegar</td><td>2 tbsp (30ml)</td></tr>
-            <tr><td>Worcestershire sauce</td><td>1 tbsp (15ml)</td></tr>
-            <tr><td>Garlic powder</td><td>1 tbsp (9g)</td></tr>
-            <tr><td>Onion powder</td><td>1½ tsp</td></tr>
-            <tr><td>Hot sauce</td><td>1 tsp</td></tr>
-            <tr><td>Kosher salt</td><td>to taste</td></tr>
-            <tr><td>Freshly ground black pepper</td><td>to taste</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>In a skillet over medium-low heat, stir together all the ingredients. Season with salt and pepper to taste and bring to a boil.</li>
-          <li>Cook uncovered, stirring occasionally, for about 40 minutes until the sauce is thickened to your liking.</li>
-          <li>Store in an airtight container in the refrigerator for up to 1 week.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 8: Citrus Marinade -->
-  <div class="recipe-card" data-tags="marinade chicken" data-search="citrus marinade orange juice lemon lime garlic salt oregano cumin cloves cinnamon black pepper chicken breast">
-    <div class="card-header">
-      <h2>Citrus Chicken Marinade</h2>
-      <span class="card-tag">Marinade</span>
-    </div>
-    <p class="card-desc">A bright, citrusy marinade for chicken with warm spices. Blend and marinate for deep flavor.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Orange juice</td><td>12 oz</td></tr>
-            <tr><td>Lemon juice</td><td>6 oz</td></tr>
-            <tr><td>Lime juice</td><td>2 oz</td></tr>
-            <tr><td>Fresh garlic, minced</td><td>2 oz</td></tr>
-            <tr><td>Salt</td><td>2 tsp</td></tr>
-            <tr><td>Oregano</td><td>1 tsp</td></tr>
-            <tr><td>Cumin</td><td>1 tsp</td></tr>
-            <tr><td>Ground cloves</td><td>½ tsp</td></tr>
-            <tr><td>Cinnamon</td><td>½ tsp</td></tr>
-            <tr><td>Black pepper</td><td>½ tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Combine all ingredients in a large container and blend until incorporated.</li>
-          <li>Add chicken breasts and marinate until ready to cook.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 9: New England Clam Chowder -->
-  <div class="recipe-card" data-tags="soup" data-search="new england clam chowder bacon margarine onion flour roux clam base red potatoes canned clams heavy cream chowder">
-    <div class="card-header">
-      <h2>New England Clam Chowder</h2>
-      <span class="card-tag">Soup</span>
-    </div>
-    <p class="card-desc">A rich, creamy clam chowder built on a classic bacon-and-roux base with red potatoes and clams.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Bacon</td><td>4 oz</td></tr>
-            <tr><td>Butter or margarine</td><td>8 oz</td></tr>
-            <tr><td>Yellow onion, chopped</td><td>12 oz</td></tr>
-            <tr><td>High-gluten flour</td><td>12 oz</td></tr>
-            <tr><td>Hot water</td><td>3 qts</td></tr>
-            <tr><td>Clam base</td><td>5 oz</td></tr>
-            <tr><td>Red potatoes</td><td>48 oz</td></tr>
-            <tr><td>Chopped clams (canned)</td><td>1 can</td></tr>
-            <tr><td>Heavy cream</td><td>2 qts</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>In a large stockpot, render the bacon until crispy.</li>
-          <li>Add butter and onion. Cook for 5 minutes until softened.</li>
-          <li>Add flour and stir to form a roux.</li>
-          <li>Temper the heavy cream before adding it to the pot.</li>
-          <li>Add remaining ingredients and bring to a boil, then reduce heat and simmer until potatoes are al dente.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 10: Hummus -->
-  <div class="recipe-card" data-tags="vegetarian condiment side" data-search="hummus garbanzo beans chickpeas tahini lemon juice olive oil garlic salt pepper cumin black bean red pepper roasted">
-    <div class="card-header">
-      <h2>Hummus</h2>
-      <span class="card-tag">Side</span>
-    </div>
-    <p class="card-desc">Classic creamy hummus made in a food processor. Includes black bean and roasted red pepper variations.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Garbanzo beans (canned)</td><td>½ #10 can</td></tr>
-            <tr><td>Tahini</td><td>4 oz</td></tr>
-            <tr><td>Lemon juice</td><td>3 oz</td></tr>
-            <tr><td>Extra virgin olive oil</td><td>4 oz</td></tr>
-            <tr><td>Fresh garlic, minced</td><td>1 oz</td></tr>
-            <tr><td>Salt</td><td>to taste</td></tr>
-            <tr><td>Black pepper</td><td>to taste</td></tr>
-            <tr><td>Cumin</td><td>2 tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Place all ingredients in a food processor and blend until smooth.</li>
-        </ol>
-      </div>
-      <div class="notes">
-        <div class="section-label">Variations</div>
-        <ul>
-          <li><strong>Black Bean:</strong> Substitute black beans for garbanzo beans, use lime juice instead of lemon (half the quantity), add ½ bunch cilantro and 1 tbsp curry powder.</li>
-          <li><strong>Roasted Red Pepper:</strong> Add 2 roasted red peppers and ½ tsp cayenne pepper.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 11: Chicken Salad -->
-  <div class="recipe-card" data-tags="chicken salad" data-search="chicken salad pecans red grapes celery mayo apple cider vinegar honey poppy seeds sandwich wrap lettuce">
-    <div class="card-header">
-      <h2>Chicken Salad</h2>
-      <span class="card-tag">Chicken</span>
-    </div>
-    <p class="card-desc">A classic chicken salad with toasted pecans, red grapes, and a honey poppy seed dressing. Serve in a sandwich, wrap, or on a lettuce bed.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Chicken breast</td><td>32 oz</td></tr>
-            <tr><td>Pecans, toasted</td><td>6 oz</td></tr>
-            <tr><td>Seedless red grapes</td><td>16 oz (2 cups)</td></tr>
-            <tr><td>Celery stalks, sliced</td><td>3 stalks</td></tr>
-            <tr><td>Mayonnaise</td><td>8 oz</td></tr>
-            <tr><td>Apple cider vinegar</td><td>4 tsp</td></tr>
-            <tr><td>Honey</td><td>5 tsp</td></tr>
-            <tr><td>Poppy seeds</td><td>2 tsp</td></tr>
-            <tr><td>Salt</td><td>to taste</td></tr>
-            <tr><td>Black pepper</td><td>to taste</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Make the dressing: whisk together mayo, vinegar, honey, poppy seeds, salt, and pepper. Refrigerate — can be made up to 2 days ahead.</li>
-          <li>Preheat oven to 350°F. Place chicken in a baking dish with ½ cup water, cover with foil, and bake 25 minutes until cooked through.</li>
-          <li>Remove chicken, cool slightly at room temperature, then chill completely in the refrigerator covered with plastic wrap.</li>
-          <li>Dice cold chicken into bite-size pieces and transfer to a large bowl. Combine with pecans, grapes, celery, and dressing.</li>
-          <li>Serve in a sandwich, wrap, or on a lettuce bed.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 12: Steak Sauce -->
-  <div class="recipe-card" data-tags="sauce condiment" data-search="steak sauce ketchup chili sauce a1 worcestershire tabasco chutney">
-    <div class="card-header">
-      <h2>Steak Sauce</h2>
-      <span class="card-tag">Sauce</span>
-    </div>
-    <p class="card-desc">A bold, tangy house steak sauce. Just combine and serve.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Ketchup</td><td>14 oz</td></tr>
-            <tr><td>Chili sauce</td><td>12 oz</td></tr>
-            <tr><td>A-1 steak sauce</td><td>10 oz</td></tr>
-            <tr><td>Worcestershire sauce</td><td>10 oz</td></tr>
-            <tr><td>Tabasco sauce</td><td>1 tsp</td></tr>
-            <tr><td>Chutney</td><td>9 oz</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Combine all ingredients and stir until well mixed. Serve immediately or refrigerate.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 13: Taco Seasoning -->
-  <div class="recipe-card" data-tags="beef weeknight condiment" data-search="taco seasoning chili powder cumin smoked paprika garlic powder onion powder dried oregano salt black pepper cayenne pepper burger ground beef">
-    <div class="card-header">
-      <h2>Taco Seasoning</h2>
-      <span class="card-tag">Condiment</span>
-    </div>
-    <p class="card-desc">A quick homemade taco seasoning scaled for 1.5 lbs of ground beef. Just combine and cook.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients — Serves 1.5 lbs meat</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Chili powder</td><td>1 tbsp</td></tr>
-            <tr><td>Ground cumin</td><td>1 tsp</td></tr>
-            <tr><td>Smoked paprika</td><td>1 tsp</td></tr>
-            <tr><td>Garlic powder</td><td>½ tsp</td></tr>
-            <tr><td>Onion powder</td><td>½ tsp</td></tr>
-            <tr><td>Dried oregano</td><td>½ tsp</td></tr>
-            <tr><td>Salt</td><td>¼ tsp</td></tr>
-            <tr><td>Black pepper</td><td>¼ tsp</td></tr>
-            <tr><td>Cayenne pepper</td><td>⅛ tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Combine all ingredients and mix well. Add to cooked ground beef and stir to coat.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 14: Smashburger Sauce -->
-  <div class="recipe-card" data-tags="condiment sauce" data-search="smashburger sauce avocado mayonnaise ketchup spicy brown mustard pickle chips smoked paprika burger">
-    <div class="card-header">
-      <h2>The Smashburger Sauce</h2>
-      <span class="card-tag">Condiment</span>
-    </div>
-    <p class="card-desc">A tangy, smoky burger sauce with minced pickles. Quick to whisk together and perfect on smash burgers.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Avocado mayonnaise</td><td>2 tbsp</td></tr>
-            <tr><td>Ketchup</td><td>1 tbsp</td></tr>
-            <tr><td>Spicy brown mustard</td><td>1½ tsp</td></tr>
-            <tr><td>Pickle chips, minced</td><td>4–8 chips</td></tr>
-            <tr><td>Smoked paprika</td><td>¼ tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Mince the pickle chips.</li>
-          <li>Combine all ingredients and whisk together until well mixed.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 15: Garlic Parm Chicken Skewers -->
-  <div class="recipe-card" data-tags="chicken weeknight" data-search="garlic parmesan chicken skewers buffalo sauce butter mayonnaise parmesan cheese apple cider vinegar lemon juice salt red pepper flakes oregano basil black pepper grill grilled">
-    <div class="card-header">
-      <h2>Garlic Parm Chicken Skewers</h2>
-      <span class="card-tag">Chicken</span>
-    </div>
-    <p class="card-desc">Buffalo-marinated chicken skewers grilled and basted with a homemade garlic parmesan sauce. Marinate overnight for best results.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Large chicken breasts</td><td>4–6</td></tr>
-            <tr><td>Buffalo sauce</td><td>at least 1 cup</td></tr>
-            <tr><td>Butter</td><td>2 tbsp</td></tr>
-            <tr><td>Head of garlic</td><td>1</td></tr>
-            <tr><td>Mayonnaise</td><td>½ cup</td></tr>
-            <tr><td>Grated Parmesan cheese</td><td>2–4 oz</td></tr>
-            <tr><td>Apple cider vinegar</td><td>1 tbsp</td></tr>
-            <tr><td>Lemon juice</td><td>1 tsp</td></tr>
-            <tr><td>Salt</td><td>½ tsp</td></tr>
-            <tr><td>Red pepper flakes</td><td>¼ tsp</td></tr>
-            <tr><td>Dried oregano</td><td>¼ tsp</td></tr>
-            <tr><td>Dried basil</td><td>¼ tsp</td></tr>
-            <tr><td>Black pepper</td><td>¼ tsp</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Night Before</div>
-        <ol>
-          <li>Tenderize chicken breasts, then slice into thin strips cutting with the grain.</li>
-          <li>Marinate in buffalo sauce overnight, or at least 4 hours.</li>
-        </ol>
-      </div>
-      <div class="steps">
-        <div class="section-label">Day Of</div>
-        <ol>
-          <li>Weave chicken strips onto skewers.</li>
-          <li>Mince the garlic. Melt butter in a saucepan and cook garlic for 1–2 minutes.</li>
-          <li>Combine cooked garlic with mayonnaise, Parmesan, vinegar, lemon juice, salt, red pepper flakes, oregano, basil, and black pepper. Whisk together and refrigerate until ready to use.</li>
-          <li>Grill skewers, rotating every 3–4 minutes, until cooked through — about 18–20 minutes total.</li>
-          <li>Baste garlic parm sauce onto chicken during the last few minutes of grilling.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECIPE 16: Buffalo Sauce -->
-  <div class="recipe-card" data-tags="sauce condiment" data-search="buffalo sauce franks redhot hot sauce butter white vinegar worcestershire garlic powder cayenne salt wings chicken">
-    <div class="card-header">
-      <h2>Buffalo Sauce</h2>
-      <span class="card-tag">Sauce</span>
-    </div>
-    <p class="card-desc">Classic homemade buffalo sauce built on Frank's RedHot and butter. Ready in minutes and stores for up to 2 weeks.</p>
-    <div class="card-body">
-      <div class="ingredients">
-        <div class="section-label">Ingredients</div>
-        <table class="ingredient-table">
-          <thead><tr><th>Ingredient</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Frank's RedHot (or hot sauce of choice)</td><td>½ cup</td></tr>
-            <tr><td>Unsalted butter</td><td>¼ cup (4 tbsp)</td></tr>
-            <tr><td>White vinegar</td><td>1 tsp</td></tr>
-            <tr><td>Worcestershire sauce</td><td>½ tsp</td></tr>
-            <tr><td>Garlic powder</td><td>¼ tsp</td></tr>
-            <tr><td>Cayenne pepper (optional)</td><td>pinch</td></tr>
-            <tr><td>Salt</td><td>to taste</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="steps">
-        <div class="section-label">Directions</div>
-        <ol>
-          <li>Melt the butter in a small saucepan over low heat, or microwave it.</li>
-          <li>Whisk in the hot sauce, vinegar, Worcestershire, garlic powder, and cayenne.</li>
-          <li>Taste and adjust — more hot sauce for heat, more butter for a milder, richer sauce.</li>
-          <li>Use immediately or store in the fridge for up to 2 weeks. Reheat gently before using.</li>
-        </ol>
-      </div>
-      <div class="notes">
-        <div class="section-label">Tips & Variations</div>
-        <ul>
-          <li><strong>Ratio is key:</strong> Classic is roughly 2:1 hot sauce to butter. Go 1:1 for milder/richer, or 3:1 for spicier.</li>
-          <li><strong>Don't boil it</strong> — just warm enough to melt the butter and combine. Boiling can break the emulsion and make it greasy.</li>
-          <li><strong>Honey buffalo:</strong> Add 1–2 tbsp honey for a sweet heat version — great for wings or grilling.</li>
-          <li><strong>Garlic buffalo:</strong> Sauté a clove or two of minced garlic in the butter first before adding the rest.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
+  <div id="recipeSections"></div>
   <div class="no-results" id="noResults">No recipes found. Try a different search.</div>
+  <div class="favs-empty" id="favsEmpty">No favorites yet — tap &#9733; on any recipe to save it here.</div>
 </main>
 
+<div class="cook-overlay" id="cookOverlay">
+  <div class="cook-inner">
+    <button class="cook-close" onclick="closeCookMode()">&#8592; Back to recipes</button>
+    <div class="cook-title" id="cookTitle"></div>
+    <div class="cook-ingredients" id="cookIngredients"></div>
+    <div class="cook-section-label">Directions</div>
+    <div class="cook-steps" id="cookSteps"></div>
+  </div>
+</div>
+
 <script>
-  let activeTag = 'all';
+const recipes = [
+  { id:1, title:"Chicken Fajita Seasoning", tag:"Chicken", category:"Mains & Sides", desc:"A bold, smoky blend for fajitas — enough to season about 1.5 lbs of chicken.", tags:"chicken weeknight", search:"chicken fajita seasoning chili powder cumin smoked paprika garlic powder onion powder oregano salt pepper cayenne", baseServings:4,
+    ingredients:[
+      ["Chili powder","tsp",2],["Cumin","tsp",1.5],["Smoked paprika","tsp",1],
+      ["Garlic powder","tsp",1],["Onion powder","tsp",0.5],["Dried oregano","tsp",0.5],
+      ["Salt","tsp",1],["Black pepper","tsp",0.5],["Cayenne pepper","tsp",0.25]
+    ],
+    steps:["Mix all spices together in a small bowl until evenly blended.","Pat chicken dry, then coat all sides generously with the seasoning mix. Let sit for 15–30 minutes before cooking.","Cook in a very hot cast iron or skillet with a little oil over high heat, about 5–6 minutes per side, until nicely charred and cooked through. Rest 5 minutes before slicing."],
+    notes:["Heat level: Adjust cayenne up or down to taste. Double it for a real kick.","Big batch: Scale up and store in an airtight jar — keeps 6 months. Use about 1 tbsp per pound of chicken.","Marinade option: Mix seasoning with 2 tbsp olive oil and juice of 1 lime. Marinate chicken 1–4 hours for deeper flavor."]
+  },
+  { id:2, title:"Egg Roll In A Bowl", tag:"Beef", category:"Mains & Sides", desc:"Hearty, flavor-packed skillet dish with all the taste of egg rolls — no wrapper needed.", tags:"beef weeknight", search:"egg roll bowl ground beef cabbage green onions garlic ginger red bell pepper gochujang hoisin soy sauce sesame oil rice vinegar", baseServings:4,
+    ingredients:[
+      ["Lean ground beef","lb",1.5],["Fine shredded cabbage","oz bag",10],
+      ["Red shredded cabbage","oz bag",10],["Green onions","bunch",1],
+      ["Garlic cloves","cloves",6],["Minced ginger","tbsp",2],
+      ["Red bell pepper","",1],["Gochujang","tbsp",1],
+      ["Hoisin sauce","tbsp",3],["Soy sauce","cup",0.25],
+      ["Toasted sesame oil","tsp",2],["Rice vinegar","tbsp",2]
+    ],
+    steps:["Brown the ground beef in a large skillet over medium-high heat.","While the beef cooks, thinly slice the red bell pepper, chop the green onions, and mince the garlic and ginger.","Drain the beef, return it to the pan, and add toasted sesame oil, rice vinegar, hoisin, gochujang, and soy sauce. Cook for 2–3 minutes.","Add both cabbages, bell pepper, green onions, garlic, and ginger. Stir to combine and cook until the veggies are tender and reduced, about 15–20 minutes."]
+  },
+  { id:3, title:"Barbacoa", tag:"Beef", category:"Mains & Sides", desc:"Smoky, tender slow-cooked chuck with chipotle and warm spices. Serve as tacos, burrito bowls, or with any toppings.", tags:"beef weeknight", search:"barbacoa chuck garlic chipotle peppers adobo green chiles beef stock white onion lime bay leaves apple cider vinegar cumin oregano black pepper salt ground cloves crock pot slow cooker tacos burrito bowl", baseServings:6,
+    ingredients:[
+      ["Chuck roast","lb",3],["Garlic cloves, minced","cloves",5],
+      ["Chipotle peppers in adobo","",2],["Can of green chiles","oz can",4],
+      ["Beef stock","cup",0.5],["White onion, chopped","",1],
+      ["Limes, juiced","limes",2],["Bay leaves","",3],
+      ["Apple cider vinegar","tbsp",2],["Cumin","tbsp",1],
+      ["Oregano","tbsp",1],["Black pepper","tbsp",1],
+      ["Salt","tsp",2],["Ground cloves","tsp",0.25]
+    ],
+    steps:["Cut chuck into cubes and sear over high heat until browned on all sides.","Add seared meat and all remaining ingredients to a crock pot. Cook on low 6–8 hours or high 3–4 hours, until the meat shreds easily with a fork.","Remove bay leaves, shred the meat, and stir to combine with the juices. Serve as tacos, burrito bowls, or with any toppings you like."]
+  },
+  { id:4, title:"Garlic Parm Chicken Skewers", tag:"Chicken", category:"Mains & Sides", desc:"Buffalo-marinated chicken skewers grilled and basted with a homemade garlic parmesan sauce.", tags:"chicken weeknight", search:"garlic parmesan chicken skewers buffalo sauce butter mayonnaise parmesan cheese apple cider vinegar lemon juice salt red pepper flakes oregano basil black pepper grill grilled", baseServings:4,
+    ingredients:[
+      ["Large chicken breasts","",5],["Buffalo sauce","cup",1],
+      ["Butter","tbsp",2],["Head of garlic","head",1],
+      ["Mayonnaise","cup",0.5],["Grated Parmesan cheese","oz",3],
+      ["Apple cider vinegar","tbsp",1],["Lemon juice","tsp",1],
+      ["Salt","tsp",0.5],["Red pepper flakes","tsp",0.25],
+      ["Dried oregano","tsp",0.25],["Dried basil","tsp",0.25],
+      ["Black pepper","tsp",0.25]
+    ],
+    steps:["Night before: Tenderize chicken breasts, then slice into thin strips cutting with the grain. Marinate in buffalo sauce overnight, or at least 4 hours.","Weave chicken strips onto skewers.","Mince the garlic. Melt butter in a saucepan and cook garlic for 1–2 minutes.","Combine cooked garlic with mayonnaise, Parmesan, vinegar, lemon juice, salt, red pepper flakes, oregano, basil, and black pepper. Whisk together and refrigerate until ready to use.","Grill skewers, rotating every 3–4 minutes, until cooked through — about 18–20 minutes total.","Baste garlic parm sauce onto chicken during the last few minutes of grilling."]
+  },
+  { id:5, title:"Alden Mill House Chicken Salad", tag:"Chicken", category:"Mains & Sides", desc:"Classic chicken salad with toasted pecans, red grapes, and a honey poppy seed dressing.", tags:"chicken salad", search:"chicken salad pecans red grapes celery mayo apple cider vinegar honey poppy seeds sandwich wrap lettuce", baseServings:4,
+    ingredients:[
+      ["Chicken breast","oz",32],["Pecans, toasted","oz",6],
+      ["Seedless red grapes","cups",2],["Celery stalks, sliced","stalks",3],
+      ["Mayonnaise","oz",8],["Apple cider vinegar","tsp",4],
+      ["Honey","tsp",5],["Poppy seeds","tsp",2],
+      ["Salt","",null],["Black pepper","",null]
+    ],
+    steps:["Make the dressing: whisk together mayo, vinegar, honey, poppy seeds, salt, and pepper. Refrigerate — can be made up to 2 days ahead.","Preheat oven to 350°F. Place chicken in a baking dish with ½ cup water, cover with foil, and bake 25 minutes until cooked through.","Remove chicken, cool slightly at room temperature, then chill completely in the refrigerator covered with plastic wrap.","Dice cold chicken into bite-size pieces and transfer to a large bowl. Combine with pecans, grapes, celery, and dressing.","Serve in a sandwich, wrap, or on a lettuce bed."]
+  },
+  { id:6, title:"Sweet Bourbon Mushrooms", tag:"Side", category:"Mains & Sides", desc:"The ultimate sweet and umami pairing for steak, pork, or just about anything. Caramelized golden brown in under 30 minutes.", tags:"vegetarian weeknight side", search:"sweet bourbon mushrooms butter balsamic vinegar soy sauce garlic powder sea salt black pepper cast iron skillet", baseServings:2,
+    ingredients:[
+      ["Unsalted butter","tbsp",1],["Mushrooms, sliced","cups",2],
+      ["Bourbon","tbsp",3],["Balsamic vinegar","tbsp",1],
+      ["Soy sauce","tsp",2],["Garlic powder","tsp",0.5],
+      ["Sea salt","tsp",0.5],["Freshly ground black pepper","tsp",0.5]
+    ],
+    steps:["Preheat a cast-iron skillet over medium-high heat (350°F / 180°C). Add the butter 2 minutes before cooking.","Add the mushrooms and cook for 5–7 minutes, stirring occasionally, until they release their liquid and it has fully evaporated and the mushrooms are golden brown.","Add all remaining ingredients and cook for 3–4 minutes until the liquids have reduced and thickened. Pull the skillet off the heat and serve."]
+  },
+  { id:7, title:"Alden Mill House Hummus", tag:"Side", category:"Mains & Sides", desc:"Classic creamy hummus made in a food processor. Includes black bean and roasted red pepper variations.", tags:"vegetarian condiment side", search:"hummus garbanzo beans chickpeas tahini lemon juice olive oil garlic salt pepper cumin", baseServings:4,
+    ingredients:[
+      ["Garbanzo beans (canned)","oz",28],["Tahini","oz",4],
+      ["Lemon juice","oz",3],["Extra virgin olive oil","oz",4],
+      ["Fresh garlic, minced","oz",1],["Salt","",null],
+      ["Black pepper","",null],["Cumin","tsp",2]
+    ],
+    steps:["Place all ingredients in a food processor and blend until smooth."],
+    notes:["Black Bean: Substitute black beans for garbanzo beans, use lime juice instead of lemon (half the quantity), add ½ bunch cilantro and 1 tbsp curry powder.","Roasted Red Pepper: Add 2 roasted red peppers and ½ tsp cayenne pepper."]
+  },
+  { id:8, title:"Tomato Bisque", tag:"Soup", category:"Soups", desc:"A rich, roasted tomato bisque with sweet potato and Gruyère — deeply flavorful and silky smooth.", tags:"vegetarian soup", search:"tomato bisque roma tomatoes cherry tomatoes sweet potato red bell pepper gruyere cheese garlic thyme heavy cream chicken broth", baseServings:4,
+    ingredients:[
+      ["Roma tomatoes","",7],["Sugar bomb cherry tomatoes","pint",1],
+      ["Small sweet potato, peeled & cubed","",1],["Red bell pepper","",1],
+      ["Gruyère cheese","",null],["Fresh garlic cloves","cloves",7],
+      ["Fresh thyme","stalks",3],["Heavy cream","oz",8],
+      ["Chicken broth","oz",16],["Olive oil","",null]
+    ],
+    steps:["Chop Roma tomatoes and peeled sweet potato into cubes. Chop red bell pepper into chunks. Peel garlic and leave sugar bomb tomatoes whole. Arrange on a sheet pan, drizzle with olive oil, and roast at 425°F for 30–45 minutes.","Transfer all roasted veggies and all pan juices to a large pot.","Add half the chicken broth and blend with an immersion blender until smooth. Add the remaining broth once it's less chunky. Simmer on low heat for 5–10 minutes.","Warm the heavy cream in the microwave so it's not cold, then stir into the pot over low heat. Blend again to incorporate. Add Gruyère and stir until fully melted and combined."]
+  },
+  { id:9, title:"New England Clam Chowder", tag:"Soup", category:"Soups", desc:"A rich, creamy clam chowder built on a classic bacon-and-roux base with red potatoes and clams.", tags:"soup", search:"new england clam chowder bacon margarine onion flour roux clam base red potatoes canned clams heavy cream", baseServings:8,
+    ingredients:[
+      ["Bacon","oz",4],["Butter or margarine","oz",8],
+      ["Yellow onion, chopped","oz",12],["High-gluten flour","oz",12],
+      ["Hot water","qts",3],["Clam base","oz",5],
+      ["Red potatoes","oz",48],["Chopped clams (canned)","can",1],
+      ["Heavy cream","qts",2]
+    ],
+    steps:["In a large stockpot, render the bacon until crispy.","Add butter and onion. Cook for 5 minutes until softened.","Add flour and stir to form a roux.","Temper the heavy cream before adding it to the pot.","Add remaining ingredients and bring to a boil, then reduce heat and simmer until potatoes are al dente."]
+  },
+  { id:10, title:"Sweet BBQ Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"Classic sweet barbecue sauce with brown sugar and honey. Keeps up to 1 week refrigerated.", tags:"sauce condiment", search:"bbq sauce sweet barbecue ketchup honey brown sugar stoneground mustard apple cider vinegar worcestershire garlic powder onion powder hot sauce", baseServings:4,
+    ingredients:[
+      ["Ketchup","cup",1],["Honey","cup",0.25],
+      ["Brown sugar","tbsp",2],["Stoneground mustard","tbsp",2],
+      ["Apple cider vinegar","tbsp",2],["Worcestershire sauce","tbsp",1],
+      ["Garlic powder","tbsp",1],["Onion powder","tsp",1.5],
+      ["Hot sauce","tsp",1],["Kosher salt","",null],
+      ["Freshly ground black pepper","",null]
+    ],
+    steps:["In a skillet over medium-low heat, stir together all the ingredients. Season with salt and pepper to taste and bring to a boil.","Cook uncovered, stirring occasionally, for about 40 minutes until the sauce is thickened to your liking.","Store in an airtight container in the refrigerator for up to 1 week."]
+  },
+  { id:11, title:"Buffalo Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"Classic homemade buffalo sauce built on Frank's RedHot and butter. Stores up to 2 weeks.", tags:"sauce condiment", search:"buffalo sauce franks redhot hot sauce butter white vinegar worcestershire garlic powder cayenne salt wings chicken", baseServings:4,
+    ingredients:[
+      ["Frank's RedHot","cup",0.5],["Unsalted butter","tbsp",4],
+      ["White vinegar","tsp",1],["Worcestershire sauce","tsp",0.5],
+      ["Garlic powder","tsp",0.25],["Cayenne pepper (optional)","",null],
+      ["Salt","",null]
+    ],
+    steps:["Melt the butter in a small saucepan over low heat, or microwave it.","Whisk in the hot sauce, vinegar, Worcestershire, garlic powder, and cayenne.","Taste and adjust — more hot sauce for heat, more butter for a milder, richer sauce.","Use immediately or store in the fridge for up to 2 weeks. Reheat gently before using."],
+    notes:["Ratio is key: Classic is roughly 2:1 hot sauce to butter. Go 1:1 for milder/richer, or 3:1 for spicier.","Don't boil it — just warm enough to melt the butter and combine. Boiling can break the emulsion.","Honey buffalo: Add 1–2 tbsp honey for a sweet heat version — great for wings or grilling.","Garlic buffalo: Sauté a clove or two of minced garlic in the butter first before adding the rest."]
+  },
+  { id:12, title:"Steak Sandwich Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A bold, tangy house steak sauce. Just combine and serve.", tags:"sauce condiment", search:"steak sauce ketchup chili sauce a1 worcestershire tabasco chutney", baseServings:8,
+    ingredients:[
+      ["Ketchup","oz",14],["Chili sauce","oz",12],
+      ["A-1 steak sauce","oz",10],["Worcestershire sauce","oz",10],
+      ["Tabasco sauce","tsp",1],["Chutney","oz",9]
+    ],
+    steps:["Combine all ingredients and stir until well mixed. Serve immediately or refrigerate."]
+  },
+  { id:13, title:"The Smashburger Sauce", tag:"Condiment", category:"Sauces & Condiments", desc:"A tangy, smoky burger sauce with minced pickles. Perfect on smash burgers.", tags:"condiment sauce", search:"smashburger sauce avocado mayonnaise ketchup spicy brown mustard pickle chips smoked paprika burger", baseServings:1,
+    ingredients:[
+      ["Avocado mayonnaise","tbsp",2],["Ketchup","tbsp",1],
+      ["Spicy brown mustard","tsp",1.5],["Pickle chips, minced","chips",6],
+      ["Smoked paprika","tsp",0.25]
+    ],
+    steps:["Mince the pickle chips.","Combine all ingredients and whisk together until well mixed."]
+  },
+  { id:14, title:"Avocado Mayo", tag:"Condiment", category:"Sauces & Condiments", desc:"A clean, creamy mayo made with avocado oil. Ready in under 2 minutes.", tags:"vegetarian condiment", search:"avocado mayo mayonnaise eggs lemon juice white wine vinegar salt ground mustard turmeric garlic powder avocado oil immersion blender", baseServings:4,
+    ingredients:[
+      ["Large eggs","",2],["Lemon juice","tsp",1],
+      ["White wine vinegar","tsp",1],["Salt","tsp",0.5],
+      ["Ground mustard","tsp",0.5],["Turmeric","tsp",0.25],
+      ["Garlic powder","tsp",0.25],["Avocado oil","cup",1]
+    ],
+    steps:["Add all ingredients to a mason jar or tall bowl.","Immersion blend until fully combined, about 30 seconds to 1½ minutes."]
+  },
+  { id:15, title:"Taco Seasoning", tag:"Condiment", category:"Sauces & Condiments", desc:"Homemade taco seasoning scaled for 1.5 lbs of ground beef.", tags:"beef weeknight condiment", search:"taco seasoning chili powder cumin smoked paprika garlic powder onion powder dried oregano salt black pepper cayenne pepper burger ground beef", baseServings:2,
+    ingredients:[
+      ["Chili powder","tbsp",1],["Ground cumin","tsp",1],
+      ["Smoked paprika","tsp",1],["Garlic powder","tsp",0.5],
+      ["Onion powder","tsp",0.5],["Dried oregano","tsp",0.5],
+      ["Salt","tsp",0.25],["Black pepper","tsp",0.25],
+      ["Cayenne pepper","tsp",0.125]
+    ],
+    steps:["Combine all ingredients and mix well. Add to cooked ground beef and stir to coat."]
+  },
+  { id:16, title:"Citrus Chicken Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A bright, citrusy marinade for chicken with warm spices.", tags:"marinade chicken", search:"citrus marinade orange juice lemon lime garlic salt oregano cumin cloves cinnamon black pepper chicken breast", baseServings:4,
+    ingredients:[
+      ["Orange juice","oz",12],["Lemon juice","oz",6],
+      ["Lime juice","oz",2],["Fresh garlic, minced","oz",2],
+      ["Salt","tsp",2],["Oregano","tsp",1],
+      ["Cumin","tsp",1],["Ground cloves","tsp",0.5],
+      ["Cinnamon","tsp",0.5],["Black pepper","tsp",0.5]
+    ],
+    steps:["Combine all ingredients in a large container and blend until incorporated.","Add chicken breasts and marinate until ready to cook."]
+  }
+];
 
-  function filterRecipes() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const cards = document.querySelectorAll('.recipe-card');
-    let visible = 0;
+let activeTag = 'all', favView = false;
+let favorites = JSON.parse(localStorage.getItem('lrb_favs') || '[]');
+let multipliers = {};
+recipes.forEach(r => multipliers[r.id] = 1);
 
-    cards.forEach(card => {
-      const searchText = card.dataset.search + ' ' + card.querySelector('h2').textContent;
-      const tags = card.dataset.tags;
-      const matchesSearch = !query || searchText.toLowerCase().includes(query);
-      const matchesTag = activeTag === 'all' || tags.includes(activeTag);
+function saveFavs() { localStorage.setItem('lrb_favs', JSON.stringify(favorites)); }
+function toggleFav(id, btn) {
+  if (favorites.includes(id)) { favorites = favorites.filter(f => f !== id); btn.classList.remove('fav-active'); }
+  else { favorites.push(id); btn.classList.add('fav-active'); }
+  saveFavs(); if (favView) render();
+}
+function toggleFavView() { favView = !favView; document.getElementById('favToggle').classList.toggle('active', favView); render(); }
+function filterByTag(tag, btn) { activeTag = tag; document.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); btn.classList.add('active'); render(); }
+function filterRecipes() { render(); }
 
-      if (matchesSearch && matchesTag) {
-        card.style.display = '';
-        visible++;
-      } else {
-        card.style.display = 'none';
-      }
+function setMultiplier(id, mult) {
+  multipliers[id] = mult;
+  document.querySelectorAll(`.mult-btn[data-id="${id}"]`).forEach(b => {
+    b.classList.toggle('active', parseFloat(b.dataset.mult) === mult);
+  });
+  const r = recipes.find(x => x.id === id);
+  r.ingredients.forEach((ing, i) => {
+    const el = document.getElementById('ing-' + id + '-' + i);
+    if (el) el.textContent = scaledAmt(r, ing, mult);
+  });
+}
+
+function formatNum(n) {
+  const fracs = [[0.125,'⅛'],[0.25,'¼'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],[0.75,'¾']];
+  const whole = Math.floor(n);
+  const dec = Math.round((n - whole) * 1000) / 1000;
+  if (dec === 0) return String(whole || '0');
+  for (const [val, sym] of fracs) {
+    if (Math.abs(dec - val) < 0.04) return (whole > 0 ? whole : '') + sym;
+  }
+  return (Math.round(n * 4) / 4).toString();
+}
+
+function formatAmt(val, unit) {
+  if (val === null) return 'to taste';
+  const v = Math.round(val * 1000) / 1000;
+  if (unit === 'tsp') {
+    if (v >= 3) return formatNum(v / 3) + ' tbsp';
+    return formatNum(v) + ' tsp';
+  }
+  if (unit === 'tbsp') {
+    if (v >= 4) return formatNum(v / 16) + ' cup';
+    if (v >= 1) return formatNum(v) + ' tbsp';
+    return formatNum(v * 3) + ' tsp';
+  }
+  if (unit === 'cup') {
+    if (v < 0.25) return formatNum(v * 16) + ' tbsp';
+    return formatNum(v) + ' cup';
+  }
+  if (unit === 'oz') { if (v >= 16) return formatNum(v / 16) + ' lb'; return formatNum(v) + ' oz'; }
+  if (unit === 'lb') { if (v < 1) return formatNum(v * 16) + ' oz'; return formatNum(v) + ' lb'; }
+  return formatNum(v) + (unit ? ' ' + unit : '');
+}
+
+function scaledAmt(r, ing, mult) {
+  const [name, unit, base] = ing;
+  if (base === null) return 'to taste';
+  return formatAmt(base * mult, unit);
+}
+
+function openCookMode(id) {
+  const r = recipes.find(x => x.id === id);
+  const mult = multipliers[id];
+  const label = mult === 0.5 ? '½x' : mult === 1 ? '1x' : mult + 'x';
+  document.getElementById('cookTitle').textContent = r.title + (mult !== 1 ? ' (' + label + ')' : '');
+  document.getElementById('cookIngredients').innerHTML = '<div class="cook-section-label">Ingredients</div>' +
+    r.ingredients.map((ing,i) => `<div class="cook-ingredient"><span class="cook-ing-name">${ing[0]}</span><span class="cook-ing-amt">${scaledAmt(r,ing,mult)}</span></div>`).join('');
+  let n = 1;
+  document.getElementById('cookSteps').innerHTML = r.steps.map(s =>
+    `<div class="cook-step"><div class="cook-step-num">${n++}</div><div class="cook-step-text">${s}</div></div>`).join('');
+  document.getElementById('cookOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCookMode() { document.getElementById('cookOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+
+function printRecipe(id) {
+  const r = recipes.find(x => x.id === id);
+  const mult = multipliers[id];
+  const label = mult === 0.5 ? '½x' : mult === 1 ? '1x' : mult + 'x';
+  const w = window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>${r.title}</title><style>
+    body{font-family:Georgia,serif;max-width:600px;margin:2rem auto;color:#1a1917;}
+    h1{font-size:2rem;margin-bottom:.25rem;}
+    .scale-note{font-size:.8rem;color:#c4673a;margin-bottom:1.25rem;font-family:sans-serif;}
+    .desc{font-style:italic;color:#666;margin-bottom:1.5rem;}
+    h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;color:#c4673a;margin:1.5rem 0 .75rem;font-family:sans-serif;}
+    table{width:100%;border-collapse:collapse;margin-bottom:1rem;}
+    th{background:#f5f5f5;text-align:left;padding:.4rem .75rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;font-family:sans-serif;}
+    td{padding:.5rem .75rem;border-bottom:1px solid #eee;font-size:.95rem;}
+    td:last-child{color:#c4673a;font-weight:bold;}
+    ol{padding-left:1.5rem;}li{margin-bottom:.75rem;line-height:1.6;}
+    ul{list-style:none;padding:0;}ul li{padding-left:1rem;position:relative;margin-bottom:.5rem;color:#555;font-size:.9rem;}
+    ul li::before{content:'—';position:absolute;left:0;color:#7a9e7e;}
+  </style></head><body>
+  <h1>${r.title}</h1>
+  ${mult !== 1 ? `<p class="scale-note">Scaled: ${label}</p>` : ''}
+  <p class="desc">${r.desc}</p>
+  <h2>Ingredients</h2>
+  <table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody>
+  ${r.ingredients.map((ing,i)=>`<tr><td>${ing[0]}</td><td>${scaledAmt(r,ing,mult)}</td></tr>`).join('')}
+  </tbody></table>
+  <h2>Directions</h2><ol>${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+  ${r.notes?`<h2>Notes</h2><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul>`:''}
+  </body></html>`);
+  w.document.close(); w.focus(); setTimeout(()=>w.print(),400);
+}
+
+function toggleCard(id) {
+  const b = document.getElementById('body-'+id), e = document.getElementById('exp-'+id);
+  const open = b.classList.toggle('open'); e.textContent = open ? '▲' : '▼';
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = recipes.filter(r =>
+    (!q || (r.title+' '+r.search).toLowerCase().includes(q)) &&
+    (activeTag==='all' || r.tags.includes(activeTag)) &&
+    (!favView || favorites.includes(r.id))
+  );
+  document.getElementById('recipeCount').textContent = filtered.length + (filtered.length===1?' recipe':' recipes');
+  document.getElementById('noResults').style.display = filtered.length===0 && !favView ? 'block':'none';
+  document.getElementById('favsEmpty').style.display = filtered.length===0 && favView ? 'block':'none';
+
+  const cats = {}, order = ['Mains & Sides','Soups','Sauces & Condiments'];
+  filtered.forEach(r => { if(!cats[r.category]) cats[r.category]=[]; cats[r.category].push(r); });
+
+  const el = document.getElementById('recipeSections');
+  el.innerHTML = '';
+  order.forEach(cat => {
+    if (!cats[cat]) return;
+    const sec = document.createElement('div');
+    sec.className = 'category-section';
+    sec.innerHTML = `<div class="category-heading"><h3>${cat}</h3><div class="category-line"></div></div>`;
+    cats[cat].forEach(r => {
+      const isFav = favorites.includes(r.id);
+      const mult = multipliers[r.id];
+      const ingRows = r.ingredients.map((ing,i) =>
+        `<tr><td>${ing[0]}</td><td id="ing-${r.id}-${i}">${scaledAmt(r,ing,mult)}</td></tr>`
+      ).join('');
+      const steps = r.steps.map(s=>`<li>${s}</li>`).join('');
+      const notes = r.notes ? `<div class="notes" style="margin-top:1rem"><div class="section-label">Notes</div><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>` : '';
+      const card = document.createElement('div');
+      card.className = 'recipe-card';
+      card.innerHTML = `
+        <div class="card-summary" onclick="toggleCard(${r.id})">
+          <div class="card-summary-text"><h2>${r.title}</h2><p>${r.desc}</p></div>
+          <div class="card-actions">
+            <span class="card-tag">${r.tag}</span>
+            <button class="btn-icon${isFav?' fav-active':''}" onclick="event.stopPropagation();toggleFav(${r.id},this)" title="${isFav?'Remove':'Add to favorites'}">&#9733;</button>
+            <button class="btn-icon expand-btn" id="exp-${r.id}" onclick="event.stopPropagation();toggleCard(${r.id})">▼</button>
+          </div>
+        </div>
+        <div class="card-body" id="body-${r.id}">
+          <div class="scaler">
+            <label>Scale</label>
+            <div class="scaler-controls">
+              <button class="mult-btn${mult===0.5?' active':''}" data-id="${r.id}" data-mult="0.5" onclick="setMultiplier(${r.id},0.5)">½x</button>
+              <button class="mult-btn${mult===1?' active':''}" data-id="${r.id}" data-mult="1" onclick="setMultiplier(${r.id},1)">1x</button>
+              <button class="mult-btn${mult===2?' active':''}" data-id="${r.id}" data-mult="2" onclick="setMultiplier(${r.id},2)">2x</button>
+              <button class="mult-btn${mult===3?' active':''}" data-id="${r.id}" data-mult="3" onclick="setMultiplier(${r.id},3)">3x</button>
+            </div>
+          </div>
+          <div class="section-label">Ingredients</div>
+          <table class="ingredient-table"><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody>${ingRows}</tbody></table>
+          <div class="steps"><div class="section-label">Directions</div><ol>${steps}</ol></div>
+          ${notes}
+          <div class="card-footer">
+            <button class="action-btn cook-btn" onclick="openCookMode(${r.id})">&#9202; Cooking mode</button>
+            <button class="action-btn print-btn" onclick="printRecipe(${r.id})">&#9113; Print</button>
+          </div>
+        </div>`;
+      sec.appendChild(card);
     });
+    el.appendChild(sec);
+  });
+}
 
-    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
-    document.getElementById('recipeCount').textContent = visible + (visible === 1 ? ' recipe' : ' recipes');
-  }
-
-  function filterByTag(tag, btn) {
-    activeTag = tag;
-    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    filterRecipes();
-  }
+render();
 </script>
 </body>
 </html>
