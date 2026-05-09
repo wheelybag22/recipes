@@ -325,7 +325,7 @@ const recipes = [
     notes:["Scaled for 3.5 lbs of pork chops at 1x.","The longer the marinade the better — overnight is ideal."]
   },
   { id:28, title:"Sweet Soy Chicken Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A sweet, savory soy marinade for chicken. Bone-in 4–12 hrs, boneless 1–8 hrs. Scaled for 3 lbs.", tags:"marinade chicken", search:"sweet soy chicken marinade soy sauce honey brown sugar sesame oil garlic ginger white wine vinegar worcestershire spicy brown mustard chicken", baseServings:4,
-    ingredients:[["Soy sauce","cup",0.667],["Honey","cup",0.25],["Brown sugar, packed","cup",0.25],["Sesame oil","tbsp",3.5],["Garlic cloves, minced","cloves",7],["Ground ginger","tbsp",1],["White wine vinegar","tbsp",3.5],["Worcestershire sauce","tbsp",3],["Spicy brown mustard","tbsp",2]],
+    ingredients:[["Soy sauce","cup",0.5],["Honey","cup",0.125],["Brown sugar, packed","cup",0.125],["Sesame oil","tbsp",2],["Garlic cloves, minced","cloves",4],["Ground ginger","tbsp",0.5],["White wine vinegar","tbsp",2],["Worcestershire sauce","tbsp",1.75],["Spicy brown mustard","tbsp",1.25]],
     steps:["Combine all ingredients and mix until the sugar dissolves.","Add chicken and marinate — bone-in pieces 4–12 hours, boneless 1–8 hours."],
     notes:["Scaled for 3 lbs of chicken at 1x.","Bone-in chicken benefits from the longer end of the marinate window for deeper flavor."]
   },
@@ -369,6 +369,26 @@ const recipes = [
     ingredients:[["Ripe avocados","",3],["Small red onion, diced small","",1],["Cilantro, minced","cup",0.25],["Feta cheese (buy good feta)","oz",5],["Lime, juiced","",1],["Salt","",null],["Black pepper","",null],["Roma tomatoes, diced (optional)","",2],["Garlic cloves, minced","cloves",3]],
     steps:["Peel and pit the avocados. Mash in a bowl to your desired consistency.","Dice the red onion and tomatoes into small pieces. Mince the cilantro.","Add onion, cilantro, garlic, feta, and lime juice to the avocado. Mix well.","Season with salt and pepper to taste. Serve immediately or press plastic wrap directly onto the surface and refrigerate."],
     notes:["The secret: Feta adds a salty, creamy robustness that takes this to another level — don't skip it and buy good feta.","Ripe avocados only: They should give slightly under pressure. This recipe lives or dies by the avocados.","Keep it fresh: Press plastic wrap directly on the surface of the guac to prevent browning."]
+  },
+  { id:41, title:"3-2-1 St. Louis Ribs", tag:"Beef", category:"Mains & Sides", desc:"The go-to method for fall-off-the-bone, perfectly glazed ribs. Arguably the best way to make ribs.", tags:"beef", search:"3-2-1 st louis ribs smoker butter honey sweet bbq sauce all purpose bbq seasoning rub pork ribs smoked", baseServings:4,
+    ingredients:[["St. Louis style ribs","racks",3],["Unsalted butter","tbsp",8],["Honey","",null],["Sweet BBQ Sauce (or sauce of your choice)","",null],["All-Purpose BBQ Seasoning (or rub of your choice)","",null]],
+    stepsHtml:[
+      "Rub ribs generously with <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(22)\">All-Purpose BBQ Seasoning</button> the night before cooking. No binder necessary.",
+      "Preheat smoker to 225–250°F. Place ribs directly on grill racks and smoke for 2.5–3 hours.",
+      "Remove ribs from smoker. Slice butter into ~½ tbsp pats and lay over the top of the ribs. Drizzle honey generously. Wrap tightly in butcher paper (preferred) or tin foil. Return to smoker and cook for 2 hours.",
+      "Unwrap ribs and coat generously with <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(10)\">Sweet BBQ Sauce</button> (or your sauce of choice). Return to smoker uncovered for 30 minutes to 1 hour until the sauce sets."
+    ],
+    steps:[
+      "Rub ribs generously with All-Purpose BBQ Seasoning the night before cooking. No binder necessary.",
+      "Preheat smoker to 225–250°F. Place ribs directly on grill racks and smoke for 2.5–3 hours.",
+      "Remove ribs from smoker. Slice butter into ~½ tbsp pats and lay over the top of the ribs. Drizzle honey generously. Wrap tightly in butcher paper (preferred) or tin foil. Return to smoker and cook for 2 hours.",
+      "Unwrap ribs and coat generously with Sweet BBQ Sauce (or your sauce of choice). Return to smoker uncovered for 30 minutes to 1 hour until the sauce sets."
+    ],
+    notes:[
+      "The 3-2-1 method: 3 hrs smoke, 2 hrs wrapped, 1 hr sauced — gives you smoke flavor, tender meat, and a sticky glaze.",
+      "Butcher paper vs foil: Butcher paper lets some steam escape and keeps the bark better. Foil makes it fall-off-the-bone softer.",
+      "Don't rush the wrap: The 2-hour wrapped phase is where the ribs go from good to incredible."
+    ]
   },
   { id:37, title:"Korean Beef Roast", tag:"Beef", category:"Mains & Sides", desc:"A bold, Korean-inspired chuck or venison roast with gochujang, kimchi, and grated apple. Serve over mashed potatoes, in burritos, or bowls.", tags:"beef weeknight", search:"beef roast chuck venison gochujang apple ginger kimchi soy sauce beef broth honey apple cider vinegar garlic onion", baseServings:6,
     ingredients:[["Chuck or venison roast","lb",3.5],["Apple, grated","",1],["Gochujang","cup",0.333],["Yellow onion, diced","",1],["Garlic cloves","cloves",5],["Fresh ginger (key fob-sized piece)","",1],["Honey","tbsp",2],["Apple cider vinegar","tbsp",2],["Beef broth","cup",2],["Soy sauce","cup",0.5],["Kimchi","cup",0.5]],
