@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -23,135 +22,134 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--cream); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
 
-header { text-align: center; padding: 3rem 2rem 2rem; border-bottom: 0.5px solid var(–border); position: relative; }
-header::before { content: ‘’; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(196,103,58,0.08) 0%, transparent 70%); pointer-events: none; }
-header h1 { font-family: ‘Playfair Display’, serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: var(–cream); letter-spacing: -0.02em; position: relative; }
-header p { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(–muted); margin-top: 0.5rem; position: relative; }
+  header { text-align: center; padding: 3rem 2rem 2rem; border-bottom: 0.5px solid var(--border); position: relative; }
+  header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(196,103,58,0.08) 0%, transparent 70%); pointer-events: none; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: var(--cream); letter-spacing: -0.02em; position: relative; }
+  header p { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; position: relative; }
 
-.toolbar { position: sticky; top: 0; z-index: 100; background: var(–bg); border-bottom: 0.5px solid var(–border); padding: 1rem 1.5rem; }
-.toolbar-inner { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
-.search-row { display: flex; gap: 0.75rem; align-items: center; }
-.search-wrap { position: relative; flex: 1; }
-.search-wrap input { width: 100%; background: var(–bg2); border: 0.5px solid var(–border2); border-radius: 8px; padding: 0.65rem 1rem 0.65rem 2.4rem; font-family: ‘DM Sans’, sans-serif; font-size: 0.9rem; color: var(–cream); outline: none; transition: border-color 0.2s; }
-.search-wrap input:focus { border-color: var(–terra); }
-.search-wrap input::placeholder { color: var(–muted); }
-.search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(–muted); font-size: 14px; pointer-events: none; }
-.fav-toggle { background: var(–bg2); border: 0.5px solid var(–border2); border-radius: 8px; padding: 0.65rem 1rem; color: var(–muted); font-size: 0.85rem; font-family: ‘DM Sans’, sans-serif; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-.fav-toggle.active { border-color: var(–gold); color: var(–gold); }
-.pills { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; }
-.pills::-webkit-scrollbar { display: none; }
-.pill { white-space: nowrap; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500; cursor: pointer; border: 0.5px solid var(–border2); color: var(–muted); background: transparent; transition: all 0.18s; }
-.pill:hover, .pill.active { background: var(–terra); border-color: var(–terra); color: white; }
+  .toolbar { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; }
+  .toolbar-inner { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+  .search-row { display: flex; gap: 0.75rem; align-items: center; }
+  .search-wrap { position: relative; flex: 1; }
+  .search-wrap input { width: 100%; background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 0.65rem 1rem 0.65rem 2.4rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--cream); outline: none; transition: border-color 0.2s; }
+  .search-wrap input:focus { border-color: var(--terra); }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+  .fav-toggle { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 0.65rem 1rem; color: var(--muted); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .fav-toggle.active { border-color: var(--gold); color: var(--gold); }
+  .pills { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; }
+  .pills::-webkit-scrollbar { display: none; }
+  .pill { white-space: nowrap; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500; cursor: pointer; border: 0.5px solid var(--border2); color: var(--muted); background: transparent; transition: all 0.18s; }
+  .pill:hover, .pill.active { background: var(--terra); border-color: var(--terra); color: white; }
 
-main { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
-.recipe-count { font-size: 0.75rem; color: var(–muted); letter-spacing: 0.06em; margin-bottom: 1.75rem; text-transform: uppercase; }
+  main { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+  .recipe-count { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 1.75rem; text-transform: uppercase; }
 
-.category-section { margin-bottom: 2.5rem; }
-.category-heading { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
-.category-heading h3 { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(–terra-light); white-space: nowrap; }
-.category-line { flex: 1; height: 0.5px; background: var(–border2); }
+  .category-section { margin-bottom: 2.5rem; }
+  .category-heading { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .category-heading h3 { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); white-space: nowrap; }
+  .category-line { flex: 1; height: 0.5px; background: var(--border2); }
 
-.recipe-card { background: var(–bg2); border: 0.5px solid var(–border); border-radius: 14px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
-.recipe-card:hover { border-color: var(–border2); }
-.card-summary { display: flex; align-items: center; padding: 1rem 1.25rem; cursor: pointer; gap: 1rem; user-select: none; }
-.card-summary-text { flex: 1; min-width: 0; }
-.card-summary h2 { font-family: ‘Playfair Display’, serif; font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 700; color: var(–cream); line-height: 1.2; }
-.card-summary p { font-size: 0.82rem; color: var(–muted); line-height: 1.5; font-style: italic; margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-body .card-desc-full { font-size: 0.88rem; color: var(–muted); line-height: 1.6; font-style: italic; margin-bottom: 1.25rem; }
-.card-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-.card-tag { background: rgba(196,103,58,0.15); color: var(–terra-light); font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
-.btn-icon { background: transparent; border: none; cursor: pointer; padding: 0.4rem; border-radius: 6px; font-size: 16px; line-height: 1; transition: background 0.15s; color: var(–muted); }
-.btn-icon:hover { background: var(–bg3); color: var(–cream); }
-.btn-icon.fav-active { color: var(–gold); }
-.btn-icon.expand-btn { font-size: 12px; }
+  .recipe-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 14px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
+  .recipe-card:hover { border-color: var(--border2); }
+  .card-summary { display: flex; align-items: center; padding: 1rem 1.25rem; cursor: pointer; gap: 1rem; user-select: none; }
+  .card-summary-text { flex: 1; min-width: 0; }
+  .card-summary h2 { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 700; color: var(--cream); line-height: 1.2; }
+  .card-summary p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; font-style: italic; margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-body .card-desc-full { font-size: 0.88rem; color: var(--muted); line-height: 1.6; font-style: italic; margin-bottom: 1.25rem; }
+  .card-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+  .card-tag { background: rgba(196,103,58,0.15); color: var(--terra-light); font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+  .btn-icon { background: transparent; border: none; cursor: pointer; padding: 0.4rem; border-radius: 6px; font-size: 16px; line-height: 1; transition: background 0.15s; color: var(--muted); }
+  .btn-icon:hover { background: var(--bg3); color: var(--cream); }
+  .btn-icon.fav-active { color: var(--gold); }
+  .btn-icon.expand-btn { font-size: 12px; }
 
-.card-body { display: none; padding: 1.25rem 1.25rem 1.5rem; border-top: 0.5px solid var(–border); }
-.card-body.open { display: block; }
+  .card-body { display: none; padding: 1.25rem 1.25rem 1.5rem; border-top: 0.5px solid var(--border); }
+  .card-body.open { display: block; }
 
-.scaler { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; background: var(–bg3); border-radius: 8px; padding: 0.6rem 1rem; }
-.scaler label { font-size: 0.78rem; color: var(–muted); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
-.scaler-controls { display: flex; align-items: center; gap: 0.4rem; }
-.mult-btn { padding: 0.25rem 0.65rem; border-radius: 6px; border: 0.5px solid var(–border2); background: var(–bg2); color: var(–muted); font-size: 0.8rem; font-weight: 500; font-family: ‘DM Sans’, sans-serif; cursor: pointer; transition: all 0.15s; }
-.mult-btn:hover { background: var(–bg3); color: var(–cream); }
-.mult-btn.active { background: var(–terra); border-color: var(–terra); color: white; }
+  .scaler { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; background: var(--bg3); border-radius: 8px; padding: 0.6rem 1rem; }
+  .scaler label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  .scaler-controls { display: flex; align-items: center; gap: 0.4rem; }
+  .mult-btn { padding: 0.25rem 0.65rem; border-radius: 6px; border: 0.5px solid var(--border2); background: var(--bg2); color: var(--muted); font-size: 0.8rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
+  .mult-btn:hover { background: var(--bg3); color: var(--cream); }
+  .mult-btn.active { background: var(--terra); border-color: var(--terra); color: white; }
 
-.section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(–terra-light); margin-bottom: 0.65rem; }
+  .section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 0.65rem; }
 
-.ingredient-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; }
-.ingredient-table th { background: var(–bg3); text-align: left; padding: 0.5rem 0.8rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(–muted); }
-.ingredient-table th:first-child { border-radius: 6px 0 0 6px; }
-.ingredient-table th:last-child { border-radius: 0 6px 6px 0; }
-.ingredient-table td { padding: 0.55rem 0.8rem; font-size: 0.87rem; border-bottom: 0.5px solid var(–border); color: var(–cream); }
-.ingredient-table tr:last-child td { border-bottom: none; }
-.ingredient-table td:last-child { color: var(–terra-light); font-weight: 500; }
+  .ingredient-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; }
+  .ingredient-table th { background: var(--bg3); text-align: left; padding: 0.5rem 0.8rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .ingredient-table th:first-child { border-radius: 6px 0 0 6px; }
+  .ingredient-table th:last-child { border-radius: 0 6px 6px 0; }
+  .ingredient-table td { padding: 0.55rem 0.8rem; font-size: 0.87rem; border-bottom: 0.5px solid var(--border); color: var(--cream); }
+  .ingredient-table tr:last-child td { border-bottom: none; }
+  .ingredient-table td:last-child { color: var(--terra-light); font-weight: 500; }
 
-.steps { margin-bottom: 1.25rem; }
-.steps ol { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 0.75rem; }
-.steps ol li { counter-increment: steps; display: flex; gap: 0.85rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.65; color: rgba(240,235,224,0.85); }
-.steps ol li::before { content: counter(steps); background: var(–terra); color: white; font-size: 0.68rem; font-weight: 500; min-width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
+  .steps { margin-bottom: 1.25rem; }
+  .steps ol { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 0.75rem; }
+  .steps ol li { counter-increment: steps; display: flex; gap: 0.85rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.65; color: rgba(240,235,224,0.85); }
+  .steps ol li::before { content: counter(steps); background: var(--terra); color: white; font-size: 0.68rem; font-weight: 500; min-width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
 
-.notes ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
-.notes ul li { font-size: 0.84rem; line-height: 1.6; padding-left: 1rem; position: relative; color: var(–muted); }
-.notes ul li::before { content: ‘—’; position: absolute; left: 0; color: var(–sage); }
-.recipe-link { color: var(–terra-light); text-decoration: underline; cursor: pointer; font-weight: 500; background: none; border: none; font-family: inherit; font-size: inherit; padding: 0; }
+  .notes ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
+  .notes ul li { font-size: 0.84rem; line-height: 1.6; padding-left: 1rem; position: relative; color: var(--muted); }
+  .notes ul li::before { content: '—'; position: absolute; left: 0; color: var(--sage); }
+  .recipe-link { color: var(--terra-light); text-decoration: underline; cursor: pointer; font-weight: 500; background: none; border: none; font-family: inherit; font-size: inherit; padding: 0; }
 
-.card-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 0.5px solid var(–border); }
-.action-btn { flex: 1; padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 500; font-family: ‘DM Sans’, sans-serif; cursor: pointer; border: 0.5px solid var(–border2); background: transparent; color: var(–muted); transition: all 0.18s; text-align: center; }
-.action-btn:hover { background: var(–bg3); color: var(–cream); }
-.action-btn.cook-btn:hover { border-color: var(–sage); color: var(–sage); }
-.action-btn.print-btn:hover { border-color: var(–terra-light); color: var(–terra-light); }
+  .card-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+  .action-btn { flex: 1; padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; border: 0.5px solid var(--border2); background: transparent; color: var(--muted); transition: all 0.18s; text-align: center; }
+  .action-btn:hover { background: var(--bg3); color: var(--cream); }
+  .action-btn.cook-btn:hover { border-color: var(--sage); color: var(--sage); }
+  .action-btn.print-btn:hover { border-color: var(--terra-light); color: var(--terra-light); }
 
-.no-results { text-align: center; padding: 4rem 2rem; color: var(–muted); font-style: italic; display: none; }
-.favs-empty { display: none; text-align: center; padding: 3rem 2rem; color: var(–muted); font-style: italic; font-size: 0.9rem; }
+  .no-results { text-align: center; padding: 4rem 2rem; color: var(--muted); font-style: italic; display: none; }
+  .favs-empty { display: none; text-align: center; padding: 3rem 2rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
 
-.cook-overlay { display: none; position: fixed; inset: 0; background: #111110; z-index: 1000; overflow-y: auto; padding: 2rem 1.5rem 4rem; }
-.cook-overlay.open { display: block; }
-.cook-inner { max-width: 680px; margin: 0 auto; }
-.cook-close { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; cursor: pointer; color: var(–muted); font-size: 0.85rem; background: none; border: none; font-family: ‘DM Sans’, sans-serif; padding: 0; transition: color 0.2s; }
-.cook-close:hover { color: var(–cream); }
-.cook-title { font-family: ‘Playfair Display’, serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; color: var(–cream); margin-bottom: 2rem; line-height: 1.15; }
-.cook-section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(–terra-light); margin-bottom: 1rem; }
-.cook-ingredients { margin-bottom: 2.5rem; }
-.cook-ingredient { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 0.5px solid var(–border); font-size: clamp(1rem, 2.5vw, 1.2rem); gap: 1rem; }
-.cook-ingredient:last-child { border-bottom: none; }
-.cook-ing-name { color: var(–cream); }
-.cook-ing-amt { color: var(–terra-light); font-weight: 500; white-space: nowrap; }
-.cook-steps { counter-reset: cook-steps; display: flex; flex-direction: column; gap: 1.5rem; }
-.cook-step { counter-increment: cook-steps; display: flex; gap: 1.25rem; align-items: flex-start; }
-.cook-step-num { font-family: ‘Playfair Display’, serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; color: var(–terra); line-height: 1; min-width: 2.5rem; flex-shrink: 0; }
-.cook-step-text { font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.7; color: rgba(240,235,224,0.9); padding-top: 0.2rem; }
+  .cook-overlay { display: none; position: fixed; inset: 0; background: #111110; z-index: 1000; overflow-y: auto; padding: 2rem 1.5rem 4rem; }
+  .cook-overlay.open { display: block; }
+  .cook-inner { max-width: 680px; margin: 0 auto; }
+  .cook-close { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; cursor: pointer; color: var(--muted); font-size: 0.85rem; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 0; transition: color 0.2s; }
+  .cook-close:hover { color: var(--cream); }
+  .cook-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; color: var(--cream); margin-bottom: 2rem; line-height: 1.15; }
+  .cook-section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 1rem; }
+  .cook-ingredients { margin-bottom: 2.5rem; }
+  .cook-ingredient { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 0.5px solid var(--border); font-size: clamp(1rem, 2.5vw, 1.2rem); gap: 1rem; }
+  .cook-ingredient:last-child { border-bottom: none; }
+  .cook-ing-name { color: var(--cream); }
+  .cook-ing-amt { color: var(--terra-light); font-weight: 500; white-space: nowrap; }
+  .cook-steps { counter-reset: cook-steps; display: flex; flex-direction: column; gap: 1.5rem; }
+  .cook-step { counter-increment: cook-steps; display: flex; gap: 1.25rem; align-items: flex-start; }
+  .cook-step-num { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; color: var(--terra); line-height: 1; min-width: 2.5rem; flex-shrink: 0; }
+  .cook-step-text { font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.7; color: rgba(240,235,224,0.9); padding-top: 0.2rem; }
 
-@media print {
-body { background: white !important; color: #1a1917 !important; }
-.toolbar, .card-footer, .scaler, .cook-overlay, .fav-toggle, .btn-icon, .recipe-count { display: none !important; }
-header { border-bottom: 1px solid #ddd !important; background: white !important; }
-header::before { display: none !important; }
-header h1 { color: #1a1917 !important; }
-header p { color: #666 !important; }
-.category-heading h3 { color: #c4673a !important; }
-.category-line { background: #ddd !important; }
-.recipe-card { background: white !important; border: 1px solid #ddd !important; border-radius: 0 !important; margin-bottom: 0 !important; break-inside: avoid; }
-.card-body { display: block !important; border-top: 1px solid #eee !important; background: white !important; }
-.card-summary { cursor: default !important; background: white !important; }
-.card-summary h2 { color: #1a1917 !important; }
-.card-summary p { color: #666 !important; white-space: normal !important; }
-.card-tag { background: #f0ede8 !important; color: #c4673a !important; }
-.ingredient-table th { background: #f5f5f5 !important; color: #666 !important; }
-.ingredient-table td { color: #1a1917 !important; border-bottom: 1px solid #eee !important; }
-.ingredient-table td:last-child { color: #c4673a !important; }
-.steps ol li { color: #1a1917 !important; }
-.steps ol li::before { background: #c4673a !important; }
-.notes ul li { color: #666 !important; }
-.section-label { color: #c4673a !important; }
-.bg3 { background: white !important; }
-}
+  @media print {
+    body { background: white !important; color: #1a1917 !important; }
+    .toolbar, .card-footer, .scaler, .cook-overlay, .fav-toggle, .btn-icon, .recipe-count { display: none !important; }
+    header { border-bottom: 1px solid #ddd !important; background: white !important; }
+    header::before { display: none !important; }
+    header h1 { color: #1a1917 !important; }
+    header p { color: #666 !important; }
+    .category-heading h3 { color: #c4673a !important; }
+    .category-line { background: #ddd !important; }
+    .recipe-card { background: white !important; border: 1px solid #ddd !important; border-radius: 0 !important; margin-bottom: 0 !important; break-inside: avoid; }
+    .card-body { display: block !important; border-top: 1px solid #eee !important; background: white !important; }
+    .card-summary { cursor: default !important; background: white !important; }
+    .card-summary h2 { color: #1a1917 !important; }
+    .card-summary p { color: #666 !important; white-space: normal !important; }
+    .card-tag { background: #f0ede8 !important; color: #c4673a !important; }
+    .ingredient-table th { background: #f5f5f5 !important; color: #666 !important; }
+    .ingredient-table td { color: #1a1917 !important; border-bottom: 1px solid #eee !important; }
+    .ingredient-table td:last-child { color: #c4673a !important; }
+    .steps ol li { color: #1a1917 !important; }
+    .steps ol li::before { background: #c4673a !important; }
+    .notes ul li { color: #666 !important; }
+    .section-label { color: #c4673a !important; }
+    .bg3 { background: white !important; }
+  }
 
-@media (max-width: 520px) {
-.card-summary { padding: 0.85rem 1rem; }
-.card-body { padding: 1rem; }
-}
+  @media (max-width: 520px) {
+    .card-summary { padding: 0.85rem 1rem; }
+    .card-body { padding: 1rem; }
+  }
 </style>
-
 </head>
 <body>
 
@@ -863,7 +861,6 @@ function printRecipe(id) {
     ul{list-style:none;padding:0;}ul li{padding-left:1rem;position:relative;margin-bottom:.5rem;color:#555;font-size:.9rem;}
     ul li::before{content:'—';position:absolute;left:0;color:#7a9e7e;}
   </style></head><body>
-
   <h1>${r.title}</h1>
   ${mult !== 1 ? `<p class="scale-note">Scaled: ${label}</p>` : ''}
   <p class="desc">${r.desc}</p>
@@ -878,73 +875,99 @@ function printRecipe(id) {
 }
 
 function toggleCard(id) {
-const b = document.getElementById(‘body-’+id), e = document.getElementById(‘exp-’+id);
-const open = b.classList.toggle(‘open’); e.textContent = open ? ‘▲’ : ‘▼’;
+  const b = document.getElementById('body-'+id), e = document.getElementById('exp-'+id);
+  const open = b.classList.toggle('open'); e.textContent = open ? '▲' : '▼';
 }
 
 function jumpToRecipe(id) {
-// Reset filters so recipe is visible
-activeTag = ‘all’;
-favView = false;
-document.getElementById(‘favToggle’).classList.remove(‘active’);
-document.getElementById(‘searchInput’).value = ‘’;
-document.querySelectorAll(’.pill’).forEach(p => p.classList.remove(‘active’));
-document.querySelectorAll(’.pill’)[0].classList.add(‘active’);
-render();
-// Open the card and scroll to it
-setTimeout(() => {
-const body = document.getElementById(‘body-’ + id);
-const exp = document.getElementById(‘exp-’ + id);
-if (body && !body.classList.contains(‘open’)) {
-body.classList.add(‘open’);
-if (exp) exp.textContent = ‘▲’;
-}
-const card = body ? body.closest(’.recipe-card’) : null;
-if (card) card.scrollIntoView({ behavior: ‘smooth’, block: ‘start’ });
-}, 50);
+  // Reset filters so recipe is visible
+  activeTag = 'all';
+  favView = false;
+  document.getElementById('favToggle').classList.remove('active');
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pill')[0].classList.add('active');
+  render();
+  // Open the card and scroll to it
+  setTimeout(() => {
+    const body = document.getElementById('body-' + id);
+    const exp = document.getElementById('exp-' + id);
+    if (body && !body.classList.contains('open')) {
+      body.classList.add('open');
+      if (exp) exp.textContent = '▲';
+    }
+    const card = body ? body.closest('.recipe-card') : null;
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 function render() {
-const q = document.getElementById(‘searchInput’).value.toLowerCase();
-const filtered = recipes.filter(r =>
-(!q || (r.title+’ ‘+r.search).toLowerCase().includes(q)) &&
-(activeTag===‘all’ || r.tags.includes(activeTag)) &&
-(!favView || favorites.includes(r.id))
-);
-document.getElementById(‘recipeCount’).textContent = filtered.length + (filtered.length===1?’ recipe’:’ recipes’);
-document.getElementById(‘noResults’).style.display = filtered.length===0 && !favView ? ‘block’:‘none’;
-document.getElementById(‘favsEmpty’).style.display = filtered.length===0 && favView ? ‘block’:‘none’;
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = recipes.filter(r =>
+    (!q || (r.title+' '+r.search).toLowerCase().includes(q)) &&
+    (activeTag==='all' || r.tags.includes(activeTag)) &&
+    (!favView || favorites.includes(r.id))
+  );
+  document.getElementById('recipeCount').textContent = filtered.length + (filtered.length===1?' recipe':' recipes');
+  document.getElementById('noResults').style.display = filtered.length===0 && !favView ? 'block':'none';
+  document.getElementById('favsEmpty').style.display = filtered.length===0 && favView ? 'block':'none';
 
-const cats = {}, order = [‘Mains & Sides’,‘Soups’,‘Sauces & Condiments’];
-filtered.forEach(r => { if(!cats[r.category]) cats[r.category]=[]; cats[r.category].push(r); });
+  const cats = {}, order = ['Mains & Sides','Soups','Sauces & Condiments'];
+  filtered.forEach(r => { if(!cats[r.category]) cats[r.category]=[]; cats[r.category].push(r); });
 
-const el = document.getElementById(‘recipeSections’);
-el.innerHTML = ‘’;
-order.forEach(cat => {
-if (!cats[cat]) return;
-const sec = document.createElement(‘div’);
-sec.className = ‘category-section’;
-sec.innerHTML = `<div class="category-heading"><h3>${cat}</h3><div class="category-line"></div></div>`;
-cats[cat].forEach(r => {
-const isFav = favorites.includes(r.id);
-const mult = multipliers[r.id];
-const ingRows = r.ingredients.map((ing,i) =>
-`<tr><td>${ing[0]}</td><td id="ing-${r.id}-${i}">${scaledAmt(r,ing,mult)}</td></tr>`
-).join(’’);
-const steps = (r.stepsHtml || r.steps).map(s=>`<li>${s}</li>`).join(’’);
-const notes = r.notes ? `<div class="notes" style="margin-top:1rem"><div class="section-label">Notes</div><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>` : ‘’;
-const card = document.createElement(‘div’);
-card.className = ‘recipe-card’;
-card.innerHTML = ` <div class="card-summary" onclick="toggleCard(${r.id})"> <div class="card-summary-text"><h2>${r.title}</h2><p>${r.desc}</p></div> <div class="card-actions"> <span class="card-tag">${r.tag}</span> <button class="btn-icon${isFav?' fav-active':''}" onclick="event.stopPropagation();toggleFav(${r.id},this)" title="${isFav?'Remove':'Add to favorites'}">&#9733;</button> <button class="btn-icon expand-btn" id="exp-${r.id}" onclick="event.stopPropagation();toggleCard(${r.id})">▼</button> </div> </div> <div class="card-body" id="body-${r.id}"> <p class="card-desc-full">${r.desc}</p> <div class="scaler"> <label>Scale</label> <div class="scaler-controls"> <button class="mult-btn${mult===0.5?' active':''}" data-id="${r.id}" data-mult="0.5" onclick="setMultiplier(${r.id},0.5)">½x</button> <button class="mult-btn${mult===1?' active':''}" data-id="${r.id}" data-mult="1" onclick="setMultiplier(${r.id},1)">1x</button> <button class="mult-btn${mult===2?' active':''}" data-id="${r.id}" data-mult="2" onclick="setMultiplier(${r.id},2)">2x</button> <button class="mult-btn${mult===3?' active':''}" data-id="${r.id}" data-mult="3" onclick="setMultiplier(${r.id},3)">3x</button> </div> </div> <div class="section-label">Ingredients</div> <table class="ingredient-table"><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody>${ingRows}</tbody></table> <div class="steps"><div class="section-label">Directions</div><ol>${steps}</ol></div> ${notes} <div class="card-footer"> <button class="action-btn cook-btn" onclick="openCookMode(${r.id})">&#9202; Cooking mode</button> <button class="action-btn print-btn" onclick="printRecipe(${r.id})">&#9113; Print</button> </div> </div>`;
-sec.appendChild(card);
-});
-el.appendChild(sec);
-});
+  const el = document.getElementById('recipeSections');
+  el.innerHTML = '';
+  order.forEach(cat => {
+    if (!cats[cat]) return;
+    const sec = document.createElement('div');
+    sec.className = 'category-section';
+    sec.innerHTML = `<div class="category-heading"><h3>${cat}</h3><div class="category-line"></div></div>`;
+    cats[cat].forEach(r => {
+      const isFav = favorites.includes(r.id);
+      const mult = multipliers[r.id];
+      const ingRows = r.ingredients.map((ing,i) =>
+        `<tr><td>${ing[0]}</td><td id="ing-${r.id}-${i}">${scaledAmt(r,ing,mult)}</td></tr>`
+      ).join('');
+      const steps = (r.stepsHtml || r.steps).map(s=>`<li>${s}</li>`).join('');
+      const notes = r.notes ? `<div class="notes" style="margin-top:1rem"><div class="section-label">Notes</div><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>` : '';
+      const card = document.createElement('div');
+      card.className = 'recipe-card';
+      card.innerHTML = `
+        <div class="card-summary" onclick="toggleCard(${r.id})">
+          <div class="card-summary-text"><h2>${r.title}</h2><p>${r.desc}</p></div>
+          <div class="card-actions">
+            <span class="card-tag">${r.tag}</span>
+            <button class="btn-icon${isFav?' fav-active':''}" onclick="event.stopPropagation();toggleFav(${r.id},this)" title="${isFav?'Remove':'Add to favorites'}">&#9733;</button>
+            <button class="btn-icon expand-btn" id="exp-${r.id}" onclick="event.stopPropagation();toggleCard(${r.id})">▼</button>
+          </div>
+        </div>
+        <div class="card-body" id="body-${r.id}">
+          <p class="card-desc-full">${r.desc}</p>
+          <div class="scaler">
+            <label>Scale</label>
+            <div class="scaler-controls">
+              <button class="mult-btn${mult===0.5?' active':''}" data-id="${r.id}" data-mult="0.5" onclick="setMultiplier(${r.id},0.5)">½x</button>
+              <button class="mult-btn${mult===1?' active':''}" data-id="${r.id}" data-mult="1" onclick="setMultiplier(${r.id},1)">1x</button>
+              <button class="mult-btn${mult===2?' active':''}" data-id="${r.id}" data-mult="2" onclick="setMultiplier(${r.id},2)">2x</button>
+              <button class="mult-btn${mult===3?' active':''}" data-id="${r.id}" data-mult="3" onclick="setMultiplier(${r.id},3)">3x</button>
+            </div>
+          </div>
+          <div class="section-label">Ingredients</div>
+          <table class="ingredient-table"><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody>${ingRows}</tbody></table>
+          <div class="steps"><div class="section-label">Directions</div><ol>${steps}</ol></div>
+          ${notes}
+          <div class="card-footer">
+            <button class="action-btn cook-btn" onclick="openCookMode(${r.id})">&#9202; Cooking mode</button>
+            <button class="action-btn print-btn" onclick="printRecipe(${r.id})">&#9113; Print</button>
+          </div>
+        </div>`;
+      sec.appendChild(card);
+    });
+    el.appendChild(sec);
+  });
 }
 
 render();
 </script>
-
 </body>
 </html>
-
