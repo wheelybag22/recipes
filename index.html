@@ -87,12 +87,13 @@
   .steps { margin-bottom: 1.25rem; }
   .steps ol { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 0.75rem; }
   .steps ol li { counter-increment: steps; display: flex; gap: 0.85rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.65; color: rgba(240,235,224,0.85); }
+  .steps ol li .step-text { flex: 1; }
   .steps ol li::before { content: counter(steps); background: var(--terra); color: white; font-size: 0.68rem; font-weight: 500; min-width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
 
   .notes ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
   .notes ul li { font-size: 0.84rem; line-height: 1.6; padding-left: 1rem; position: relative; color: var(--muted); }
   .notes ul li::before { content: '—'; position: absolute; left: 0; color: var(--sage); }
-  .recipe-link { color: var(--terra-light); text-decoration: underline; cursor: pointer; font-weight: 500; background: none; border: none; font-family: inherit; font-size: inherit; padding: 0; }
+  .recipe-link { color: var(--terra-light); text-decoration: underline; cursor: pointer; font-weight: 500; background: none; border: none; font-family: inherit; font-size: inherit; padding: 0; display: inline; white-space: nowrap; }
 
   .card-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
   .action-btn { flex: 1; padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; border: 0.5px solid var(--border2); background: transparent; color: var(--muted); transition: all 0.18s; text-align: center; }
@@ -351,7 +352,7 @@ const recipes = [
   },
   { id:33, title:"Luke's Ultimate Grilled Cheese", tag:"Side", category:"Mains & Sides", desc:"Two versions of the best grilled cheese you'll ever make — classic loaded and bacon jam. You'll never make it another way.", tags:"side weeknight", search:"grilled cheese bread gouda muenster vidalia onion thick cut bacon red bell pepper butter dijon mustard bacon jam", baseServings:2,
     ingredients:[["Bread (thick sliced preferred)","",4],["Sliced Gouda","oz",4],["Sliced Muenster","oz",4],["Vidalia onion, sliced thin","",0.5],["Thick-cut bacon","slices",4],["Red bell pepper, sliced thin","",0.5],["Butter","tbsp",2],["Dijon mustard","",null],["Bacon Jam (for bacon jam version)","",null]],
-    stepsHtml:["Cook bacon in the oven at 400°F for 10–14 minutes until crispy.","Butter the outside of the bread and spread a light layer of Dijon mustard on the inside.","Layer both Gouda and Muenster on the bread.","Broil open-faced until the cheese begins to melt and lose shape at the edges.","Add sliced bell pepper, onion, and bacon.","Pan fry until golden brown on both sides.","<strong>Bacon Jam version:</strong> Follow all steps except 1 and 5. Instead, spread <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(32)\">Bacon Jam</button> on the inside before pan frying."],
+    stepsHtml:["Cook bacon in the oven at 400°F for 10–14 minutes until crispy.","Butter the outside of the bread and spread a light layer of Dijon mustard on the inside.","Layer both Gouda and Muenster on the bread.","Broil open-faced until the cheese begins to melt and lose shape at the edges.","Add sliced bell pepper, onion, and bacon.","Pan fry until golden brown on both sides.","<strong>Bacon Jam version:</strong> Follow all steps except 1 and 5. Spread <a class=\"recipe-link\" href=\"javascript:void(0)\" onclick=\"event.stopPropagation();jumpToRecipe(32)\">Bacon Jam</a> on the inside instead, then pan fry."],
     steps:["Cook bacon in the oven at 400°F for 10–14 minutes until crispy.","Butter the outside of the bread and spread a light layer of Dijon mustard on the inside.","Layer both Gouda and Muenster on the bread.","Broil open-faced until the cheese begins to melt and lose shape at the edges.","Add sliced bell pepper, onion, and bacon.","Pan fry until golden brown on both sides.","Bacon Jam version: Follow all steps except 1 and 5. Instead, spread Bacon Jam on the inside before pan frying."],
     notes:["The broil step is the secret — it gets the cheese melting from above before you pan fry, so you get perfectly melted cheese and a golden crust."]
   },
@@ -373,10 +374,10 @@ const recipes = [
   { id:41, title:"3-2-1 St. Louis Ribs", tag:"Beef", category:"Mains & Sides", desc:"The go-to method for fall-off-the-bone, perfectly glazed ribs. Arguably the best way to make ribs.", tags:"beef", search:"3-2-1 st louis ribs smoker butter honey sweet bbq sauce all purpose bbq seasoning rub pork ribs smoked", baseServings:4,
     ingredients:[["St. Louis style ribs","racks",3],["Unsalted butter","tbsp",8],["Honey","",null],["Sweet BBQ Sauce (or sauce of your choice)","",null],["All-Purpose BBQ Seasoning (or rub of your choice)","",null]],
     stepsHtml:[
-      "Rub ribs generously with <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(22)\">All-Purpose BBQ Seasoning</button> the night before cooking. No binder necessary.",
+      "Rub ribs generously with your rub of choice the night before cooking — <a class=\"recipe-link\" href=\"javascript:void(0)\" onclick=\"event.stopPropagation();jumpToRecipe(22)\">All-Purpose BBQ Seasoning</a> works great. No binder necessary.",
       "Preheat smoker to 225–250°F. Place ribs directly on grill racks and smoke for 2.5–3 hours.",
       "Remove ribs from smoker. Slice butter into ~½ tbsp pats and lay over the top of the ribs. Drizzle honey generously. Wrap tightly in butcher paper (preferred) or tin foil. Return to smoker and cook for 2 hours.",
-      "Unwrap ribs and coat generously with <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(10)\">Sweet BBQ Sauce</button> (or your sauce of choice). Return to smoker uncovered for 30 minutes to 1 hour until the sauce sets."
+      "Unwrap ribs and coat generously with your sauce of choice — <a class=\"recipe-link\" href=\"javascript:void(0)\" onclick=\"event.stopPropagation();jumpToRecipe(10)\">Sweet BBQ Sauce</a> recommended. Return to smoker uncovered for 30 minutes to 1 hour until the sauce sets."
     ],
     steps:[
       "Rub ribs generously with All-Purpose BBQ Seasoning the night before cooking. No binder necessary.",
@@ -407,7 +408,7 @@ const recipes = [
   },
   { id:40, title:"Enchiladas (Chicken or Beef)", tag:"Chicken", category:"Mains & Sides", desc:"Hearty enchiladas with your choice of protein, sautéed veggies, Gouda, and white cheddar. Works with either enchilada sauce.", tags:"chicken beef weeknight", search:"enchiladas chicken beef burger tortillas yellow onion bell pepper corn gouda white cheddar enchilada sauce", baseServings:4,
     ingredients:[["Ground beef or chicken","lb",1.5],["Medium flour tortillas","",8],["Yellow onion, sliced thin","",1],["Bell pepper, sliced thin","",1],["Corn","cup",0.5],["Gouda cheese (block, shredded)","oz",8],["White cheddar (block, shredded)","oz",8],["Butter","tbsp",2],["Enchilada sauce (red or white)","",null]],
-    stepsHtml:["Brown the ground beef, or cook and shred chicken. Whole chicken meat works especially well here.","Slice bell pepper and onion into thin strips. Pan fry in butter over medium heat until soft.","Make your sauce of choice: <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(38)\">Enchilada Red Sauce</button> or <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(39)\">Enchilada White Sauce</button>.","Coat the bottom of a baking pan with a layer of enchilada sauce.","Fill each tortilla with meat, sautéed veggies, corn, shredded Gouda, and a small spoonful of sauce. Wrap and place seam-side down in the pan.","Top all enchiladas with shredded white cheddar and the remaining sauce.","Bake at 350°F for 20–30 minutes, or until bubbly and done."],
+    stepsHtml:["Brown the ground beef, or cook and shred chicken. Whole chicken meat works especially well here.","Slice bell pepper and onion into thin strips. Pan fry in butter over medium heat until soft.","Make your sauce of choice and set aside — <a class=\"recipe-link\" href=\"javascript:void(0)\" onclick=\"event.stopPropagation();jumpToRecipe(38)\">Enchilada Red Sauce</a> or <a class=\"recipe-link\" href=\"javascript:void(0)\" onclick=\"event.stopPropagation();jumpToRecipe(39)\">Enchilada White Sauce</a>.","Coat the bottom of a baking pan with a layer of enchilada sauce.","Fill each tortilla with meat, sautéed veggies, corn, shredded Gouda, and a small spoonful of sauce. Wrap and place seam-side down in the pan.","Top all enchiladas with shredded white cheddar and the remaining sauce.","Bake at 350°F for 20–30 minutes, or until bubbly and done."],
     steps:["Brown the ground beef, or cook and shred chicken. Whole chicken meat works especially well here.","Slice bell pepper and onion into thin strips. Pan fry in butter over medium heat until soft.","Make your sauce of choice: Enchilada Red Sauce or Enchilada White Sauce (see recipes).","Coat the bottom of a baking pan with a layer of enchilada sauce.","Fill each tortilla with meat, sautéed veggies, corn, shredded Gouda, and a small spoonful of sauce. Wrap and place seam-side down in the pan.","Top all enchiladas with shredded white cheddar and the remaining sauce.","Bake at 350°F for 20–30 minutes, or until bubbly and done."],
     notes:["Always shred your own cheese: Block Gouda and white cheddar melt far better than pre-shredded.","Best chicken: Meat from a whole slow-cooked or smoked chicken is ideal for this recipe.","Sauce options: Both the red and white enchilada sauces work great — or mix them."]
   }
@@ -581,7 +582,7 @@ function render() {
       const ingRows = r.ingredients.map((ing,i) =>
         `<tr><td>${ing[0]}</td><td id="ing-${r.id}-${i}">${scaledAmt(r,ing,mult)}</td></tr>`
       ).join('');
-      const steps = (r.stepsHtml || r.steps).map(s=>`<li>${s}</li>`).join('');
+      const steps = (r.stepsHtml || r.steps).map(s=>`<li><span class="step-text">${s}</span></li>`).join('');
       const notes = r.notes ? `<div class="notes" style="margin-top:1rem"><div class="section-label">Notes</div><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>` : '';
       const card = document.createElement('div');
       card.className = 'recipe-card';
