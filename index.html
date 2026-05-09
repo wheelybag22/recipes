@@ -707,6 +707,91 @@ const recipes = [
       "Serve it many ways: Over mashed potatoes, in burritos, rice bowls, or tacos."
     ]
   },
+  { id:38, title:"Enchilada Red Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A rich, smoky homemade enchilada red sauce. Better than anything from a can — ready in 15 minutes.", tags:"sauce condiment", search:"enchilada red sauce avocado oil flour chili powder cumin garlic powder onion powder oregano tomato sauce tomato paste chicken broth", baseServings:4,
+    ingredients:[
+      ["Avocado oil","tbsp",3],
+      ["Flour","tbsp",3],
+      ["Chili powder","tbsp",3],
+      ["Cumin","tsp",1],
+      ["Garlic powder","tsp",1],
+      ["Onion powder","tsp",0.5],
+      ["Oregano","tsp",0.5],
+      ["Tomato sauce (or 2–3 tbsp tomato paste)","cup",0.75],
+      ["Chicken broth (1–1.5 cups with tomato sauce, 2 cups with paste)","cups",1.5]
+    ],
+    steps:[
+      "Mix the flour and all spices together in a small bowl.",
+      "Heat the avocado oil in a saucepan over medium heat. Slowly incorporate the flour and spice mixture into the oil, stirring constantly.",
+      "Stir in the tomato sauce or paste. Cook for 1–2 minutes.",
+      "Slowly whisk in the chicken broth. Simmer for 8–12 minutes until the sauce reaches your desired thickness."
+    ],
+    notes:[
+      "Tomato sauce vs paste: Sauce gives a lighter result, paste gives a deeper, richer flavor — use less broth with sauce, more with paste.",
+      "Thickness: The longer you simmer, the thicker it gets. Pull it earlier for a pourable sauce, longer for a thicker coating."
+    ]
+  },
+  { id:39, title:"Enchilada White Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A creamy, cheesy enchilada white sauce with green chilies. Always shred your own cheese — it makes a difference.", tags:"sauce condiment", search:"enchilada white sauce butter flour chicken broth sour cream cream cheese monterey jack green chilies garlic powder onion powder cumin", baseServings:4,
+    ingredients:[
+      ["Butter","tbsp",2],
+      ["Flour","tbsp",2],
+      ["Chicken broth","cups",1.5],
+      ["Sour cream","cup",1],
+      ["Cream cheese","cup",0.5],
+      ["Monterey Jack cheese, shredded (block)","cup",0.5],
+      ["Diced green chilies (4 oz can)","can",1],
+      ["Garlic powder","tsp",0.5],
+      ["Onion powder","tsp",0.5],
+      ["Cumin","tsp",0.5]
+    ],
+    steps:[
+      "Melt butter in a saucepan over medium heat.",
+      "Whisk in flour and cook, stirring constantly, until golden brown.",
+      "Slowly whisk in the chicken broth. Simmer for 3–5 minutes.",
+      "Stir in sour cream, cream cheese, and shredded Monterey Jack until smooth.",
+      "Add garlic powder, onion powder, cumin, and green chilies. Mix well.",
+      "Remove from heat and use immediately."
+    ],
+    notes:[
+      "Shred your own cheese: Block cheese melts far smoother than pre-shredded — worth the extra step.",
+      "Use immediately: This sauce thickens as it cools. If it gets too thick, whisk in a splash of broth to loosen."
+    ]
+  },
+  { id:40, title:"Enchiladas (Chicken or Beef)", tag:"Chicken", category:"Mains & Sides", desc:"Hearty enchiladas with your choice of protein, sautéed veggies, Gouda, and white cheddar. Works with either enchilada sauce.", tags:"chicken beef weeknight", search:"enchiladas chicken beef burger tortillas yellow onion bell pepper corn gouda white cheddar enchilada sauce", baseServings:4,
+    ingredients:[
+      ["Ground beef or chicken (whole chicken works best)","lb",1.5],
+      ["Medium flour tortillas","",8],
+      ["Yellow onion, sliced thin","",1],
+      ["Bell pepper, sliced thin","",1],
+      ["Corn","cup",0.5],
+      ["Gouda cheese (block, shredded)","oz",8],
+      ["White cheddar (block, shredded)","oz",8],
+      ["Butter","tbsp",2],
+      ["Enchilada sauce (red or white)","",null]
+    ],
+    stepsHtml:[
+      "Brown the ground beef, or cook and shred chicken. Whole chicken meat works especially well here.",
+      "Slice bell pepper and onion into thin strips. Pan fry in butter over medium heat until soft.",
+      `Make your sauce of choice: <button class="recipe-link" onclick="event.stopPropagation();jumpToRecipe(38)">Enchilada Red Sauce</button> or <button class="recipe-link" onclick="event.stopPropagation();jumpToRecipe(39)">Enchilada White Sauce</button>.`,
+      "Coat the bottom of a baking pan with a layer of enchilada sauce.",
+      "Fill each tortilla with meat, sautéed veggies, corn, shredded Gouda, and a small spoonful of sauce. Wrap and place seam-side down in the pan.",
+      "Top all enchiladas with shredded white cheddar and the remaining sauce.",
+      "Bake at 350°F for 20–30 minutes, or until bubbly and done."
+    ],
+    steps:[
+      "Brown the ground beef, or cook and shred chicken. Whole chicken meat works especially well here.",
+      "Slice bell pepper and onion into thin strips. Pan fry in butter over medium heat until soft.",
+      "Make your sauce of choice: Enchilada Red Sauce or Enchilada White Sauce (see recipes).",
+      "Coat the bottom of a baking pan with a layer of enchilada sauce.",
+      "Fill each tortilla with meat, sautéed veggies, corn, shredded Gouda, and a small spoonful of sauce. Wrap and place seam-side down in the pan.",
+      "Top all enchiladas with shredded white cheddar and the remaining sauce.",
+      "Bake at 350°F for 20–30 minutes, or until bubbly and done."
+    ],
+    notes:[
+      "Always shred your own cheese: Block Gouda and white cheddar melt far better than pre-shredded.",
+      "Best chicken: Meat from a whole slow-cooked or smoked chicken is ideal for this recipe.",
+      "Sauce options: Both the red and white enchilada sauces work great — or mix them."
+    ]
+  },
   { id:15, title:"Taco Seasoning", tag:"Condiment", category:"Sauces & Condiments", desc:"Homemade taco seasoning scaled for 1.5 lbs of ground beef.", tags:"beef weeknight condiment", search:"taco seasoning chili powder cumin smoked paprika garlic powder onion powder dried oregano salt black pepper cayenne pepper burger ground beef", baseServings:2,
     ingredients:[
       ["Chili powder","tbsp",1],["Ground cumin","tsp",1],
