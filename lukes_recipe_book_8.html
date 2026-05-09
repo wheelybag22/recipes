@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luke's Recipe Book</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a1917;
+    --bg2: #242220;
+    --bg3: #2e2b28;
+    --cream: #f0ebe0;
+    --muted: rgba(240,235,224,0.4);
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --terra: #c4673a;
+    --terra-light: #e8855a;
+    --sage: #7a9e7e;
+    --gold: #d4a853;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--cream); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
+
+  header { text-align: center; padding: 3rem 2rem 2rem; border-bottom: 0.5px solid var(--border); position: relative; }
+  header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(196,103,58,0.08) 0%, transparent 70%); pointer-events: none; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: var(--cream); letter-spacing: -0.02em; position: relative; }
+  header p { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; position: relative; }
+
+  .toolbar { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; }
+  .toolbar-inner { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+  .search-row { display: flex; gap: 0.75rem; align-items: center; }
+  .search-wrap { position: relative; flex: 1; }
+  .search-wrap input { width: 100%; background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 0.65rem 1rem 0.65rem 2.4rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--cream); outline: none; transition: border-color 0.2s; }
+  .search-wrap input:focus { border-color: var(--terra); }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+  .fav-toggle { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 0.65rem 1rem; color: var(--muted); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .fav-toggle.active { border-color: var(--gold); color: var(--gold); }
+  .pills { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; }
+  .pills::-webkit-scrollbar { display: none; }
+  .pill { white-space: nowrap; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500; cursor: pointer; border: 0.5px solid var(--border2); color: var(--muted); background: transparent; transition: all 0.18s; }
+  .pill:hover, .pill.active { background: var(--terra); border-color: var(--terra); color: white; }
+
+  main { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+  .recipe-count { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 1.75rem; text-transform: uppercase; }
+
+  .category-section { margin-bottom: 2.5rem; }
+  .category-heading { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .category-heading h3 { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); white-space: nowrap; }
+  .category-line { flex: 1; height: 0.5px; background: var(--border2); }
+
+  .recipe-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 14px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
+  .recipe-card:hover { border-color: var(--border2); }
+  .card-summary { display: flex; align-items: center; padding: 1rem 1.25rem; cursor: pointer; gap: 1rem; user-select: none; }
+  .card-summary-text { flex: 1; min-width: 0; }
+  .card-summary h2 { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 700; color: var(--cream); line-height: 1.2; }
+  .card-summary p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; font-style: italic; margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-body .card-desc-full { font-size: 0.88rem; color: var(--muted); line-height: 1.6; font-style: italic; margin-bottom: 1.25rem; }
+  .card-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+  .card-tag { background: rgba(196,103,58,0.15); color: var(--terra-light); font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+  .btn-icon { background: transparent; border: none; cursor: pointer; padding: 0.4rem; border-radius: 6px; font-size: 16px; line-height: 1; transition: background 0.15s; color: var(--muted); }
+  .btn-icon:hover { background: var(--bg3); color: var(--cream); }
+  .btn-icon.fav-active { color: var(--gold); }
+  .btn-icon.expand-btn { font-size: 12px; }
+
+  .card-body { display: none; padding: 1.25rem 1.25rem 1.5rem; border-top: 0.5px solid var(--border); }
+  .card-body.open { display: block; }
+
+  .scaler { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; background: var(--bg3); border-radius: 8px; padding: 0.6rem 1rem; }
+  .scaler label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  .scaler-controls { display: flex; align-items: center; gap: 0.4rem; }
+  .mult-btn { padding: 0.25rem 0.65rem; border-radius: 6px; border: 0.5px solid var(--border2); background: var(--bg2); color: var(--muted); font-size: 0.8rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
+  .mult-btn:hover { background: var(--bg3); color: var(--cream); }
+  .mult-btn.active { background: var(--terra); border-color: var(--terra); color: white; }
+
+  .section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 0.65rem; }
+
+  .ingredient-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; }
+  .ingredient-table th { background: var(--bg3); text-align: left; padding: 0.5rem 0.8rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .ingredient-table th:first-child { border-radius: 6px 0 0 6px; }
+  .ingredient-table th:last-child { border-radius: 0 6px 6px 0; }
+  .ingredient-table td { padding: 0.55rem 0.8rem; font-size: 0.87rem; border-bottom: 0.5px solid var(--border); color: var(--cream); }
+  .ingredient-table tr:last-child td { border-bottom: none; }
+  .ingredient-table td:last-child { color: var(--terra-light); font-weight: 500; }
+
+  .steps { margin-bottom: 1.25rem; }
+  .steps ol { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 0.75rem; }
+  .steps ol li { counter-increment: steps; display: flex; gap: 0.85rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.65; color: rgba(240,235,224,0.85); }
+  .steps ol li::before { content: counter(steps); background: var(--terra); color: white; font-size: 0.68rem; font-weight: 500; min-width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
+
+  .notes ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
+  .notes ul li { font-size: 0.84rem; line-height: 1.6; padding-left: 1rem; position: relative; color: var(--muted); }
+  .notes ul li::before { content: '—'; position: absolute; left: 0; color: var(--sage); }
+  .recipe-link { color: var(--terra-light); text-decoration: underline; cursor: pointer; font-weight: 500; background: none; border: none; font-family: inherit; font-size: inherit; padding: 0; }
+
+  .card-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+  .action-btn { flex: 1; padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; border: 0.5px solid var(--border2); background: transparent; color: var(--muted); transition: all 0.18s; text-align: center; }
+  .action-btn:hover { background: var(--bg3); color: var(--cream); }
+  .action-btn.cook-btn:hover { border-color: var(--sage); color: var(--sage); }
+  .action-btn.print-btn:hover { border-color: var(--terra-light); color: var(--terra-light); }
+
+  .no-results { text-align: center; padding: 4rem 2rem; color: var(--muted); font-style: italic; display: none; }
+  .favs-empty { display: none; text-align: center; padding: 3rem 2rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
+
+  .cook-overlay { display: none; position: fixed; inset: 0; background: #111110; z-index: 1000; overflow-y: auto; padding: 2rem 1.5rem 4rem; }
+  .cook-overlay.open { display: block; }
+  .cook-inner { max-width: 680px; margin: 0 auto; }
+  .cook-close { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; cursor: pointer; color: var(--muted); font-size: 0.85rem; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 0; transition: color 0.2s; }
+  .cook-close:hover { color: var(--cream); }
+  .cook-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; color: var(--cream); margin-bottom: 2rem; line-height: 1.15; }
+  .cook-section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 1rem; }
+  .cook-ingredients { margin-bottom: 2.5rem; }
+  .cook-ingredient { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 0.5px solid var(--border); font-size: clamp(1rem, 2.5vw, 1.2rem); gap: 1rem; }
+  .cook-ingredient:last-child { border-bottom: none; }
+  .cook-ing-name { color: var(--cream); }
+  .cook-ing-amt { color: var(--terra-light); font-weight: 500; white-space: nowrap; }
+  .cook-steps { counter-reset: cook-steps; display: flex; flex-direction: column; gap: 1.5rem; }
+  .cook-step { counter-increment: cook-steps; display: flex; gap: 1.25rem; align-items: flex-start; }
+  .cook-step-num { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; color: var(--terra); line-height: 1; min-width: 2.5rem; flex-shrink: 0; }
+  .cook-step-text { font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.7; color: rgba(240,235,224,0.9); padding-top: 0.2rem; }
+
+  @media print {
+    body { background: white !important; color: #1a1917 !important; }
+    .toolbar, .card-footer, .scaler, .cook-overlay, .fav-toggle, .btn-icon, .recipe-count { display: none !important; }
+    header { border-bottom: 1px solid #ddd !important; background: white !important; }
+    header::before { display: none !important; }
+    header h1 { color: #1a1917 !important; }
+    header p { color: #666 !important; }
+    .category-heading h3 { color: #c4673a !important; }
+    .category-line { background: #ddd !important; }
+    .recipe-card { background: white !important; border: 1px solid #ddd !important; border-radius: 0 !important; margin-bottom: 0 !important; break-inside: avoid; }
+    .card-body { display: block !important; border-top: 1px solid #eee !important; background: white !important; }
+    .card-summary { cursor: default !important; background: white !important; }
+    .card-summary h2 { color: #1a1917 !important; }
+    .card-summary p { color: #666 !important; white-space: normal !important; }
+    .card-tag { background: #f0ede8 !important; color: #c4673a !important; }
+    .ingredient-table th { background: #f5f5f5 !important; color: #666 !important; }
+    .ingredient-table td { color: #1a1917 !important; border-bottom: 1px solid #eee !important; }
+    .ingredient-table td:last-child { color: #c4673a !important; }
+    .steps ol li { color: #1a1917 !important; }
+    .steps ol li::before { background: #c4673a !important; }
+    .notes ul li { color: #666 !important; }
+    .section-label { color: #c4673a !important; }
+    .bg3 { background: white !important; }
+  }
+
+  @media (max-width: 520px) {
+    .card-summary { padding: 0.85rem 1rem; }
+    .card-body { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Luke's Recipe Book</h1>
+  <p>A personal collection of tried and true recipes</p>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-icon">&#9906;</span>
+        <input type="text" id="searchInput" placeholder="Search recipes or ingredients…" oninput="filterRecipes()">
+      </div>
+      <button class="fav-toggle" id="favToggle" onclick="toggleFavView()">&#9733; Favorites</button>
+    </div>
+    <div class="pills">
+      <button class="pill active" onclick="filterByTag('all',this)">All</button>
+      <button class="pill" onclick="filterByTag('chicken',this)">Chicken</button>
+      <button class="pill" onclick="filterByTag('beef',this)">Beef</button>
+      <button class="pill" onclick="filterByTag('soup',this)">Soup</button>
+      <button class="pill" onclick="filterByTag('sauce',this)">Sauce</button>
+      <button class="pill" onclick="filterByTag('condiment',this)">Condiment</button>
+      <button class="pill" onclick="filterByTag('side',this)">Side</button>
+      <button class="pill" onclick="filterByTag('marinade',this)">Marinade</button>
+      <button class="pill" onclick="filterByTag('salad',this)">Salad</button>
+      <button class="pill" onclick="filterByTag('vegetarian',this)">Vegetarian</button>
+      <button class="pill" onclick="filterByTag('seafood',this)">Seafood</button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="recipe-count" id="recipeCount">16 recipes</div>
+  <div id="recipeSections"></div>
+  <div class="no-results" id="noResults">No recipes found. Try a different search.</div>
+  <div class="favs-empty" id="favsEmpty">No favorites yet — tap &#9733; on any recipe to save it here.</div>
+</main>
+
+<div class="cook-overlay" id="cookOverlay">
+  <div class="cook-inner">
+    <button class="cook-close" onclick="closeCookMode()">&#8592; Back to recipes</button>
+    <div class="cook-title" id="cookTitle"></div>
+    <div class="cook-ingredients" id="cookIngredients"></div>
+    <div class="cook-section-label">Directions</div>
+    <div class="cook-steps" id="cookSteps"></div>
+  </div>
+</div>
+
+<script>
+const recipes = [
+  { id:1, title:"Chicken Fajita Seasoning", tag:"Chicken", category:"Mains & Sides", desc:"A bold, smoky blend for fajitas — enough to season about 1.5 lbs of chicken.", tags:"chicken weeknight", search:"chicken fajita seasoning chili powder cumin smoked paprika garlic powder onion powder oregano salt pepper cayenne", baseServings:4,
+    ingredients:[["Chili powder","tsp",2],["Cumin","tsp",1.5],["Smoked paprika","tsp",1],["Garlic powder","tsp",1],["Onion powder","tsp",0.5],["Dried oregano","tsp",0.5],["Salt","tsp",1],["Black pepper","tsp",0.5],["Cayenne pepper","tsp",0.25]],
+    steps:["Mix all spices together in a small bowl until evenly blended.","Pat chicken dry, then coat all sides generously with the seasoning mix. Let sit for 15–30 minutes before cooking.","Cook in a very hot cast iron or skillet with a little oil over high heat, about 5–6 minutes per side, until nicely charred and cooked through. Rest 5 minutes before slicing."],
+    notes:["Heat level: Adjust cayenne up or down to taste. Double it for a real kick.","Big batch: Scale up and store in an airtight jar — keeps 6 months. Use about 1 tbsp per pound of chicken.","Marinade option: Mix seasoning with 2 tbsp olive oil and juice of 1 lime. Marinate chicken 1–4 hours for deeper flavor."]
+  },
+  { id:2, title:"Egg Roll In A Bowl", tag:"Beef", category:"Mains & Sides", desc:"Hearty, flavor-packed skillet dish with all the taste of egg rolls — no wrapper needed.", tags:"beef weeknight", search:"egg roll bowl ground beef cabbage green onions garlic ginger red bell pepper gochujang hoisin soy sauce sesame oil rice vinegar", baseServings:4,
+    ingredients:[["Lean ground beef","lb",1.5],["Fine shredded cabbage","oz",10],["Red shredded cabbage","oz",10],["Green onions","bunch",1],["Garlic cloves","cloves",6],["Minced ginger","tbsp",2],["Red bell pepper","",1],["Gochujang","tbsp",1],["Hoisin sauce","tbsp",3],["Soy sauce","cup",0.25],["Toasted sesame oil","tsp",2],["Rice vinegar","tbsp",2]],
+    steps:["Brown the ground beef in a large skillet over medium-high heat.","While the beef cooks, thinly slice the red bell pepper, chop the green onions, and mince the garlic and ginger.","Drain the beef, return it to the pan, and add toasted sesame oil, rice vinegar, hoisin, gochujang, and soy sauce. Cook for 2–3 minutes.","Add both cabbages, bell pepper, green onions, garlic, and ginger. Stir to combine and cook until the veggies are tender and reduced, about 15–20 minutes."]
+  },
+  { id:3, title:"Barbacoa", tag:"Beef", category:"Mains & Sides", desc:"Smoky, tender slow-cooked chuck with chipotle and warm spices. Serve as tacos, burrito bowls, or with any toppings.", tags:"beef weeknight", search:"barbacoa chuck garlic chipotle peppers adobo green chiles beef stock white onion lime bay leaves apple cider vinegar cumin oregano black pepper salt ground cloves crock pot slow cooker tacos burrito bowl", baseServings:6,
+    ingredients:[["Chuck roast","lb",3],["Garlic cloves, minced","cloves",5],["Chipotle peppers in adobo","",2],["Can of green chiles","oz",4],["Beef stock","cup",0.5],["White onion, chopped","",1],["Limes, juiced","",2],["Bay leaves","",3],["Apple cider vinegar","tbsp",2],["Cumin","tbsp",1],["Oregano","tbsp",1],["Black pepper","tbsp",1],["Salt","tsp",2],["Ground cloves","tsp",0.25]],
+    steps:["Cut chuck into cubes and sear over high heat until browned on all sides.","Add seared meat and all remaining ingredients to a crock pot. Cook on low 6–8 hours or high 3–4 hours, until the meat shreds easily with a fork.","Remove bay leaves, shred the meat, and stir to combine with the juices. Serve as tacos, burrito bowls, or with any toppings you like."]
+  },
+  { id:4, title:"Garlic Parm Chicken Skewers", tag:"Chicken", category:"Mains & Sides", desc:"Buffalo-marinated chicken skewers grilled and basted with a homemade garlic parmesan sauce.", tags:"chicken weeknight", search:"garlic parmesan chicken skewers buffalo sauce butter mayonnaise parmesan cheese apple cider vinegar lemon juice salt red pepper flakes oregano basil black pepper grill grilled", baseServings:4,
+    ingredients:[["Large chicken breasts","",5],["Buffalo sauce","cup",1],["Butter","tbsp",2],["Head of garlic","",1],["Mayonnaise","cup",0.5],["Grated Parmesan cheese","oz",3],["Apple cider vinegar","tbsp",1],["Lemon juice","tsp",1],["Salt","tsp",0.5],["Red pepper flakes","tsp",0.25],["Dried oregano","tsp",0.25],["Dried basil","tsp",0.25],["Black pepper","tsp",0.25]],
+    steps:["Night before: Tenderize chicken breasts, then slice into thin strips cutting with the grain. Marinate in buffalo sauce overnight, or at least 4 hours.","Weave chicken strips onto skewers.","Mince the garlic. Melt butter in a saucepan and cook garlic for 1–2 minutes.","Combine cooked garlic with mayonnaise, Parmesan, vinegar, lemon juice, salt, red pepper flakes, oregano, basil, and black pepper. Whisk together and refrigerate until ready to use.","Grill skewers, rotating every 3–4 minutes, until cooked through — about 18–20 minutes total.","Baste garlic parm sauce onto chicken during the last few minutes of grilling."]
+  },
+  { id:5, title:"Alden Mill House Chicken Salad", tag:"Chicken", category:"Mains & Sides", desc:"A classic chicken salad with toasted pecans, red grapes, and a honey poppy seed dressing.", tags:"chicken salad", search:"chicken salad pecans red grapes celery mayo apple cider vinegar honey poppy seeds sandwich wrap lettuce", baseServings:4,
+    ingredients:[["Chicken breast","oz",32],["Pecans, toasted","oz",6],["Seedless red grapes","cup",2],["Celery stalks, sliced","stalks",3],["Mayonnaise","oz",8],["Apple cider vinegar","tsp",4],["Honey","tsp",5],["Poppy seeds","tsp",2],["Salt","",null],["Black pepper","",null]],
+    steps:["Make the dressing: whisk together mayo, vinegar, honey, poppy seeds, salt, and pepper. Refrigerate — can be made up to 2 days ahead.","Preheat oven to 350°F. Place chicken in a baking dish with ½ cup water, cover with foil, and bake 25 minutes until cooked through.","Remove chicken, cool slightly at room temperature, then chill completely in the refrigerator covered with plastic wrap.","Dice cold chicken into bite-size pieces and transfer to a large bowl. Combine with pecans, grapes, celery, and dressing.","Serve in a sandwich, wrap, or on a lettuce bed."]
+  },
+  { id:6, title:"Sweet Bourbon Mushrooms", tag:"Side", category:"Mains & Sides", desc:"The ultimate sweet and umami pairing for steak, pork, or just about anything. Caramelized golden brown in under 30 minutes.", tags:"vegetarian weeknight side", search:"sweet bourbon mushrooms butter balsamic vinegar soy sauce garlic powder sea salt black pepper cast iron skillet", baseServings:2,
+    ingredients:[["Unsalted butter","tbsp",1],["Mushrooms, sliced","cup",2],["Bourbon","tbsp",3],["Balsamic vinegar","tbsp",1],["Soy sauce","tsp",2],["Garlic powder","tsp",0.5],["Sea salt","tsp",0.5],["Freshly ground black pepper","tsp",0.5]],
+    steps:["Preheat a cast-iron skillet over medium-high heat (350°F / 180°C). Add the butter 2 minutes before cooking.","Add the mushrooms and cook for 5–7 minutes, stirring occasionally, until they release their liquid and it has fully evaporated and the mushrooms are golden brown.","Add all remaining ingredients and cook for 3–4 minutes until the liquids have reduced and thickened. Pull the skillet off the heat and serve."]
+  },
+  { id:7, title:"Alden Mill House Hummus", tag:"Side", category:"Mains & Sides", desc:"Classic creamy hummus made in a food processor. Includes black bean and roasted red pepper variations.", tags:"vegetarian condiment side", search:"hummus garbanzo beans chickpeas tahini lemon juice olive oil garlic salt pepper cumin black bean red pepper roasted", baseServings:4,
+    ingredients:[["Garbanzo beans (canned)","oz",28],["Tahini","oz",4],["Lemon juice","oz",3],["Extra virgin olive oil","oz",4],["Fresh garlic, minced","oz",1],["Salt","",null],["Black pepper","",null],["Cumin","tsp",2]],
+    steps:["Place all ingredients in a food processor and blend until smooth."],
+    notes:["Black Bean: Substitute black beans for garbanzo beans, use lime juice instead of lemon (half the quantity), add ½ bunch cilantro and 1 tbsp curry powder.","Roasted Red Pepper: Add 2 roasted red peppers and ½ tsp cayenne pepper."]
+  },
+  { id:8, title:"Luke's Tomato Bisque", tag:"Soup", category:"Soups", desc:"A rich, roasted tomato bisque with sweet potato and Gruyère — deeply flavorful and silky smooth.", tags:"vegetarian soup", search:"tomato bisque roma tomatoes cherry tomatoes sweet potato red bell pepper gruyere cheese garlic thyme heavy cream chicken broth", baseServings:4,
+    ingredients:[["Roma tomatoes","",7],["Sugar bomb cherry tomatoes","pint",1],["Small sweet potato, peeled & cubed","",1],["Red bell pepper","",1],["Gruyère cheese","",null],["Fresh garlic cloves","cloves",7],["Fresh thyme","stalks",3],["Heavy cream","oz",8],["Chicken broth","oz",16],["Olive oil","",null]],
+    steps:["Chop Roma tomatoes and peeled sweet potato into cubes. Chop red bell pepper into chunks. Peel garlic and leave sugar bomb tomatoes whole. Arrange on a sheet pan, drizzle with olive oil, and roast at 425°F for 30–45 minutes.","Transfer all roasted veggies and all pan juices to a large pot.","Add half the chicken broth and blend with an immersion blender until smooth. Add the remaining broth once it's less chunky. Simmer on low heat for 5–10 minutes.","Warm the heavy cream in the microwave so it's not cold, then stir into the pot over low heat. Blend again to incorporate. Add Gruyère and stir until fully melted and combined."]
+  },
+  { id:9, title:"New England Clam Chowder", tag:"Soup", category:"Soups", desc:"A rich, creamy clam chowder built on a classic bacon-and-roux base with red potatoes and clams.", tags:"soup", search:"new england clam chowder bacon margarine onion flour roux clam base red potatoes canned clams heavy cream", baseServings:8,
+    ingredients:[["Bacon","oz",4],["Butter or margarine","oz",8],["Yellow onion, chopped","oz",12],["High-gluten flour","oz",12],["Hot water","qts",3],["Clam base","oz",5],["Red potatoes","oz",48],["Chopped clams (canned)","can",1],["Heavy cream","qts",2]],
+    steps:["In a large stockpot, render the bacon until crispy.","Add butter and onion. Cook for 5 minutes until softened.","Add flour and stir to form a roux.","Temper the heavy cream before adding it to the pot.","Add remaining ingredients and bring to a boil, then reduce heat and simmer until potatoes are al dente."]
+  },
+  { id:10, title:"Sweet BBQ Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"Classic sweet barbecue sauce with brown sugar and honey. Keeps up to 1 week refrigerated.", tags:"sauce condiment", search:"bbq sauce sweet barbecue ketchup honey brown sugar stoneground mustard apple cider vinegar worcestershire garlic powder onion powder hot sauce", baseServings:4,
+    ingredients:[["Ketchup","cup",1],["Honey","cup",0.25],["Brown sugar","tbsp",2],["Stoneground mustard","tbsp",2],["Apple cider vinegar","tbsp",2],["Worcestershire sauce","tbsp",1],["Garlic powder","tbsp",1],["Onion powder","tsp",1.5],["Hot sauce","tsp",1],["Kosher salt","",null],["Freshly ground black pepper","",null]],
+    steps:["In a skillet over medium-low heat, stir together all the ingredients. Season with salt and pepper to taste and bring to a boil.","Cook uncovered, stirring occasionally, for about 40 minutes until the sauce is thickened to your liking.","Store in an airtight container in the refrigerator for up to 1 week."]
+  },
+  { id:11, title:"Buffalo Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"Classic homemade buffalo sauce built on Frank's RedHot and butter. Stores up to 2 weeks.", tags:"sauce condiment", search:"buffalo sauce franks redhot hot sauce butter white vinegar worcestershire garlic powder cayenne salt wings chicken", baseServings:4,
+    ingredients:[["Frank's RedHot","cup",0.5],["Unsalted butter","tbsp",4],["White vinegar","tsp",1],["Worcestershire sauce","tsp",0.5],["Garlic powder","tsp",0.25],["Cayenne pepper (optional)","",null],["Salt","",null]],
+    steps:["Melt the butter in a small saucepan over low heat, or microwave it.","Whisk in the hot sauce, vinegar, Worcestershire, garlic powder, and cayenne.","Taste and adjust — more hot sauce for heat, more butter for a milder, richer sauce.","Use immediately or store in the fridge for up to 2 weeks. Reheat gently before using."],
+    notes:["Ratio is key: Classic is roughly 2:1 hot sauce to butter. Go 1:1 for milder/richer, or 3:1 for spicier.","Don't boil it — just warm enough to melt the butter and combine. Boiling can break the emulsion.","Honey buffalo: Add 1–2 tbsp honey for a sweet heat version — great for wings or grilling.","Garlic buffalo: Sauté a clove or two of minced garlic in the butter first before adding the rest."]
+  },
+  { id:12, title:"Steak Sandwich Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A bold, tangy house steak sauce. Just combine and serve.", tags:"sauce condiment", search:"steak sauce ketchup chili sauce a1 worcestershire tabasco chutney", baseServings:4,
+    ingredients:[["Ketchup","oz",7],["Chili sauce","oz",6],["A-1 steak sauce","oz",5],["Worcestershire sauce","oz",5],["Tabasco sauce","tsp",0.5],["Chutney","oz",4.5]],
+    steps:["Combine all ingredients and stir until well mixed. Serve immediately or refrigerate."]
+  },
+  { id:13, title:"The Smashburger Sauce", tag:"Condiment", category:"Sauces & Condiments", desc:"A tangy, smoky burger sauce with minced pickles. Perfect on smash burgers.", tags:"condiment sauce", search:"smashburger sauce avocado mayonnaise ketchup spicy brown mustard pickle chips smoked paprika burger", baseServings:1,
+    ingredients:[["Avocado mayonnaise","tbsp",2],["Ketchup","tbsp",1],["Spicy brown mustard","tsp",1.5],["Pickle chips, minced","",6],["Smoked paprika","tsp",0.25]],
+    steps:["Mince the pickle chips.","Combine all ingredients and whisk together until well mixed."]
+  },
+  { id:14, title:"Avocado Mayo", tag:"Condiment", category:"Sauces & Condiments", desc:"A clean, creamy mayo made with avocado oil. Ready in under 2 minutes.", tags:"vegetarian condiment", search:"avocado mayo mayonnaise eggs lemon juice white wine vinegar salt ground mustard turmeric garlic powder avocado oil immersion blender", baseServings:4,
+    ingredients:[["Large eggs","",2],["Lemon juice","tsp",1],["White wine vinegar","tsp",1],["Salt","tsp",0.5],["Ground mustard","tsp",0.5],["Turmeric","tsp",0.25],["Garlic powder","tsp",0.25],["Avocado oil","cup",1]],
+    steps:["Add all ingredients to a mason jar or tall bowl.","Immersion blend until fully combined, about 30 seconds to 1½ minutes."]
+  },
+  { id:15, title:"Taco Seasoning", tag:"Condiment", category:"Sauces & Condiments", desc:"Homemade taco seasoning scaled for 1.5 lbs of ground beef.", tags:"beef weeknight condiment", search:"taco seasoning chili powder cumin smoked paprika garlic powder onion powder dried oregano salt black pepper cayenne pepper burger ground beef", baseServings:2,
+    ingredients:[["Chili powder","tbsp",1],["Ground cumin","tsp",1],["Smoked paprika","tsp",1],["Garlic powder","tsp",0.5],["Onion powder","tsp",0.5],["Dried oregano","tsp",0.5],["Salt","tsp",0.25],["Black pepper","tsp",0.25],["Cayenne pepper","tsp",0.125]],
+    steps:["Combine all ingredients and mix well. Add to cooked ground beef and stir to coat."]
+  },
+  { id:16, title:"Citrus Chicken Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A bright, citrusy marinade for chicken with warm spices.", tags:"marinade chicken", search:"citrus marinade orange juice lemon lime garlic salt oregano cumin cloves cinnamon black pepper chicken breast", baseServings:4,
+    ingredients:[["Orange juice","oz",12],["Lemon juice","oz",6],["Lime juice","oz",2],["Fresh garlic, minced","oz",2],["Salt","tsp",2],["Oregano","tsp",1],["Cumin","tsp",1],["Ground cloves","tsp",0.5],["Cinnamon","tsp",0.5],["Black pepper","tsp",0.5]],
+    steps:["Combine all ingredients in a large container and blend until incorporated.","Add chicken breasts and marinate until ready to cook."]
+  },
+  { id:17, title:"Jambalaya", tag:"Chicken", category:"Mains & Sides", desc:"A hearty one-pot jambalaya with andouille sausage, chicken, and brown rice.", tags:"chicken beef weeknight", search:"jambalaya andouille sausage chicken tenderloins brown rice butter paprika thyme oregano cumin cayenne fire roasted tomatoes celery green bell pepper green onions chicken stock bay leaf", baseServings:4,
+    ingredients:[["Butter","tbsp",4],["Andouille sausage, sliced ¼\"","oz",8],["Ground paprika","tbsp",2],["Thyme","tbsp",0.5],["Oregano","tbsp",0.5],["Ground cumin","tbsp",1],["Cayenne pepper","tsp",0.5],["Fire roasted tomatoes (8oz can, drained)","can",1],["Celery stalks, sliced thin","stalks",2],["Large green bell pepper, diced","",1],["Green onions, chopped","bunch",1],["Salt","tsp",1],["Bay leaf","",1],["Brown rice","cup",1],["Chicken stock","cup",2],["Chicken tenderloins","lb",1]],
+    steps:["Add 2 tbsp butter to a pot and begin frying andouille over medium heat. Periodically season with about ⅓ of the spice mix. Cook 5–8 minutes. Add green onions and garlic, cook another 5 minutes.","Meanwhile, sear chicken tenderloins in a separate pan, 1–2 minutes per side. Transfer to a covered pan and bake at 350°F for 12 minutes. Remove and chop.","Rinse rice, then add to a separate pot with chicken stock in a 1:3.5 ratio (rice to stock). Cook according to package directions.","Remove andouille, garlic, and onions from the pot. Add bell pepper and celery. Cook until soft.","Add fire roasted tomatoes and cook for 3–4 minutes.","Add back the andouille, garlic, and green onions.","Add the chopped chicken.","Add the cooked rice and remaining butter. Stir to combine and simmer on low for 20–30 minutes, stirring occasionally. Add more chicken stock as needed to maintain desired consistency. Remove bay leaf before serving."],
+    notes:["Spice it up: Adjust cayenne up or down to your heat preference.","The remaining ⅔ of the spice mix gets added in throughout steps 4–6 as you build the pot back up."]
+  },
+  { id:18, title:"Chipotle Peppercorn Smoked Brisket", tag:"Beef", category:"Mains & Sides", desc:"A smoky, peppery brisket with chipotle heat and a vinegar spritz. Low and slow — 16 hours on the smoker.", tags:"beef", search:"chipotle peppercorn smoked brisket coarse sea salt black pepper garlic powder chipotle powder lager beer white vinegar hot sauce smoker butcher paper", baseServings:10,
+    ingredients:[["Whole packer brisket (11–12 lb)","lb",11],["Coarse sea salt","cup",0.25],["Freshly cracked black peppercorns","cup",0.25],["Garlic powder","tbsp",2],["Chipotle powder","tbsp",1.5],["Lager beer (12 oz bottle)","oz",12],["White vinegar","tbsp",2],["Hot sauce","tsp",2]],
+    steps:["Make the seasoning: In a small bowl, stir together the salt, cracked pepper, garlic powder, and chipotle powder.","Prep the brisket: Keeping it cold, trim off any excess fat leaving about ¼\" fat cap. Coat the brisket thoroughly with the seasoning. Refrigerate uncovered to brine for 4–12 hours.","Make the spritz: In a 16 oz spray bottle, combine the lager, white vinegar, and hot sauce. Cover and shake well.","Preheat smoker for indirect cooking over medium-low heat (250°F / 120°C). Add mesquite or hickory wood chunks or chips for more smoke flavor.","Place brisket on the smoker fat-side down and cook for 1 hour.","Spray the brisket with the spritz and cook for 7–8 hours more, spraying every hour, until internal temperature reaches 165°F (74°C).","Lay out two 2×4-foot pieces of butcher paper that slightly overlap. Place the brisket at one end, pull the paper over and tuck underneath, fold in the sides, and roll until completely wrapped. Return to smoker fat-side up.","Cook for 7–8 more hours until internal temperature reaches 202–203°F (94–95°C). Pull off the smoker and rest at room temperature for 1 hour.","Unwrap and discard the butcher paper. Slice through the middle to separate the point from the flat. Slice the flat against the grain. Rotate the point 90 degrees and slice against the grain to serve."],
+    notes:["Brine time: 4 hours minimum, up to 12 hours for deeper flavor.","Wood choice: Mesquite gives bold smoke; hickory is slightly milder. Both work great for brisket.","Fat cap down: Starting fat-side down protects the meat during the first hour of heavy smoke."]
+  },
+  { id:19, title:"Maple Grapefruit BBQ Salmon", tag:"Seafood", category:"Mains & Sides", desc:"Salmon grilled on a grapefruit plank and glazed with a maple grapefruit BBQ sauce. A unique showstopper.", tags:"seafood", search:"maple grapefruit bbq salmon avocado oil bbq seasoning ketchup grapefruit juice zest maple syrup white vinegar brown sugar hot sauce worcestershire cinnamon parsley", baseServings:4,
+    ingredients:[["Whole side of salmon, pin bones removed","lb",2],["Avocado oil","tbsp",1],["All-Purpose BBQ Seasoning","tbsp",2],["Grapefruits, cut into ¼\" slices","",3],["Fresh parsley, for garnish","",null],["Ketchup (sauce)","tbsp",2],["Fresh grapefruit juice (sauce)","tbsp",3.5],["Grated grapefruit zest (sauce)","tbsp",1],["Maple syrup (sauce)","tbsp",2.5],["White vinegar (sauce)","tbsp",1.5],["Brown sugar (sauce)","tbsp",2],["Hot sauce (sauce)","tsp",2],["Worcestershire sauce (sauce)","tsp",1],["Ground cinnamon (sauce)","tsp",1]],
+    steps:["Lather the salmon with avocado oil and coat thoroughly with the BBQ seasoning.","Preheat the grill for indirect two-zone cooking over medium-high heat (350°F / 180°C).","Sear grapefruit slices over direct heat, 1½ minutes per side. Move to the cool side and arrange as a 'plank.' Place salmon on the grapefruit. Cook about 1 hour until internal temp reaches 135°F (57°C).","Halfway through, preheat a cast-iron skillet on the direct side. Add all BBQ sauce ingredients and simmer 8–10 minutes until reduced by half.","5 minutes before pulling the salmon, glaze with the sauce and let it caramelize.","Garnish with the charred grapefruit and fresh parsley for serving."],
+    notes:["Grapefruit plank: The grapefruit infuses subtle bitterness and sweetness into the smoke — don't skip it!","Don't fear the bitterness: The maple syrup and brown sugar balance the grapefruit's bite beautifully."]
+  },
+  { id:20, title:"Smoked Chipotle Mezcal Shrimp", tag:"Seafood", category:"Mains & Sides", desc:"Smoky shrimp marinated in chipotle mezcal, cooked low and slow in a cast-iron skillet on the smoker.", tags:"seafood", search:"smoked chipotle mezcal shrimp mezcal minced garlic chipotles adobo lime orange cumin avocado oil kosher salt shrimp butter cilantro", baseServings:4,
+    ingredients:[["Mezcal","cup",0.25],["Minced garlic","tbsp",1.5],["Chipotles in adobo","tbsp",1.5],["Juice of medium limes","",2],["Juice of medium navel orange","",1],["Ground cumin","tsp",2],["Avocado oil","tsp",2],["Kosher salt","",null],["Shrimp, peeled and deveined","lb",2],["Unsalted butter, cubed","tbsp",4.5],["Fresh cilantro, for garnish","",null],["Lime wedges, for serving","",null]],
+    steps:["Make the marinade: In a food processor, combine mezcal, garlic, chipotles in adobo, lime juice, orange juice, cumin, avocado oil, and a pinch of salt. Blend until smooth. Transfer to a large bowl.","Add shrimp to the marinade and mix thoroughly to coat. Cover and refrigerate for 15–20 minutes. Do not over marinate.","Preheat the smoker for indirect cooking over medium-low heat (275°F / 135°C). Add mesquite wood chunks or chips for more smoke flavor.","Remove shrimp from the marinade and arrange in a cast-iron skillet. Discard the marinade. Place the skillet on the smoker and cook for 10 minutes. Scatter the butter cubes around the skillet and cook for 10 minutes more, or until internal temperature reaches 145°F (63°C).","Garnish with fresh cilantro and serve with lime wedges."],
+    notes:["Taste the marinade first: Chipotles in adobo vary in heat — taste before marinating and adjust to your spice preference.","Don't over marinate: 15–20 minutes max. Citrus will start to cook the shrimp if left too long."]
+  },
+  { id:21, title:"Smoked Spiced Whole Turkey", tag:"Chicken", category:"Mains & Sides", desc:"A holiday-inspired smoked turkey, wet brined for 24 hours and finished with a honey butter glaze. A true showstopper.", tags:"chicken", search:"smoked spiced whole turkey wet brine kosher salt brown sugar bay leaves smoked paprika garlic powder black pepper cinnamon allspice cumin cloves cayenne avocado oil chicken stock honey butter hot sauce smoker apple cherrywood", baseServings:7,
+    ingredients:[["Water","gallons",2],["Kosher salt (brine)","cup",1],["Packed brown sugar (brine)","cup",1],["Bay leaves (brine)","",2],["Whole turkey, fully thawed","",1],["Avocado oil","tbsp",2],["Chicken stock (for spritzing)","cup",4],["Smoked paprika","tbsp",1],["Garlic powder","tbsp",1],["Freshly ground black pepper","tsp",1.5],["Ground cinnamon","tsp",1.5],["Ground allspice","tsp",1],["Ground cumin","tsp",1],["Ground cloves","tsp",1],["Cayenne pepper","tsp",0.5],["Kosher salt","",null],["Honey (glaze)","cup",0.25],["Melted unsalted butter (glaze)","tbsp",1.5],["Hot sauce (glaze)","tsp",2]],
+    steps:["Make the brine: Bring water to a boil in a large pot. Add salt, brown sugar, and bay leaves, stirring until dissolved. Remove from heat, cool to room temperature (add ice to speed up).","Submerge the turkey in the cooled brine. Cover and refrigerate for 24 hours.","Make the seasoning: Stir together smoked paprika, garlic powder, black pepper, cinnamon, allspice, cumin, cloves, and cayenne in a small bowl.","Remove the turkey from the brine. Tuck or clip the wings and tie the legs with butcher twine. Pat dry. Lather with avocado oil and coat thoroughly with the seasoning, getting some under the skin. Refrigerate uncovered for 1 hour.","Preheat smoker for indirect cooking at 250°F (121°C). Add apple or cherrywood chunks or chips for smoke flavor.","Pour the chicken stock into a spray bottle.","Place the turkey on the smoker with a drip pan underneath. Smoke for 7–8 hours, spritzing with stock every 45 minutes, until internal temperature reaches 165°F (74°C) in the breast. Pull off and rest for 45 minutes to 1 hour.","Make the glaze: Stir together honey, melted butter, and hot sauce. Drizzle over the turkey as it rests."],
+    notes:["Brine time: 24 hours is ideal — don't skip it. It's what keeps the turkey juicy through the long smoke.","Wood choice: Apple and cherrywood give a mild, slightly sweet smoke that complements poultry perfectly.","Spritzing: Every 45 minutes keeps the skin from drying out and adds layers of flavor."]
+  },
+  { id:22, title:"All-Purpose BBQ Seasoning", tag:"Condiment", category:"Sauces & Condiments", desc:"A versatile BBQ rub for any meat you smoke or grill. Use about 1 tbsp per 1½ lbs of meat.", tags:"condiment", search:"all purpose bbq seasoning rub brown sugar kosher salt smoked paprika granulated garlic onion powder maple sugar orange peel red pepper flakes pork ribs steak shoulder butt", baseServings:4,
+    ingredients:[["Brown sugar","tbsp",2],["Kosher salt","tbsp",1],["Smoked paprika","tbsp",1],["Granulated garlic","tsp",2.5],["Onion powder","tsp",1.5],["Maple sugar","tsp",1.5],["Orange peel powder","tsp",1],["Red pepper flakes","tsp",0.25]],
+    steps:["In a small bowl, stir together all the ingredients until well combined.","Use about 1 tbsp per 1½ lbs of meat. Store any unused seasoning in an airtight container in a cool dry place for up to 2 months."],
+    notes:["Maple sugar sub: If you can't find maple sugar, cane sugar works fine.","Orange peel powder: Zest your own oranges and dry it out if you can't find it at the store.","Works on: Pork butts, ribs, steaks, chicken, and more."]
+  },
+  { id:23, title:"Maple Bourbon Glaze", tag:"Sauce", category:"Sauces & Condiments", desc:"A 3-ingredient glaze with massive flavor. Great on chicken wings, pork chops, ribs, or smoked salmon.", tags:"sauce condiment", search:"maple bourbon glaze bourbon maple syrup butter chicken wings pork chops ribs salmon", baseServings:4,
+    ingredients:[["Bourbon","cup",0.25],["Maple syrup","cup",0.25],["Unsalted butter","tbsp",2]],
+    steps:["Preheat a basting skillet over direct heat to about 300°F (150°C).","Carefully pour the bourbon into the skillet. Let it simmer for 2–3 minutes. Pull the skillet off direct heat and add the maple syrup and butter. Stir until smooth.","Once done glazing your meat, pull it off the grill and serve the remaining glaze on the side for added flavor."],
+    notes:["Keep the glaze over a slightly cooler part of the grill — the alcohol can burn if it gets too hot.","Great on: Chicken wings, pork chops, ribs, or smoked salmon.","Only 3 ingredients but packs a massive flavor punch."]
+  },
+  { id:24, title:"Creamy Horseradish Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A balanced, creamy horseradish sauce for beef, chicken, or pork. Ready in 10 minutes and keeps for 3 days.", tags:"sauce condiment", search:"creamy horseradish sauce sour cream mayonnaise prepared horseradish dijon mustard hot sauce garlic sea salt beef prime rib", baseServings:4,
+    ingredients:[["Sour cream","tbsp",2.5],["Mayonnaise","tbsp",1],["Prepared horseradish","tbsp",2],["Dijon mustard","tbsp",1],["Hot sauce","tsp",1],["Garlic cloves, minced","cloves",4],["Sea salt","tsp",1]],
+    steps:["In a small bowl, stir together all ingredients until well blended.","Refrigerate in an airtight container for up to 3 days."],
+    notes:["More heat: Don't be afraid to up the prepared horseradish or hot sauce if you want more kick.","Pairs best with: Smoked or grilled beef, prime rib, chicken, or pork."]
+  },
+  { id:25, title:"Luke's Meatball Bowls", tag:"Beef", category:"Mains & Sides", desc:"Baked venison (or beef) meatballs with bacon, steamed veggies, jasmine rice, and Bachan's Japanese BBQ sauce.", tags:"beef weeknight", search:"meatball bowl venison burger bacon onion garlic ginger parsley egg panko breadcrumbs worcestershire smoked paprika jasmine rice broccoli red bell pepper water chestnuts bachans japanese bbq sauce", baseServings:4,
+    ingredients:[["Ground beef or venison","lb",1.5],["Bacon","oz",8],["Small yellow or Vidalia onion","",1],["Garlic cloves","cloves",4],["Fresh ginger (key fob-sized piece)","",1],["Fresh parsley","bunch",1],["Egg","",1],["Panko bread crumbs","cup",0.25],["Worcestershire sauce","tbsp",1],["Smoked paprika","tsp",1],["Jasmine rice","cup",1],["Head of broccoli","",1],["Red bell pepper","",1],["Water chestnuts, sliced/chopped","",null],["Bachan's Japanese BBQ sauce","",null]],
+    steps:["Add bacon, onion, parsley, garlic, and ginger to a food processor and blend until finely ground. Transfer to a large mixing bowl.","Steam broccoli and red bell pepper until tender.","Rinse rice, then cook with water in a 1:3.5 ratio (rice to water).","Add egg, panko, smoked paprika, and Worcestershire to the meat mixture. Mix well to combine.","Portion meatballs onto a sheet pan — a ¼ cup measure works well for sizing.","Bake at 400°F for 25 minutes.","Combine meatballs, water chestnuts, bell pepper, and broccoli in a bowl over rice. Add Bachan's Japanese BBQ sauce and serve."],
+    notes:["Venison preferred: The bacon adds fat and flavor that balances out lean venison perfectly.","Bachan's: Find it at most grocery stores or online — it's the key to the sauce."]
+  },
+  { id:26, title:"Frito Corn Salad", tag:"Side", category:"Mains & Sides", desc:"A crowd-pleasing corn salad with cheddar, peppers, and chili cheese Fritos. Add the Fritos right before serving to keep them crisp.", tags:"side vegetarian weeknight", search:"frito corn salad canned corn mayo cheddar cheese green pepper red onion chili cheese fritos", baseServings:8,
+    ingredients:[["Canned corn, drained","oz",32],["Mayonnaise","cup",1],["Shredded cheddar cheese","cup",2],["Green pepper, chopped","cup",1],["Red onion, chopped","cup",0.5],["Chili cheese Fritos, lightly crushed","bag",1]],
+    steps:["Mix corn, mayo, cheddar cheese, green pepper, and red onion together until well combined.","Refrigerate until ready to serve.","Just before serving, stir in or sprinkle the lightly crushed Fritos on top so they stay crisp."],
+    notes:["Fritos last: Don't add them early or they'll get soggy.","Adjust to taste: Green pepper and red onion amounts can be dialed up or down based on preference."]
+  },
+  { id:27, title:"Go-To Pork Chop Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A savory, slightly sweet marinade for pork chops. Marinate overnight for best results — scaled for 3.5 lbs.", tags:"marinade", search:"pork chop marinade soy sauce worcestershire dijon mustard brown sugar garlic ginger avocado oil pork", baseServings:4,
+    ingredients:[["Soy sauce","cup",0.5],["Worcestershire sauce","cup",0.25],["Dijon mustard","tbsp",2],["Brown sugar, packed","cup",0.25],["Garlic cloves, minced","cloves",6],["Fresh ginger, finely grated","tbsp",1.5],["Avocado oil","tbsp",2]],
+    steps:["Combine all ingredients and whisk together until the sugar is dissolved.","Add pork chops and coat well. Marinate overnight, or at least 4 hours."],
+    notes:["Scaled for 3.5 lbs of pork chops at 1x.","The longer the marinade the better — overnight is ideal."]
+  },
+  { id:28, title:"Sweet Soy Chicken Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A sweet, savory soy marinade for chicken. Bone-in 4–12 hrs, boneless 1–8 hrs. Scaled for 3 lbs.", tags:"marinade chicken", search:"sweet soy chicken marinade soy sauce honey brown sugar sesame oil garlic ginger white wine vinegar worcestershire spicy brown mustard chicken", baseServings:4,
+    ingredients:[["Soy sauce","cup",0.5],["Honey","cup",0.125],["Brown sugar, packed","cup",0.125],["Sesame oil","tbsp",2],["Garlic cloves, minced","cloves",4],["Ground ginger","tbsp",0.5],["White wine vinegar","tbsp",2],["Worcestershire sauce","tbsp",1.75],["Spicy brown mustard","tbsp",1.25]],
+    steps:["Combine all ingredients and mix until the sugar dissolves.","Add chicken and marinate — bone-in pieces 4–12 hours, boneless 1–8 hours."],
+    notes:["Scaled for 3 lbs of chicken at 1x.","Bone-in chicken benefits from the longer end of the marinate window for deeper flavor."]
+  },
+  { id:29, title:"Luke's Chicken Soup", tag:"Soup", category:"Soups", desc:"A rich, smoky chicken soup built on homemade broth, a bacon-roux base, and finished with Gruyère and heavy cream.", tags:"soup chicken", search:"lukes chicken soup bacon flour yellow onion corn red bell pepper green onions fire roasted tomatoes chicken broth heavy cream gruyere cheese whole chicken smoked roux", baseServings:6,
+    ingredients:[["Whole chicken (smoked or slow cooked preferred)","",1],["Bacon, chopped into small pieces","oz",14],["All-purpose flour","tbsp",3],["Medium yellow onion, chopped","",1],["Corn, shucked","cup",0.5],["Red bell pepper, diced","",1],["Green onions, chopped","bunch",1],["Fire roasted tomatoes (or 4–6 Roma tomatoes, gutted)","can",1],["Chicken broth","cup",5],["Heavy cream","cup",1.5],["Gruyère cheese, shredded","oz",8]],
+    steps:["Cook the chicken ahead of time — smoked or slow cooked is best. Use the carcass and skin to make chicken broth by covering with water and simmering 1–3 hours (crock pot works great). Shred the meat and set aside.","Cook chopped bacon in a large pot until crisp. Remove bacon and set aside. Return 3–4 tbsp of bacon grease to the pot.","Add chopped onion to the bacon grease and cook until translucent.","Add flour and stir to combine. Cook the roux, stirring frequently, until golden brown.","Slowly whisk in the chicken broth until smooth and well combined.","Add corn, bell pepper, and tomatoes. Cook over medium-low heat, stirring frequently, for 15 minutes.","Slowly incorporate the heavy cream, stirring as you add it.","Slowly add the shredded Gruyère, stirring until fully melted and combined.","Add the shredded chicken and reserved bacon. Stir to combine. Garnish with green onions and serve."],
+    notes:["Smoked chicken makes this: The smokiness carries through the entire soup — worth the extra effort.","Homemade broth: Simmering the carcass gives you a much richer base than store-bought.","Go slow: Add the cream and cheese gradually to prevent breaking the soup."]
+  },
+  { id:30, title:"Loaded Sweet Potatoes", tag:"Side", category:"Mains & Sides", desc:"Jerk-seasoned sweet potatoes loaded with black beans, sautéed veggies, and a chipotle lime cream sauce.", tags:"vegetarian side weeknight", search:"loaded sweet potatoes jerk seasoning black beans red bell pepper garlic green onions cumin salt lime sour cream cream cheese chipotle powder garlic powder jalapeno", baseServings:2,
+    ingredients:[["Sweet potatoes","",2],["Olive oil","tbsp",2],["Jerk seasoning (or seasoning salt)","tsp",2],["Bunch of green onions, sliced","bunch",1],["Red bell pepper, chopped","",1],["Garlic cloves, minced","cloves",2],["Black beans (15 oz can), drained","can",1],["Ground cumin","tsp",0.25],["Salt","tsp",0.5],["Lime, zested and juiced","",1],["Sour cream","cup",0.5],["Chipotle powder","tsp",0.5],["Garlic powder","tsp",0.25],["Jalapeño (optional), sliced thin","",1]],
+    steps:["Slice sweet potatoes in half lengthwise. Brush the flat side with olive oil and season with jerk seasoning. Place face-down and bake at 400°F for 25–35 minutes.","While potatoes bake, make the chipotle lime sauce: mix lime juice, lime zest, sour cream, chipotle powder, and garlic powder until combined. Refrigerate until ready to use.","Chop bell pepper, green onions, and garlic. Cook in a pan with a little oil over medium heat. Add cumin and salt and cook until softened.","Add drained black beans to the pan and stir to combine. Cook until heated through.","Once potatoes are done, mash the flesh slightly. Top with the black bean and veggie mixture, chipotle lime sauce, jalapeño slices, and remaining green onion."],
+    notes:["Sauce first: Make the chipotle lime sauce right after the potatoes go in the oven so it has time to chill.","Seasoning swap: Any blackening seasoning works great in place of jerk."]
+  },
+  { id:31, title:"Steak Shish Kabob Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A bold, savory marinade for steak kabobs. Marinate overnight for best results — scaled for 3 lbs.", tags:"marinade beef", search:"steak shish kabob marinade olive oil soy sauce balsamic vinegar worcestershire dijon mustard garlic black pepper rosemary smoked paprika honey beef", baseServings:4,
+    ingredients:[["Olive oil","cup",0.5],["Soy sauce","cup",0.333],["Balsamic vinegar","tbsp",3],["Worcestershire sauce","tbsp",3],["Dijon mustard","tbsp",1.5],["Garlic cloves, minced","cloves",4],["Black pepper","tsp",1.5],["Dried rosemary (or 1½ tbsp fresh, chopped)","tsp",1.5],["Smoked paprika","tsp",1.5],["Honey","tbsp",1.5]],
+    steps:["Combine all ingredients and whisk together until well mixed.","Add steak and marinate overnight, or at least 4 hours. Thread onto skewers and grill."],
+    notes:["Scaled for 3 lbs of steak at 1x.","Fresh rosemary is great here if you have it — use 1½ tbsp instead of dried."]
+  },
+  { id:32, title:"Bacon Jam", tag:"Condiment", category:"Sauces & Condiments", desc:"A rich, sweet, smoky bacon jam. Incredible on burgers, sandwiches, charcuterie boards, or just about anything.", tags:"condiment sauce", search:"bacon jam thick cut bacon onions brown sugar coffee balsamic vinegar water salt pepper garlic", baseServings:8,
+    ingredients:[["Thick-cut bacon, cut into ½\" pieces","lb",1],["Large onions, thickly sliced or diced","",2],["Brown sugar","cup",0.5],["Strong brewed coffee","cup",0.4],["Balsamic vinegar","tbsp",1.5],["Water (optional, for simmering)","cup",0.5],["Salt, black pepper, or garlic (optional)","",null]],
+    steps:["Cook bacon in a large skillet over medium heat until crispy, about 10–15 minutes. Remove bacon and drain on paper towels. Reserve 1–2 tbsp of the fat and discard the rest.","In the same skillet with reserved fat, cook onions until soft and caramelized, about 10–15 minutes. Stir often.","Add the cooked bacon back to the pan. Stir in brown sugar, coffee, balsamic vinegar, and water.","Simmer on low-medium heat, stirring occasionally, for 20–40 minutes until thick and jammy."],
+    notes:["Makes approximately 1.5–2 cups.","Keeps refrigerated for up to 2 weeks.","Great on: Burgers, sandwiches, charcuterie boards, grilled meats, or eggs."]
+  },
+  { id:33, title:"Luke's Ultimate Grilled Cheese", tag:"Side", category:"Mains & Sides", desc:"Two versions of the best grilled cheese you'll ever make — classic loaded and bacon jam. You'll never make it another way.", tags:"side weeknight", search:"grilled cheese bread gouda muenster vidalia onion thick cut bacon red bell pepper butter dijon mustard bacon jam", baseServings:2,
+    ingredients:[["Bread (thick sliced preferred)","",4],["Sliced Gouda","oz",4],["Sliced Muenster","oz",4],["Vidalia onion, sliced thin","",0.5],["Thick-cut bacon","slices",4],["Red bell pepper, sliced thin","",0.5],["Butter","tbsp",2],["Dijon mustard","",null],["Bacon Jam (for bacon jam version)","",null]],
+    stepsHtml:["Cook bacon in the oven at 400°F for 10–14 minutes until crispy.","Butter the outside of the bread and spread a light layer of Dijon mustard on the inside.","Layer both Gouda and Muenster on the bread.","Broil open-faced until the cheese begins to melt and lose shape at the edges.","Add sliced bell pepper, onion, and bacon.","Pan fry until golden brown on both sides.","<strong>Bacon Jam version:</strong> Follow all steps except 1 and 5. Spread <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(32)\">Bacon Jam</button> on the inside instead, then pan fry."],
+    steps:["Cook bacon in the oven at 400°F for 10–14 minutes until crispy.","Butter the outside of the bread and spread a light layer of Dijon mustard on the inside.","Layer both Gouda and Muenster on the bread.","Broil open-faced until the cheese begins to melt and lose shape at the edges.","Add sliced bell pepper, onion, and bacon.","Pan fry until golden brown on both sides.","Bacon Jam version: Follow all steps except 1 and 5. Instead, spread Bacon Jam on the inside before pan frying."],
+    notes:["The broil step is the secret — it gets the cheese melting from above before you pan fry, so you get perfectly melted cheese and a golden crust."]
+  },
+  { id:34, title:"Luke's Pesto White Sauce Pasta", tag:"Chicken", category:"Mains & Sides", desc:"A rich, creamy Gruyère white sauce with pesto, pan-seared chicken, and sautéed veggies over pasta. Adjust pesto to taste.", tags:"chicken weeknight", search:"pesto white sauce pasta heavy cream chicken broth shallots garlic gruyere cheese red onion red bell pepper butter chicken tenderloin breast pasta", baseServings:4,
+    ingredients:[["Pesto","tbsp",2],["Heavy cream","oz",16],["Chicken broth","oz",3],["Small shallots, minced","",2],["Garlic cloves, minced","cloves",5],["Gruyère cheese, shredded","oz",8],["Red onion, sliced thin","",0.5],["Red bell pepper, sliced thin","",1],["Butter","tbsp",4],["Chicken tenderloins or breasts","",null],["Pasta of choice","",null],["Olive oil","tbsp",1],["Seasoning of choice for chicken","",null]],
+    steps:["Season chicken. In an oven-safe pan, heat a mix of olive oil and butter over medium-high heat. Sear chicken 1–2 minutes per side. Cover and transfer to oven at 350°F until internal temp reaches 165°F, about 15 minutes depending on thickness. Rest and slice.","Boil water and cook pasta until soft. Drain, return to pot off heat with 1–2 tbsp butter, and toss to coat. Set aside.","Slice bell pepper and red onion into thin strips. Cook in 2 tbsp butter over medium heat, covered, until veggies release their moisture, then uncover and cook until soft. Remove and set aside.","Make the sauce: mince garlic and shallots and cook in 2 tbsp butter over low heat for 2–3 minutes. Slowly add heavy cream, stirring as you go.","Once all cream is incorporated and up to temperature, slowly add shredded Gruyère until fully melted and combined.","Add pesto to taste — 1 tbsp for a lighter flavor, up to 4 tbsp for an intense pesto punch.","Add chicken broth a little at a time to thin the sauce to your desired consistency.","Build the bowl: noodles first, then veggies and chicken, topped with sauce."],
+    notes:["Pesto level: Start with 1 tbsp and taste as you go — easy to add more, hard to pull back.","Sauce tip: Keep the heat low when building the sauce to prevent breaking the cream.","Chicken: Tenderloins cook faster and stay juicier — great choice for this recipe."]
+  },
+  { id:35, title:"Mango Salsa", tag:"Condiment", category:"Sauces & Condiments", desc:"A fresh, vibrant mango salsa. Small consistent cuts are key — the flavor only gets better the longer it sits.", tags:"condiment vegetarian", search:"mango salsa ripe mangos red onion red bell pepper cucumber roma tomatoes jalapeno lime cilantro salt pepper", baseServings:6,
+    ingredients:[["Ripe mangos","",3],["Small red onion","",1],["Small red bell pepper","",1],["Cucumber","",1],["Roma tomatoes, gutted","",5],["Jalapeño","",1],["Lime, juiced","",1],["Fresh cilantro, minced","bunch",1],["Salt","",null],["Black pepper","",null]],
+    steps:["Gut the Roma tomatoes (remove seeds and liquid) before chopping. This keeps the salsa from getting watery.","Chop all ingredients into small, consistent-sized pieces — uniform cuts create a more flavorful, cohesive salsa.","Mince the cilantro well.","For heat: leave the jalapeño seeds and pith in for more heat, remove them for mild. Add a second jalapeño if you want it spicy.","Combine all ingredients in a bowl. Add the juice of the lime, salt, and pepper. Mix well.","Refrigerate until cool before serving. The flavor will continue to develop the longer it sits."],
+    notes:["Cut with intention: Small, consistent pieces make all the difference in texture and flavor.","Better the next day: Make it ahead if you can — it gets better as the flavors meld.","Great with: Grilled fish, chicken, chips, or tacos."]
+  },
+  { id:36, title:"Your Favorite Guacamole", tag:"Condiment", category:"Sauces & Condiments", desc:"Simple, incredible guac with a secret weapon — feta cheese. It adds a robustness you won't believe until you try it. You'll never make guac without it again.", tags:"condiment vegetarian", search:"guacamole avocados red onion cilantro feta cheese lime salt pepper roma tomatoes garlic", baseServings:4,
+    ingredients:[["Ripe avocados","",3],["Small red onion, diced small","",1],["Cilantro, minced","cup",0.25],["Feta cheese (buy good feta)","oz",5],["Lime, juiced","",1],["Salt","",null],["Black pepper","",null],["Roma tomatoes, diced (optional)","",2],["Garlic cloves, minced","cloves",3]],
+    steps:["Peel and pit the avocados. Mash in a bowl to your desired consistency.","Dice the red onion and tomatoes into small pieces. Mince the cilantro.","Add onion, cilantro, garlic, feta, and lime juice to the avocado. Mix well.","Season with salt and pepper to taste. Serve immediately or press plastic wrap directly onto the surface and refrigerate."],
+    notes:["The secret: Feta adds a salty, creamy robustness that takes this to another level — don't skip it and buy good feta.","Ripe avocados only: They should give slightly under pressure. This recipe lives or dies by the avocados.","Keep it fresh: Press plastic wrap directly on the surface of the guac to prevent browning."]
+  },
+  { id:41, title:"3-2-1 St. Louis Ribs", tag:"Beef", category:"Mains & Sides", desc:"The go-to method for fall-off-the-bone, perfectly glazed ribs. Arguably the best way to make ribs.", tags:"beef", search:"3-2-1 st louis ribs smoker butter honey sweet bbq sauce all purpose bbq seasoning rub pork ribs smoked", baseServings:4,
+    ingredients:[["St. Louis style ribs","racks",3],["Unsalted butter","tbsp",8],["Honey","",null],["Sweet BBQ Sauce (or sauce of your choice)","",null],["All-Purpose BBQ Seasoning (or rub of your choice)","",null]],
+    stepsHtml:[
+      "Rub ribs generously with your rub of choice the night before cooking — <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(22)\">All-Purpose BBQ Seasoning</button> works great. No binder necessary.",
+      "Preheat smoker to 225–250°F. Place ribs directly on grill racks and smoke for 2.5–3 hours.",
+      "Remove ribs from smoker. Slice butter into ~½ tbsp pats and lay over the top of the ribs. Drizzle honey generously. Wrap tightly in butcher paper (preferred) or tin foil. Return to smoker and cook for 2 hours.",
+      "Unwrap ribs and coat generously with your sauce of choice — <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(10)\">Sweet BBQ Sauce</button> recommended. Return to smoker uncovered for 30 minutes to 1 hour until the sauce sets."
+    ],
+    steps:[
+      "Rub ribs generously with All-Purpose BBQ Seasoning the night before cooking. No binder necessary.",
+      "Preheat smoker to 225–250°F. Place ribs directly on grill racks and smoke for 2.5–3 hours.",
+      "Remove ribs from smoker. Slice butter into ~½ tbsp pats and lay over the top of the ribs. Drizzle honey generously. Wrap tightly in butcher paper (preferred) or tin foil. Return to smoker and cook for 2 hours.",
+      "Unwrap ribs and coat generously with Sweet BBQ Sauce (or your sauce of choice). Return to smoker uncovered for 30 minutes to 1 hour until the sauce sets."
+    ],
+    notes:[
+      "The 3-2-1 method: 3 hrs smoke, 2 hrs wrapped, 1 hr sauced — gives you smoke flavor, tender meat, and a sticky glaze.",
+      "Butcher paper vs foil: Butcher paper lets some steam escape and keeps the bark better. Foil makes it fall-off-the-bone softer.",
+      "Don't rush the wrap: The 2-hour wrapped phase is where the ribs go from good to incredible."
+    ]
+  },
+  { id:37, title:"Korean Beef Roast", tag:"Beef", category:"Mains & Sides", desc:"A bold, Korean-inspired chuck or venison roast with gochujang, kimchi, and grated apple. Serve over mashed potatoes, in burritos, or bowls.", tags:"beef weeknight", search:"beef roast chuck venison gochujang apple ginger kimchi soy sauce beef broth honey apple cider vinegar garlic onion", baseServings:6,
+    ingredients:[["Chuck or venison roast","lb",3.5],["Apple, grated","",1],["Gochujang","cup",0.333],["Yellow onion, diced","",1],["Garlic cloves","cloves",5],["Fresh ginger (key fob-sized piece)","",1],["Honey","tbsp",2],["Apple cider vinegar","tbsp",2],["Beef broth","cup",2],["Soy sauce","cup",0.5],["Kimchi","cup",0.5]],
+    steps:["Cut roast into large chunks and sear each side in a hot pan until browned.","Add seared meat and all remaining ingredients to a covered pot or Dutch oven. Cook at 300°F for 4 hours.","Shred the meat and serve over mashed potatoes, in burritos, bowls, or however you like."],
+    notes:["Venison works great: The bold sauce stands up to the gamey flavor perfectly.","Grated apple: Adds natural sweetness and helps tenderize the meat.","Serve it many ways: Over mashed potatoes, in burritos, rice bowls, or tacos."]
+  },
+  { id:38, title:"Enchilada Red Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A rich, smoky homemade enchilada red sauce. Better than anything from a can — ready in 15 minutes.", tags:"sauce condiment", search:"enchilada red sauce avocado oil flour chili powder cumin garlic powder onion powder oregano tomato sauce tomato paste chicken broth", baseServings:4,
+    ingredients:[["Avocado oil","tbsp",3],["Flour","tbsp",3],["Chili powder","tbsp",3],["Cumin","tsp",1],["Garlic powder","tsp",1],["Onion powder","tsp",0.5],["Oregano","tsp",0.5],["Tomato sauce (or 2–3 tbsp tomato paste)","cup",0.75],["Chicken broth","cup",1.5]],
+    steps:["Mix the flour and all spices together in a small bowl.","Heat the avocado oil in a saucepan over medium heat. Slowly incorporate the flour and spice mixture into the oil, stirring constantly.","Stir in the tomato sauce or paste. Cook for 1–2 minutes.","Slowly whisk in the chicken broth. Simmer for 8–12 minutes until the sauce reaches your desired thickness."],
+    notes:["Tomato sauce vs paste: Sauce gives a lighter result, paste gives a deeper, richer flavor — use less broth with sauce, more with paste.","Thickness: The longer you simmer, the thicker it gets. Pull it earlier for a pourable sauce, longer for a thicker coating.","Broth amount: Use 1–1.5 cups broth with tomato sauce, 2 cups with tomato paste."]
+  },
+  { id:39, title:"Enchilada White Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A creamy, cheesy enchilada white sauce with green chilies. Always shred your own cheese — it makes a difference.", tags:"sauce condiment", search:"enchilada white sauce butter flour chicken broth sour cream cream cheese monterey jack green chilies garlic powder onion powder cumin", baseServings:4,
+    ingredients:[["Butter","tbsp",2],["Flour","tbsp",2],["Chicken broth","cup",1.5],["Sour cream","cup",1],["Cream cheese","cup",0.5],["Monterey Jack cheese, shredded (block)","cup",0.5],["Diced green chilies (4 oz can)","can",1],["Garlic powder","tsp",0.5],["Onion powder","tsp",0.5],["Cumin","tsp",0.5]],
+    steps:["Melt butter in a saucepan over medium heat.","Whisk in flour and cook, stirring constantly, until golden brown.","Slowly whisk in the chicken broth. Simmer for 3–5 minutes.","Stir in sour cream, cream cheese, and shredded Monterey Jack until smooth.","Add garlic powder, onion powder, cumin, and green chilies. Mix well.","Remove from heat and use immediately."],
+    notes:["Shred your own cheese: Block cheese melts far smoother than pre-shredded — worth the extra step.","Use immediately: This sauce thickens as it cools. Whisk in a splash of broth to loosen if needed."]
+  },
+  { id:40, title:"Enchiladas (Chicken or Beef)", tag:"Chicken", category:"Mains & Sides", desc:"Hearty enchiladas with your choice of protein, sautéed veggies, Gouda, and white cheddar. Works with either enchilada sauce.", tags:"chicken beef weeknight", search:"enchiladas chicken beef burger tortillas yellow onion bell pepper corn gouda white cheddar enchilada sauce", baseServings:4,
+    ingredients:[["Ground beef or chicken","lb",1.5],["Medium flour tortillas","",8],["Yellow onion, sliced thin","",1],["Bell pepper, sliced thin","",1],["Corn","cup",0.5],["Gouda cheese (block, shredded)","oz",8],["White cheddar (block, shredded)","oz",8],["Butter","tbsp",2],["Enchilada sauce (red or white)","",null]],
+    stepsHtml:["Brown the ground beef, or cook and shred chicken. Whole chicken meat works especially well here.","Slice bell pepper and onion into thin strips. Pan fry in butter over medium heat until soft.","Make your sauce of choice and set aside — <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(38)\">Enchilada Red Sauce</button> or <button class=\"recipe-link\" onclick=\"event.stopPropagation();jumpToRecipe(39)\">Enchilada White Sauce</button>.","Coat the bottom of a baking pan with a layer of enchilada sauce.","Fill each tortilla with meat, sautéed veggies, corn, shredded Gouda, and a small spoonful of sauce. Wrap and place seam-side down in the pan.","Top all enchiladas with shredded white cheddar and the remaining sauce.","Bake at 350°F for 20–30 minutes, or until bubbly and done."],
+    steps:["Brown the ground beef, or cook and shred chicken. Whole chicken meat works especially well here.","Slice bell pepper and onion into thin strips. Pan fry in butter over medium heat until soft.","Make your sauce of choice: Enchilada Red Sauce or Enchilada White Sauce (see recipes).","Coat the bottom of a baking pan with a layer of enchilada sauce.","Fill each tortilla with meat, sautéed veggies, corn, shredded Gouda, and a small spoonful of sauce. Wrap and place seam-side down in the pan.","Top all enchiladas with shredded white cheddar and the remaining sauce.","Bake at 350°F for 20–30 minutes, or until bubbly and done."],
+    notes:["Always shred your own cheese: Block Gouda and white cheddar melt far better than pre-shredded.","Best chicken: Meat from a whole slow-cooked or smoked chicken is ideal for this recipe.","Sauce options: Both the red and white enchilada sauces work great — or mix them."]
+  }
+];
+
+
+let activeTag = 'all', favView = false;
+let favorites = JSON.parse(localStorage.getItem('lrb_favs') || '[]');
+let multipliers = {};
+recipes.forEach(r => multipliers[r.id] = 1);
+
+function saveFavs() { localStorage.setItem('lrb_favs', JSON.stringify(favorites)); }
+function toggleFav(id, btn) {
+  if (favorites.includes(id)) { favorites = favorites.filter(f => f !== id); btn.classList.remove('fav-active'); }
+  else { favorites.push(id); btn.classList.add('fav-active'); }
+  saveFavs(); if (favView) render();
+}
+function toggleFavView() { favView = !favView; document.getElementById('favToggle').classList.toggle('active', favView); render(); }
+function filterByTag(tag, btn) { activeTag = tag; document.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); btn.classList.add('active'); render(); }
+function filterRecipes() { render(); }
+
+function setMultiplier(id, mult) {
+  multipliers[id] = mult;
+  document.querySelectorAll(`.mult-btn[data-id="${id}"]`).forEach(b => {
+    b.classList.toggle('active', parseFloat(b.dataset.mult) === mult);
+  });
+  const r = recipes.find(x => x.id === id);
+  r.ingredients.forEach((ing, i) => {
+    const el = document.getElementById('ing-' + id + '-' + i);
+    if (el) el.textContent = scaledAmt(r, ing, mult);
+  });
+}
+
+function formatNum(n) {
+  const fracs = [[0.125,'⅛'],[0.25,'¼'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],[0.75,'¾']];
+  const whole = Math.floor(n);
+  const dec = Math.round((n - whole) * 1000) / 1000;
+  if (dec === 0) return String(whole || '0');
+  for (const [val, sym] of fracs) {
+    if (Math.abs(dec - val) < 0.04) return (whole > 0 ? whole : '') + sym;
+  }
+  return (Math.round(n * 4) / 4).toString();
+}
+
+function formatAmt(val, unit) {
+  if (val === null) return 'to taste';
+  const v = Math.round(val * 1000) / 1000;
+  if (unit === 'tsp') {
+    if (v >= 3) return formatNum(v / 3) + ' tbsp';
+    return formatNum(v) + ' tsp';
+  }
+  if (unit === 'tbsp') {
+    if (v >= 4) return formatNum(v / 16) + ' cup';
+    if (v >= 1) return formatNum(v) + ' tbsp';
+    return formatNum(v * 3) + ' tsp';
+  }
+  if (unit === 'cup') {
+    if (v < 0.25) return formatNum(v * 16) + ' tbsp';
+    return formatNum(v) + ' cup';
+  }
+  if (unit === 'oz') { if (v >= 16) return formatNum(v / 16) + ' lb'; return formatNum(v) + ' oz'; }
+  if (unit === 'lb') { if (v < 1) return formatNum(v * 16) + ' oz'; return formatNum(v) + ' lb'; }
+  return formatNum(v) + (unit ? ' ' + unit : '');
+}
+
+function scaledAmt(r, ing, mult) {
+  const [name, unit, base] = ing;
+  if (base === null) return 'to taste';
+  return formatAmt(base * mult, unit);
+}
+
+function openCookMode(id) {
+  const r = recipes.find(x => x.id === id);
+  const mult = multipliers[id];
+  const label = mult === 0.5 ? '½x' : mult === 1 ? '1x' : mult + 'x';
+  document.getElementById('cookTitle').textContent = r.title + (mult !== 1 ? ' (' + label + ')' : '');
+  document.getElementById('cookIngredients').innerHTML = '<div class="cook-section-label">Ingredients</div>' +
+    r.ingredients.map((ing,i) => `<div class="cook-ingredient"><span class="cook-ing-name">${ing[0]}</span><span class="cook-ing-amt">${scaledAmt(r,ing,mult)}</span></div>`).join('');
+  let n = 1;
+  document.getElementById('cookSteps').innerHTML = r.steps.map(s =>
+    `<div class="cook-step"><div class="cook-step-num">${n++}</div><div class="cook-step-text">${s}</div></div>`).join('');
+  document.getElementById('cookOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCookMode() { document.getElementById('cookOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+
+function printRecipe(id) {
+  const r = recipes.find(x => x.id === id);
+  const mult = multipliers[id];
+  const label = mult === 0.5 ? '½x' : mult === 1 ? '1x' : mult + 'x';
+  const w = window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>${r.title}</title><style>
+    body{font-family:Georgia,serif;max-width:600px;margin:2rem auto;color:#1a1917;}
+    h1{font-size:2rem;margin-bottom:.25rem;}
+    .scale-note{font-size:.8rem;color:#c4673a;margin-bottom:1.25rem;font-family:sans-serif;}
+    .desc{font-style:italic;color:#666;margin-bottom:1.5rem;}
+    h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;color:#c4673a;margin:1.5rem 0 .75rem;font-family:sans-serif;}
+    table{width:100%;border-collapse:collapse;margin-bottom:1rem;}
+    th{background:#f5f5f5;text-align:left;padding:.4rem .75rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;font-family:sans-serif;}
+    td{padding:.5rem .75rem;border-bottom:1px solid #eee;font-size:.95rem;}
+    td:last-child{color:#c4673a;font-weight:bold;}
+    ol{padding-left:1.5rem;}li{margin-bottom:.75rem;line-height:1.6;}
+    ul{list-style:none;padding:0;}ul li{padding-left:1rem;position:relative;margin-bottom:.5rem;color:#555;font-size:.9rem;}
+    ul li::before{content:'—';position:absolute;left:0;color:#7a9e7e;}
+  </style></head><body>
+  <h1>${r.title}</h1>
+  ${mult !== 1 ? `<p class="scale-note">Scaled: ${label}</p>` : ''}
+  <p class="desc">${r.desc}</p>
+  <h2>Ingredients</h2>
+  <table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody>
+  ${r.ingredients.map((ing,i)=>`<tr><td>${ing[0]}</td><td>${scaledAmt(r,ing,mult)}</td></tr>`).join('')}
+  </tbody></table>
+  <h2>Directions</h2><ol>${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+  ${r.notes?`<h2>Notes</h2><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul>`:''}
+  </body></html>`);
+  w.document.close(); w.focus(); setTimeout(()=>w.print(),400);
+}
+
+function toggleCard(id) {
+  const b = document.getElementById('body-'+id), e = document.getElementById('exp-'+id);
+  const open = b.classList.toggle('open'); e.textContent = open ? '▲' : '▼';
+}
+
+function jumpToRecipe(id) {
+  // Reset filters so recipe is visible
+  activeTag = 'all';
+  favView = false;
+  document.getElementById('favToggle').classList.remove('active');
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pill')[0].classList.add('active');
+  render();
+  // Open the card and scroll to it
+  setTimeout(() => {
+    const body = document.getElementById('body-' + id);
+    const exp = document.getElementById('exp-' + id);
+    if (body && !body.classList.contains('open')) {
+      body.classList.add('open');
+      if (exp) exp.textContent = '▲';
+    }
+    const card = body ? body.closest('.recipe-card') : null;
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = recipes.filter(r =>
+    (!q || (r.title+' '+r.search).toLowerCase().includes(q)) &&
+    (activeTag==='all' || r.tags.includes(activeTag)) &&
+    (!favView || favorites.includes(r.id))
+  );
+  document.getElementById('recipeCount').textContent = filtered.length + (filtered.length===1?' recipe':' recipes');
+  document.getElementById('noResults').style.display = filtered.length===0 && !favView ? 'block':'none';
+  document.getElementById('favsEmpty').style.display = filtered.length===0 && favView ? 'block':'none';
+
+  const cats = {}, order = ['Mains & Sides','Soups','Sauces & Condiments'];
+  filtered.forEach(r => { if(!cats[r.category]) cats[r.category]=[]; cats[r.category].push(r); });
+
+  const el = document.getElementById('recipeSections');
+  el.innerHTML = '';
+  order.forEach(cat => {
+    if (!cats[cat]) return;
+    const sec = document.createElement('div');
+    sec.className = 'category-section';
+    sec.innerHTML = `<div class="category-heading"><h3>${cat}</h3><div class="category-line"></div></div>`;
+    cats[cat].sort((a, b) => a.title.localeCompare(b.title)).forEach(r => {
+      const isFav = favorites.includes(r.id);
+      const mult = multipliers[r.id];
+      const ingRows = r.ingredients.map((ing,i) =>
+        `<tr><td>${ing[0]}</td><td id="ing-${r.id}-${i}">${scaledAmt(r,ing,mult)}</td></tr>`
+      ).join('');
+      const steps = (r.stepsHtml || r.steps).map(s=>`<li>${s}</li>`).join('');
+      const notes = r.notes ? `<div class="notes" style="margin-top:1rem"><div class="section-label">Notes</div><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>` : '';
+      const card = document.createElement('div');
+      card.className = 'recipe-card';
+      card.innerHTML = `
+        <div class="card-summary" onclick="toggleCard(${r.id})">
+          <div class="card-summary-text"><h2>${r.title}</h2><p>${r.desc}</p></div>
+          <div class="card-actions">
+            <span class="card-tag">${r.tag}</span>
+            <button class="btn-icon${isFav?' fav-active':''}" onclick="event.stopPropagation();toggleFav(${r.id},this)" title="${isFav?'Remove':'Add to favorites'}">&#9733;</button>
+            <button class="btn-icon expand-btn" id="exp-${r.id}" onclick="event.stopPropagation();toggleCard(${r.id})">▼</button>
+          </div>
+        </div>
+        <div class="card-body" id="body-${r.id}">
+          <p class="card-desc-full">${r.desc}</p>
+          <div class="scaler">
+            <label>Scale</label>
+            <div class="scaler-controls">
+              <button class="mult-btn${mult===0.5?' active':''}" data-id="${r.id}" data-mult="0.5" onclick="setMultiplier(${r.id},0.5)">½x</button>
+              <button class="mult-btn${mult===1?' active':''}" data-id="${r.id}" data-mult="1" onclick="setMultiplier(${r.id},1)">1x</button>
+              <button class="mult-btn${mult===2?' active':''}" data-id="${r.id}" data-mult="2" onclick="setMultiplier(${r.id},2)">2x</button>
+              <button class="mult-btn${mult===3?' active':''}" data-id="${r.id}" data-mult="3" onclick="setMultiplier(${r.id},3)">3x</button>
+            </div>
+          </div>
+          <div class="section-label">Ingredients</div>
+          <table class="ingredient-table"><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody>${ingRows}</tbody></table>
+          <div class="steps"><div class="section-label">Directions</div><ol>${steps}</ol></div>
+          ${notes}
+          <div class="card-footer">
+            <button class="action-btn cook-btn" onclick="openCookMode(${r.id})">&#9202; Cooking mode</button>
+            <button class="action-btn print-btn" onclick="printRecipe(${r.id})">&#9113; Print</button>
+          </div>
+        </div>`;
+      sec.appendChild(card);
+    });
+    el.appendChild(sec);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
