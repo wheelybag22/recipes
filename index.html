@@ -176,6 +176,7 @@
       <button class="pill" onclick="filterByTag('marinade',this)">Marinade</button>
       <button class="pill" onclick="filterByTag('salad',this)">Salad</button>
       <button class="pill" onclick="filterByTag('vegetarian',this)">Vegetarian</button>
+      <button class="pill" onclick="filterByTag('seafood',this)">Seafood</button>
     </div>
   </div>
 </div>
@@ -313,11 +314,11 @@ const recipes = [
     steps:["Melt the butter in a small saucepan over low heat, or microwave it.","Whisk in the hot sauce, vinegar, Worcestershire, garlic powder, and cayenne.","Taste and adjust — more hot sauce for heat, more butter for a milder, richer sauce.","Use immediately or store in the fridge for up to 2 weeks. Reheat gently before using."],
     notes:["Ratio is key: Classic is roughly 2:1 hot sauce to butter. Go 1:1 for milder/richer, or 3:1 for spicier.","Don't boil it — just warm enough to melt the butter and combine. Boiling can break the emulsion.","Honey buffalo: Add 1–2 tbsp honey for a sweet heat version — great for wings or grilling.","Garlic buffalo: Sauté a clove or two of minced garlic in the butter first before adding the rest."]
   },
-  { id:12, title:"Steak Sandwich Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A bold, tangy house steak sauce. Just combine and serve.", tags:"sauce condiment", search:"steak sauce ketchup chili sauce a1 worcestershire tabasco chutney", baseServings:8,
+  { id:12, title:"Steak Sandwich Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A bold, tangy house steak sauce. Just combine and serve.", tags:"sauce condiment", search:"steak sauce ketchup chili sauce a1 worcestershire tabasco chutney", baseServings:4,
     ingredients:[
-      ["Ketchup","oz",14],["Chili sauce","oz",12],
-      ["A-1 steak sauce","oz",10],["Worcestershire sauce","oz",10],
-      ["Tabasco sauce","tsp",1],["Chutney","oz",9]
+      ["Ketchup","oz",7],["Chili sauce","oz",6],
+      ["A-1 steak sauce","oz",5],["Worcestershire sauce","oz",5],
+      ["Tabasco sauce","tsp",0.5],["Chutney","oz",4.5]
     ],
     steps:["Combine all ingredients and stir until well mixed. Serve immediately or refrigerate."]
   },
@@ -338,6 +339,76 @@ const recipes = [
     ],
     steps:["Add all ingredients to a mason jar or tall bowl.","Immersion blend until fully combined, about 30 seconds to 1½ minutes."]
   },
+  { id:22, title:"All-Purpose BBQ Seasoning", tag:"Condiment", category:"Sauces & Condiments", desc:"A versatile BBQ rub for any meat you smoke or grill. Use about 1 tbsp per 1½ lbs of meat.", tags:"condiment", search:"otfc all purpose bbq seasoning rub brown sugar kosher salt smoked paprika granulated garlic onion powder maple sugar orange peel red pepper flakes pork ribs steak shoulder butt", baseServings:4,
+    ingredients:[
+      ["Brown sugar","tbsp",2],["Kosher salt","tbsp",1],
+      ["Smoked paprika","tbsp",1],["Granulated garlic","tsp",2.5],
+      ["Onion powder","tsp",1.5],["Maple sugar","tsp",1.5],
+      ["Orange peel powder","tsp",1],["Red pepper flakes","tsp",0.25]
+    ],
+    steps:[
+      "In a small bowl, stir together all the ingredients until well combined.",
+      "Use about 1 tbsp (19g) per 1½ lbs (681g) of meat. Store any unused seasoning in an airtight container in a cool dry place for up to 2 months."
+    ],
+    notes:["Maple sugar sub: If you can't find maple sugar, cane sugar works fine.","Orange peel powder: Zest your own oranges and dry it out if you can't find it at the store.","Works on: Pork butts, ribs, steaks, chicken, and more."]
+  },
+  { id:23, title:"Maple Bourbon Glaze", tag:"Sauce", category:"Sauces & Condiments", desc:"A 3-ingredient glaze with massive flavor. Great on chicken wings, pork chops, ribs, or smoked salmon.", tags:"sauce condiment", search:"maple bourbon glaze bourbon maple syrup butter chicken wings pork chops ribs salmon", baseServings:4,
+    ingredients:[
+      ["Bourbon","cup",0.25],["Maple syrup","cup",0.25],
+      ["Unsalted butter","tbsp",2]
+    ],
+    steps:[
+      "Preheat a basting skillet over direct heat to about 300°F (150°C).",
+      "Carefully pour the bourbon into the skillet. Let it simmer for 2–3 minutes. Pull the skillet off direct heat and add the maple syrup and butter. Stir until smooth.",
+      "Once done glazing your meat, pull it off the grill and serve the remaining glaze on the side for added flavor."
+    ],
+    notes:["Keep the glaze over a slightly cooler part of the grill — the alcohol can burn if it gets too hot.","Great on: Chicken wings, pork chops, ribs, or smoked salmon.","Only 3 ingredients but packs a massive flavor punch."]
+  },
+  { id:24, title:"Creamy Horseradish Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"A balanced, creamy horseradish sauce for beef, chicken, or pork. Ready in 10 minutes and keeps for 3 days.", tags:"sauce condiment", search:"creamy horseradish sauce sour cream mayonnaise prepared horseradish dijon mustard hot sauce garlic sea salt beef prime rib", baseServings:4,
+    ingredients:[
+      ["Sour cream","tbsp",2.5],["Mayonnaise","tbsp",1],
+      ["Prepared horseradish","tbsp",2],["Dijon mustard","tbsp",1],
+      ["Hot sauce","tsp",1],["Garlic cloves, minced","cloves",4],
+      ["Sea salt","tsp",1]
+    ],
+    steps:[
+      "In a small bowl, stir together all ingredients until well blended.",
+      "Refrigerate in an airtight container for up to 3 days."
+    ],
+    notes:["More heat: Don't be afraid to up the prepared horseradish or hot sauce if you want more kick.","Pairs best with: Smoked or grilled beef, prime rib, chicken, or pork."]
+  },
+  { id:25, title:"Luke's Meatball Bowls", tag:"Beef", category:"Mains & Sides", desc:"Baked venison (or beef) meatballs with bacon, steamed veggies, jasmine rice, and Bachan's Japanese BBQ sauce.", tags:"beef weeknight", search:"meatball bowl venison burger bacon onion garlic ginger parsley egg panko breadcrumbs worcestershire smoked paprika jasmine rice broccoli red bell pepper water chestnuts bachans japanese bbq sauce", baseServings:4,
+    ingredients:[
+      ["Ground beef or venison","lb",1.5],
+      ["Bacon","oz",8],
+      ["Small yellow or Vidalia onion","",1],
+      ["Garlic cloves","cloves",4],
+      ["Fresh ginger (key fob-sized piece)","",1],
+      ["Fresh parsley","bunch",1],
+      ["Egg","",1],
+      ["Panko bread crumbs","cup",0.25],
+      ["Worcestershire sauce","tbsp",1],
+      ["Smoked paprika","tsp",1],
+      ["Jasmine rice","cup",1],
+      ["Head of broccoli","",1],
+      ["Red bell pepper","",1],
+      ["Water chestnuts, sliced/chopped","",null],
+      ["Bachan's Japanese BBQ sauce","",null]
+    ],
+    steps:[
+      "Add bacon, onion, parsley, garlic, and ginger to a food processor and blend until finely ground. Transfer to a large mixing bowl.",
+      "Steam broccoli and red bell pepper until tender.",
+      "Rinse rice, then cook with water in a 1:3.5 ratio (rice to water).",
+      "Add egg, panko, smoked paprika, and Worcestershire to the meat mixture. Mix well to combine.",
+      "Portion meatballs onto a sheet pan — a ¼ cup measure works well for sizing.",
+      "Bake at 400°F for 25 minutes.",
+      "Combine meatballs, water chestnuts, bell pepper, and broccoli in a bowl over rice. Add Bachan's Japanese BBQ sauce and serve."
+    ],
+    notes:[
+      "Venison preferred: The bacon adds fat and flavor that balances out lean venison perfectly.",
+      "Bachan's: Find it at most grocery stores or online — it's the key to the sauce."
+    ]
+  },
   { id:15, title:"Taco Seasoning", tag:"Condiment", category:"Sauces & Condiments", desc:"Homemade taco seasoning scaled for 1.5 lbs of ground beef.", tags:"beef weeknight condiment", search:"taco seasoning chili powder cumin smoked paprika garlic powder onion powder dried oregano salt black pepper cayenne pepper burger ground beef", baseServings:2,
     ingredients:[
       ["Chili powder","tbsp",1],["Ground cumin","tsp",1],
@@ -348,7 +419,146 @@ const recipes = [
     ],
     steps:["Combine all ingredients and mix well. Add to cooked ground beef and stir to coat."]
   },
-  { id:16, title:"Citrus Chicken Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A bright, citrusy marinade for chicken with warm spices.", tags:"marinade chicken", search:"citrus marinade orange juice lemon lime garlic salt oregano cumin cloves cinnamon black pepper chicken breast", baseServings:4,
+  { id:18, title:"Chipotle Peppercorn Smoked Brisket", tag:"Beef", category:"Mains & Sides", desc:"A smoky, peppery brisket with chipotle heat and a vinegar spritz. Low and slow — 16 hours on the smoker.", tags:"beef", search:"chipotle peppercorn smoked brisket coarse sea salt black pepper garlic powder chipotle powder lager beer white vinegar hot sauce smoker butcher paper", baseServings:10,
+    ingredients:[
+      ["Whole packer brisket (11–12 lb)","lb",11],
+      ["Coarse sea salt","cup",0.25],
+      ["Freshly cracked black peppercorns","cup",0.25],
+      ["Garlic powder","tbsp",2],
+      ["Chipotle powder","tbsp",1.5],
+      ["Lager beer (12 oz bottle)","oz",12],
+      ["White vinegar","tbsp",2],
+      ["Hot sauce","tsp",2]
+    ],
+    steps:[
+      "Make the seasoning: In a small bowl, stir together the salt, cracked pepper, garlic powder, and chipotle powder.",
+      "Prep the brisket: Keeping it cold, trim off any excess fat leaving about ¼\" fat cap. Coat the brisket thoroughly with the seasoning. Refrigerate uncovered to brine for 4–12 hours.",
+      "Make the spritz: In a 16 oz spray bottle, combine the lager, white vinegar, and hot sauce. Cover and shake well.",
+      "Preheat smoker for indirect cooking over medium-low heat (250°F / 120°C). Add mesquite or hickory wood chunks or chips for more smoke flavor.",
+      "Place brisket on the smoker fat-side down and cook for 1 hour.",
+      "Spray the brisket with the spritz and cook for 7–8 hours more, spraying every hour, until internal temperature reaches 165°F (74°C).",
+      "Lay out two 2×4-foot pieces of butcher paper that slightly overlap. Place the brisket at one end, pull the paper over and tuck underneath, fold in the sides, and roll until completely wrapped. Return to smoker fat-side up.",
+      "Cook for 7–8 more hours until internal temperature reaches 202–203°F (94–95°C). Pull off the smoker and rest at room temperature for 1 hour.",
+      "Unwrap and discard the butcher paper. Slice through the middle to separate the point from the flat. Slice the flat against the grain. Rotate the point 90 degrees and slice against the grain to serve."
+    ],
+    notes:[
+      "Brine time: 4 hours minimum, up to 12 hours for deeper flavor.",
+      "Wood choice: Mesquite gives bold smoke; hickory is slightly milder. Both work great for brisket.",
+      "Fat cap down: Starting fat-side down protects the meat during the first hour of heavy smoke."
+    ]
+  },
+  { id:19, title:"Maple Grapefruit BBQ Salmon", tag:"Seafood", category:"Mains & Sides", desc:"Salmon grilled on a grapefruit plank and glazed with a maple grapefruit BBQ sauce. A unique showstopper.", tags:"seafood", search:"maple grapefruit bbq salmon avocado oil bbq seasoning ketchup grapefruit juice zest maple syrup white vinegar brown sugar hot sauce worcestershire cinnamon parsley", baseServings:4,
+    ingredients:[
+      ["Whole side of salmon, pin bones removed","lb",2],
+      ["avocado oil","tbsp",1],
+      ["All-Purpose BBQ Seasoning","tbsp",2],
+      ["Grapefruits, cut into ¼\" slices","",3],
+      ["Fresh parsley, for garnish","",null],
+      ["Ketchup","tbsp",2],
+      ["Fresh grapefruit juice","tbsp",3.5],
+      ["Grated grapefruit zest","tbsp",1],
+      ["Maple syrup","tbsp",2.5],
+      ["White vinegar","tbsp",1.5],
+      ["Brown sugar","tbsp",2],
+      ["Hot sauce","tsp",2],
+      ["Worcestershire sauce","tsp",1],
+      ["Ground cinnamon","tsp",1]
+    ],
+    steps:[
+      "Lather the salmon with the avocado oil and coat thoroughly with the BBQ seasoning.",
+      "Preheat the grill for indirect two-zone cooking over medium-high heat (350°F / 180°C).",
+      "Place the grapefruit slices over the direct heat and sear about 1½ minutes per side for a nice char. Move them to the cool side of the grill and arrange to make a 'plank.' Place the salmon on the grapefruit. Cook for about 1 hour, or until internal temperature reaches 135°F (57°C).",
+      "About halfway through cooking, place a cast-iron skillet on the direct heat side of the grill to preheat. Add all the BBQ sauce ingredients and stir together. Simmer 8–10 minutes until the sauce reduces by half or reaches your desired thickness.",
+      "About 5 minutes before pulling the salmon off the grill, glaze it with the sauce and let it caramelize.",
+      "Garnish with the charred grapefruit and fresh parsley for serving."
+    ],
+    notes:["Grapefruit plank: The grapefruit infuses subtle bitterness and sweetness into the smoke as the salmon cooks — don't skip this step!","Don't fear the bitterness: The maple syrup and brown sugar balance the grapefruit's bite beautifully."]
+  },
+  { id:20, title:"Smoked Chipotle Mezcal Shrimp", tag:"Seafood", category:"Mains & Sides", desc:"Smoky shrimp marinated in chipotle mezcal, cooked low and slow in a cast-iron skillet on the smoker.", tags:"seafood", search:"smoked chipotle mezcal shrimp mezcal minced garlic chipotles adobo lime orange cumin avocado oil kosher salt shrimp butter cilantro", baseServings:4,
+    ingredients:[
+      ["Mezcal","cup",0.25],
+      ["Minced garlic","tbsp",1.5],
+      ["Chipotles in adobo","tbsp",1.5],
+      ["Juice of medium limes","limes",2],
+      ["Juice of medium navel orange","orange",1],
+      ["Ground cumin","tsp",2],
+      ["avocado oil","tsp",2],
+      ["Kosher salt","",null],
+      ["Shrimp, peeled and deveined","lb",2],
+      ["Unsalted butter, cubed","tbsp",4.5],
+      ["Fresh cilantro, for garnish","",null],
+      ["Lime wedges, for serving","",null]
+    ],
+    steps:[
+      "Make the marinade: In a food processor, combine mezcal, garlic, chipotles in adobo, lime juice, orange juice, cumin, avocado oil, and a pinch of salt. Blend until smooth. Transfer to a large bowl.",
+      "Add shrimp to the marinade and mix thoroughly to coat. Cover and refrigerate for 15–20 minutes. Do not over marinate.",
+      "Preheat the smoker for indirect cooking over medium-low heat (275°F / 135°C). Add mesquite wood chunks or chips for more smoke flavor.",
+      "Remove shrimp from the marinade and arrange in a cast-iron skillet. Discard the marinade. Place the skillet on the smoker and cook for 10 minutes. Scatter the butter cubes around the skillet and cook for 10 minutes more, or until internal temperature reaches 145°F (63°C).",
+      "Garnish with fresh cilantro and serve with lime wedges."
+    ],
+    notes:["Taste the marinade first: Chipotles in adobo vary in heat — taste before marinating and adjust to your spice preference.","Don't over marinate: 15–20 minutes max. Citrus will start to cook the shrimp if left too long."]
+  },
+  { id:21, title:"Smoked Spiced Whole Turkey", tag:"Chicken", category:"Mains & Sides", desc:"A holiday-inspired smoked turkey, wet brined for 24 hours and finished with a honey butter glaze. A true showstopper.", tags:"chicken", search:"smoked spiced whole turkey wet brine kosher salt brown sugar bay leaves smoked paprika garlic powder black pepper cinnamon allspice cumin cloves cayenne avocado oil chicken stock honey butter hot sauce smoker apple cherrywood", baseServings:7,
+    ingredients:[
+      ["Water","gallons",2],
+      ["Kosher salt (brine)","cup",1],
+      ["Packed brown sugar (brine)","cup",1],
+      ["Bay leaves (brine)","",2],
+      ["Whole turkey, fully thawed","",1],
+      ["avocado oil","tbsp",2],
+      ["Chicken stock (for spritzing)","cups",4],
+      ["Smoked paprika","tbsp",1],
+      ["Garlic powder","tbsp",1],
+      ["Freshly ground black pepper","tsp",1.5],
+      ["Ground cinnamon","tsp",1.5],
+      ["Ground allspice","tsp",1],
+      ["Ground cumin","tsp",1],
+      ["Ground cloves","tsp",1],
+      ["Cayenne pepper","tsp",0.5],
+      ["Kosher salt","",null],
+      ["Honey","cup",0.25],
+      ["Melted unsalted butter","tbsp",1.5],
+      ["Hot sauce (glaze)","tsp",2]
+    ],
+    steps:[
+      "Make the brine: Heat a large pot over high heat. Add the water and bring to a boil. Add the salt, brown sugar, and bay leaves, stirring until dissolved. Remove from heat and cool to room temperature. Add ice to cool faster if needed.",
+      "Submerge the turkey in the cooled brine. Cover and refrigerate for 24 hours.",
+      "Make the seasoning: Stir together smoked paprika, garlic powder, black pepper, cinnamon, allspice, cumin, cloves, and cayenne in a small bowl. Set aside.",
+      "Remove the turkey from the brine. Tuck or clip the wings and tie the legs together with butcher twine. Pat dry with paper towels. Lather with avocado oil and coat thoroughly with the seasoning, getting some under the skin. Refrigerate uncovered for 1 hour.",
+      "Preheat smoker for indirect cooking at 250°F (121°C). Add apple or cherrywood chunks or chips for smoke flavor.",
+      "Pour the chicken stock into a spray bottle.",
+      "Place the turkey on the smoker with a drip pan underneath. Smoke for 7–8 hours, spritzing with stock every 45 minutes, until internal temperature reaches 165°F (74°C) in the breast. Pull off and rest for 45 minutes to 1 hour.",
+      "Make the glaze: Stir together honey, melted butter, and hot sauce. Drizzle over the turkey as it rests."
+    ],
+    notes:[
+      "Brine time: 24 hours is ideal — don't skip it. It's what keeps the turkey juicy through the long smoke.",
+      "Wood choice: Apple and cherrywood give a mild, slightly sweet smoke that complements poultry perfectly.",
+      "Spritzing: Every 45 minutes keeps the skin from drying out and adds layers of flavor."
+    ]
+  },
+  { id:17, title:"Jambalaya", tag:"Chicken", category:"Mains & Sides", desc:"A hearty one-pot jambalaya with andouille sausage, chicken, and brown rice.", tags:"chicken beef weeknight", search:"jambalaya andouille sausage chicken tenderloins brown rice butter paprika thyme oregano cumin cayenne fire roasted tomatoes celery green bell pepper green onions chicken stock bay leaf", baseServings:4,
+    ingredients:[
+      ["Butter","tbsp",4],["Andouille sausage, sliced ¼\"","oz",8],
+      ["Ground paprika","tbsp",2],["Thyme","tbsp",0.5],
+      ["Oregano","tbsp",0.5],["Ground cumin","tbsp",1],
+      ["Cayenne pepper","tsp",0.5],["Fire roasted tomatoes (8oz can, drained)","can",1],
+      ["Celery stalks, sliced thin","stalks",2],["Large green bell pepper, diced","",1],
+      ["Green onions, chopped","bunch",1],["Salt","tsp",1],
+      ["Bay leaf","",1],["Brown rice","cup",1],
+      ["Chicken stock","cups",2],["Chicken tenderloins","lb",1]
+    ],
+    steps:[
+      "Add 2 tbsp butter to a pot and begin frying andouille over medium heat. Periodically season with about ⅓ of the spice mix. Cook 5–8 minutes. Add green onions and garlic, cook another 5 minutes.",
+      "Meanwhile, sear chicken tenderloins in a separate pan, 1–2 minutes per side. Transfer to a covered pan and bake at 350°F for 12 minutes. Remove and chop.",
+      "Rinse rice, then add to a separate pot with chicken stock in a 1:3.5 ratio (rice to stock). Cook according to package directions.",
+      "Remove andouille, garlic, and onions from the pot. Add bell pepper and celery. Cook until soft.",
+      "Add fire roasted tomatoes and cook for 3–4 minutes.",
+      "Add back the andouille, garlic, and green onions.",
+      "Add the chopped chicken.",
+      "Add the cooked rice and remaining butter. Stir to combine and simmer on low for 20–30 minutes, stirring occasionally. Add more chicken stock as needed to maintain desired consistency. Remove bay leaf before serving."
+    ],
+    notes:["Spice it up: Adjust cayenne up or down to your heat preference.","The remaining ⅔ of the spice mix gets added in throughout steps 4–6 as you build the pot back up."]
+  }, { id:16, title:"Citrus Chicken Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A bright, citrusy marinade for chicken with warm spices.", tags:"marinade chicken", search:"citrus marinade orange juice lemon lime garlic salt oregano cumin cloves cinnamon black pepper chicken breast", baseServings:4,
     ingredients:[
       ["Orange juice","oz",12],["Lemon juice","oz",6],
       ["Lime juice","oz",2],["Fresh garlic, minced","oz",2],
