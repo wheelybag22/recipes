@@ -496,7 +496,7 @@ function formatAmt(val, unit) {
     if (v < 0.25) return formatNum(v * 16) + ' tbsp';
     return formatNum(v) + ' cup';
   }
-  if (unit === 'oz') { if (v >= 16) return formatNum(v / 16) + ' lb'; return formatNum(v) + ' oz'; }
+  if (unit === 'oz') { return formatNum(v) + ' oz'; }
   if (unit === 'lb') { if (v < 1) return formatNum(v * 16) + ' oz'; return formatNum(v) + ' lb'; }
   return formatNum(v) + (unit ? ' ' + unit : '');
 }
