@@ -221,7 +221,7 @@ const recipes = [
     steps:["Night before: Tenderize chicken breasts, then slice into thin strips cutting with the grain. Marinate in buffalo sauce overnight, or at least 4 hours.","Weave chicken strips onto skewers.","Mince the garlic. Melt butter in a saucepan and cook garlic for 1–2 minutes.","Combine cooked garlic with mayonnaise, Parmesan, vinegar, lemon juice, salt, red pepper flakes, oregano, basil, and black pepper. Whisk together and refrigerate until ready to use.","Grill skewers, rotating every 3–4 minutes, until cooked through — about 18–20 minutes total.","Baste garlic parm sauce onto chicken during the last few minutes of grilling."]
   },
   { id:5, title:"Alden Mill House Chicken Salad", tag:"Chicken", category:"Mains & Sides", desc:"A classic chicken salad with toasted pecans, red grapes, and a honey poppy seed dressing.", tags:"chicken salad", search:"chicken salad pecans red grapes celery mayo apple cider vinegar honey poppy seeds sandwich wrap lettuce", baseServings:4,
-    ingredients:[["Chicken breast","oz",32],["Pecans, toasted","oz",6],["Seedless red grapes","cup",2],["Celery stalks, sliced","stalks",3],["Mayonnaise","oz",8],["Apple cider vinegar","tsp",4],["Honey","tsp",5],["Poppy seeds","tsp",2],["Salt","",null],["Black pepper","",null]],
+    ingredients:[["Chicken breast","lb",2],["Pecans, toasted","oz",6],["Seedless red grapes","cup",2],["Celery stalks, sliced","stalks",3],["Mayonnaise","cup",1],["Apple cider vinegar","tsp",4],["Honey","tsp",5],["Poppy seeds","tsp",2],["Salt","",null],["Black pepper","",null]],
     steps:["Make the dressing: whisk together mayo, vinegar, honey, poppy seeds, salt, and pepper. Refrigerate — can be made up to 2 days ahead.","Preheat oven to 350°F. Place chicken in a baking dish with ½ cup water, cover with foil, and bake 25 minutes until cooked through.","Remove chicken, cool slightly at room temperature, then chill completely in the refrigerator covered with plastic wrap.","Dice cold chicken into bite-size pieces and transfer to a large bowl. Combine with pecans, grapes, celery, and dressing.","Serve in a sandwich, wrap, or on a lettuce bed."]
   },
   { id:6, title:"Sweet Bourbon Mushrooms", tag:"Side", category:"Mains & Sides", desc:"The ultimate sweet and umami pairing for steak, pork, or just about anything. Caramelized golden brown in under 30 minutes.", tags:"vegetarian weeknight side", search:"sweet bourbon mushrooms butter balsamic vinegar soy sauce garlic powder sea salt black pepper cast iron skillet", baseServings:2,
@@ -229,7 +229,7 @@ const recipes = [
     steps:["Preheat a cast-iron skillet over medium-high heat (350°F / 180°C). Add the butter 2 minutes before cooking.","Add the mushrooms and cook for 5–7 minutes, stirring occasionally, until they release their liquid and it has fully evaporated and the mushrooms are golden brown.","Add all remaining ingredients and cook for 3–4 minutes until the liquids have reduced and thickened. Pull the skillet off the heat and serve."]
   },
   { id:7, title:"Alden Mill House Hummus", tag:"Side", category:"Mains & Sides", desc:"Classic creamy hummus made in a food processor. Includes black bean and roasted red pepper variations.", tags:"vegetarian condiment side", search:"hummus garbanzo beans chickpeas tahini lemon juice olive oil garlic salt pepper cumin black bean red pepper roasted", baseServings:4,
-    ingredients:[["Garbanzo beans (canned)","oz",28],["Tahini","oz",4],["Lemon juice","oz",3],["Extra virgin olive oil","oz",4],["Fresh garlic, minced","oz",1],["Salt","",null],["Black pepper","",null],["Cumin","tsp",2]],
+    ingredients:[["Garbanzo beans (canned)","oz",28],["Tahini","oz",4],["Lemon juice","oz",3],["Extra virgin olive oil","oz",4],["Fresh garlic, minced","cloves",2],["Salt","",null],["Black pepper","",null],["Cumin","tsp",2]],
     steps:["Place all ingredients in a food processor and blend until smooth."],
     notes:["Black Bean: Substitute black beans for garbanzo beans, use lime juice instead of lemon (half the quantity), add ½ bunch cilantro and 1 tbsp curry powder.","Roasted Red Pepper: Add 2 roasted red peppers and ½ tsp cayenne pepper."]
   },
@@ -238,7 +238,7 @@ const recipes = [
     steps:["Chop Roma tomatoes and peeled sweet potato into cubes. Chop red bell pepper into chunks. Peel garlic and leave sugar bomb tomatoes whole. Arrange on a sheet pan, drizzle with olive oil, and roast at 425°F for 30–45 minutes.","Transfer all roasted veggies and all pan juices to a large pot.","Add half the chicken broth and blend with an immersion blender until smooth. Add the remaining broth once it's less chunky. Simmer on low heat for 5–10 minutes.","Warm the heavy cream in the microwave so it's not cold, then stir into the pot over low heat. Blend again to incorporate. Add Gruyère and stir until fully melted and combined."]
   },
   { id:9, title:"New England Clam Chowder", tag:"Soup", category:"Soups", desc:"A rich, creamy clam chowder built on a classic bacon-and-roux base with red potatoes and clams.", tags:"soup", search:"new england clam chowder bacon margarine onion flour roux clam base red potatoes canned clams heavy cream", baseServings:8,
-    ingredients:[["Bacon","oz",4],["Butter or margarine","oz",8],["Yellow onion, chopped","oz",12],["High-gluten flour","oz",12],["Hot water","qts",3],["Clam base","oz",5],["Red potatoes","oz",48],["Chopped clams (canned)","can",1],["Heavy cream","qts",2]],
+    ingredients:[["Bacon","oz",4],["Butter or margarine","oz",8],["Yellow onion, chopped","",1],["High-gluten flour","oz",12],["Hot water","qts",3],["Clam base","oz",5],["Red potatoes","lb",3],["Chopped clams (canned)","can",1],["Heavy cream","qts",2]],
     steps:["In a large stockpot, render the bacon until crispy.","Add butter and onion. Cook for 5 minutes until softened.","Add flour and stir to form a roux.","Temper the heavy cream before adding it to the pot.","Add remaining ingredients and bring to a boil, then reduce heat and simmer until potatoes are al dente."]
   },
   { id:10, title:"Sweet BBQ Sauce", tag:"Sauce", category:"Sauces & Condiments", desc:"Classic sweet barbecue sauce with brown sugar and honey. Keeps up to 1 week refrigerated.", tags:"sauce condiment", search:"bbq sauce sweet barbecue ketchup honey brown sugar stoneground mustard apple cider vinegar worcestershire garlic powder onion powder hot sauce", baseServings:4,
@@ -262,12 +262,39 @@ const recipes = [
     ingredients:[["Large eggs","",2],["Lemon juice","tsp",1],["White wine vinegar","tsp",1],["Salt","tsp",0.5],["Ground mustard","tsp",0.5],["Turmeric","tsp",0.25],["Garlic powder","tsp",0.25],["Avocado oil","cup",1]],
     steps:["Add all ingredients to a mason jar or tall bowl.","Immersion blend until fully combined, about 30 seconds to 1½ minutes."]
   },
+  { id:42, title:"Taco Dip", tag:"Side", category:"Mains & Sides", desc:"A creamy, spiced taco dip topped with fresh veggies. Make it a few hours ahead — it gets better as it chills.", tags:"side vegetarian", search:"taco dip cream cheese sour cream salsa chili powder smoked paprika cumin cayenne oregano salt black pepper cherry tomatoes green onions jalapenos", baseServings:8,
+    ingredients:[
+      ["Cream cheese, softened","oz",8],
+      ["Sour cream","cup",1],
+      ["Salsa","cup",0.25],
+      ["Chili powder","tbsp",1],
+      ["Smoked paprika","tsp",1],
+      ["Cumin","tsp",1],
+      ["Cayenne pepper","tsp",0.25],
+      ["Oregano","tsp",0.5],
+      ["Salt","tsp",0.5],
+      ["Fresh black pepper","tsp",0.5],
+      ["Cherry tomatoes, quartered","",null],
+      ["Green onions, sliced","",null],
+      ["Jalapeños, sliced","",null]
+    ],
+    steps:[
+      "Combine cream cheese, sour cream, salsa, and all spices in a bowl and mix well until smooth.",
+      "Pour and spread the mixture onto a sheet pan or serving dish.",
+      "Quarter the cherry tomatoes, slice the jalapeños and green onions, and arrange over the top.",
+      "Refrigerate for at least 1 hour before serving. Serve with chips."
+    ],
+    notes:[
+      "Make ahead: The longer it chills the better — the flavors meld beautifully.",
+      "Spice level: Adjust cayenne up or down to taste."
+    ]
+  },
   { id:15, title:"Taco Seasoning", tag:"Condiment", category:"Sauces & Condiments", desc:"Homemade taco seasoning scaled for 1.5 lbs of ground beef.", tags:"beef weeknight condiment", search:"taco seasoning chili powder cumin smoked paprika garlic powder onion powder dried oregano salt black pepper cayenne pepper burger ground beef", baseServings:2,
     ingredients:[["Chili powder","tbsp",1],["Ground cumin","tsp",1],["Smoked paprika","tsp",1],["Garlic powder","tsp",0.5],["Onion powder","tsp",0.5],["Dried oregano","tsp",0.5],["Salt","tsp",0.25],["Black pepper","tsp",0.25],["Cayenne pepper","tsp",0.125]],
     steps:["Combine all ingredients and mix well. Add to cooked ground beef and stir to coat."]
   },
   { id:16, title:"Citrus Chicken Marinade", tag:"Marinade", category:"Sauces & Condiments", desc:"A bright, citrusy marinade for chicken with warm spices.", tags:"marinade chicken", search:"citrus marinade orange juice lemon lime garlic salt oregano cumin cloves cinnamon black pepper chicken breast", baseServings:4,
-    ingredients:[["Orange juice","oz",12],["Lemon juice","oz",6],["Lime juice","oz",2],["Fresh garlic, minced","oz",2],["Salt","tsp",2],["Oregano","tsp",1],["Cumin","tsp",1],["Ground cloves","tsp",0.5],["Cinnamon","tsp",0.5],["Black pepper","tsp",0.5]],
+    ingredients:[["Orange juice","oz",12],["Lemon juice","oz",6],["Lime juice","oz",2],["Fresh garlic, minced","cloves",6],["Salt","tsp",2],["Oregano","tsp",1],["Cumin","tsp",1],["Ground cloves","tsp",0.5],["Cinnamon","tsp",0.5],["Black pepper","tsp",0.5]],
     steps:["Combine all ingredients in a large container and blend until incorporated.","Add chicken breasts and marinate until ready to cook."]
   },
   { id:17, title:"Jambalaya", tag:"Chicken", category:"Mains & Sides", desc:"A hearty one-pot jambalaya with andouille sausage, chicken, and brown rice.", tags:"chicken beef weeknight", search:"jambalaya andouille sausage chicken tenderloins brown rice butter paprika thyme oregano cumin cayenne fire roasted tomatoes celery green bell pepper green onions chicken stock bay leaf", baseServings:4,
